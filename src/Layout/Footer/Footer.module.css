@@ -1,0 +1,7 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 1rem;
+  font-size: 0.65rem;
+}

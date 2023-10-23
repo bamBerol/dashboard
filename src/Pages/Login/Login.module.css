@@ -1,0 +1,29 @@
+.login {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.login h2 {
+  font-size: 1.75rem;
+  margin-bottom: 4rem;
+}
+.login input {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid grey;
+}
+.inputLogin {
+  margin-bottom: 2rem;
+}
+.loginBtn {
+  padding: 0.5rem 2rem;
+  margin-top: 4rem;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 500;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+}

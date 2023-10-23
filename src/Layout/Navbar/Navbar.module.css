@@ -1,0 +1,86 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  margin: 0;
+  border-right: 1px solid grey;
+}
+.profile {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding-right: 1rem;
+}
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+}
+.profile h3 {
+  font-size: 1.25rem;
+}
+.navigation {
+  margin: 0;
+  flex: 1;
+}
+.navigationList {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  padding-right: 1rem;
+  list-style: none;
+  gap: 1rem;
+}
+.navigationList a {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+  text-decoration: none;
+}
+.navigationList a:hover {
+  background-color: #e5e5e5;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+}
+.navigationList a:hover .icon {
+  background-color: #e5e5e5;
+}
+.icon {
+  margin: 0;
+}
+.tabTitle {
+  margin: 0;
+}
+.active,
+.inactive {
+  display: flex;
+  align-items: center;
+}
+.active {
+  font-weight: bold;
+  color: #f08a5d;
+  background-color: #e5e5e5;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+}
+.active .icon {
+  background-color: #e5e5e5;
+}
+.inactive {
+  font-weight: normal;
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid transparent;
+}
