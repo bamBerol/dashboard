@@ -15,10 +15,13 @@
   width: 100%;
   flex-direction: column;
   padding: 1rem;
+  padding-right: 0;
   flex: 1;
 }
 .options {
   width: 100%;
+  padding: 1rem;
+  padding-bottom: 2rem;
 }
 .addCarBtn {
   padding: 0.5rem 1rem;
@@ -29,5 +32,61 @@
 .addCarBtn:hover {
   cursor: pointer;
 }
+.carTable {
+  flex: 1;
+}
+.legend {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  padding-top: 2rem;
+}
+.legendColor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.75rem;
+  gap: 1rem;
+}
+.colorGreen,
+.colorOrange,
+.colorRed {
+  width: 2rem;
+  height: 1.25rem;
+}
 .tableOfCars {
+  width: 100%;
+  color: #000000;
+  border-collapse: collapse;
+}
+.tableOfCars th,
+.tableOfCars td {
+  padding: 1rem;
+  text-align: left;
+}
+.tableOfCars th {
+  background-color: #e5e5e5;
+}
+.tableOfCars tr:nth-of-type(even) {
+  background-color: rgba(229, 229, 229, 0.5);
+}
+.green {
+  color: green;
+}
+.colorGreen {
+  background-color: green;
+}
+.orange {
+  color: orange;
+}
+.colorOrange {
+  background-color: orange;
+}
+.colorRed {
+  background-color: red;
+}
+.red {
+  color: red;
 }

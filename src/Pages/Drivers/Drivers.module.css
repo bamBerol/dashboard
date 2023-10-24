@@ -1,0 +1,50 @@
+.drivers {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.title {
+  padding: 1rem 0;
+  font-size: 1.75rem;
+}
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 1rem;
+  padding-right: 0;
+  flex: 1;
+}
+.options {
+  width: 100%;
+  padding: 1rem;
+  padding-bottom: 2rem;
+}
+.addCarBtn {
+  padding: 0.5rem 1rem;
+  border: 1px solid grey;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+}
+.driversTable {
+  flex: 1;
+}
+.tableOfDrivers {
+  width: 100%;
+  color: #000000;
+  border-collapse: collapse;
+}
+.tableOfDrivers th,
+.tableOfDrivers td {
+  padding: 1rem;
+  text-align: left;
+}
+.tableOfDrivers th {
+  background-color: #e5e5e5;
+}
+.tableOfDrivers tr:nth-of-type(even) {
+  background-color: rgba(229, 229, 229, 0.5);
+}

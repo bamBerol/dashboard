@@ -1,0 +1,23 @@
+.editButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  gap: 1rem;
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+.icon:hover {
+  cursor: pointer;
+}
+.delete:hover,
+.edit:hover,
+.confirm:hover,
+.main:hover {
+  opacity: 1;
+}
