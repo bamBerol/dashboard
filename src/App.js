@@ -14,6 +14,7 @@ function App() {
   };
 
   const checkedIsLogged = isLogged ? <Layout /> : <Login login={handleLogin} />;
+
   return (
     <Router>
       <div className={style.app}>{checkedIsLogged}</div>

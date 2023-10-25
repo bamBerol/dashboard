@@ -14,8 +14,8 @@
   display: flex;
   width: 100%;
   flex-direction: column;
-  padding: 3rem;
-
+  padding: 2rem;
+  padding-left: 3rem;
   gap: 3.5rem;
   flex: 1;
 }

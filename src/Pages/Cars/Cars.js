@@ -1,12 +1,34 @@
-import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { parse, format, addYears, differenceInDays } from "date-fns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
+
 import style from "./Cars.module.css";
 
 const Cars = (props) => {
-  useEffect(() => {
-    console.log(props.tableData);
-  }, [props.tableData]);
+  const location = useLocation();
+  const url = location.pathname;
+
+  const emptyInfo =
+    props.tableData.length === 0 ? (
+      <div className={style.empty}>
+        <h3>Brak samochodów do wyświetlenia</h3>
+      </div>
+    ) : (
+      <div className={style.legend}>
+        <div className={style.legendColor}>
+          <div className={style.colorGreen}></div>powyżej 30 dni
+        </div>
+        <div className={style.legendColor}>
+          <div className={style.colorOrange}></div>między 30-7 dni
+        </div>
+        <div className={style.legendColor}>
+          <div className={style.colorRed}></div>poniżej 7 dni
+        </div>
+      </div>
+    );
+
   const table = props.tableData.map((car) => {
     const todayDate = new Date();
 
@@ -67,7 +89,10 @@ const Cars = (props) => {
       <h2 className={style.title}>Samochody</h2>
       <div className={style.container}>
         <div className={style.options}>
-          <button className={style.addCarBtn}>+ Dodaj samochód</button>
+          <Link to={`${url}/addCar`} className={style.addCarBtn}>
+            <FontAwesomeIcon icon={faPlus} size="sm" />
+            <p>Dodaj samochód</p>
+          </Link>
         </div>
         <div className={style.carTable}>
           <table className={style.tableOfCars}>
@@ -81,20 +106,9 @@ const Cars = (props) => {
                 <th></th>
               </tr>
             </thead>
-
             <tbody>{table}</tbody>
           </table>
-          <div className={style.legend}>
-            <div className={style.legendColor}>
-              <div className={style.colorGreen}></div>powyżej 30 dni
-            </div>
-            <div className={style.legendColor}>
-              <div className={style.colorOrange}></div>między 30-7 dni
-            </div>
-            <div className={style.legendColor}>
-              <div className={style.colorRed}></div>poniżej 7 dni
-            </div>
-          </div>
+          {emptyInfo}
         </div>
       </div>
     </div>

@@ -11,15 +11,14 @@ const Home = () => {
           <div className={style.smallBox}>
             <h3>Strona główna</h3>
           </div>
-
+        </div>
+        <div className={style.containerBox}>
           <Link to="/cars" className={style.smallBox}>
             <div className={style.smallBoxInfo}>
               <h3>Samochody</h3>
               <p>Zakładka zawiera informację o samochodach </p>
             </div>
           </Link>
-        </div>
-        <div className={style.containerBox}>
           <Link to="/settelments" className={style.smallBox}>
             <div className={style.smallBoxInfo}>
               <h3>Rozliczenia</h3>
