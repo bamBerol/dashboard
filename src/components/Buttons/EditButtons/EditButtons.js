@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
@@ -11,14 +12,17 @@ import style from "./EditButtons.module.css";
 const EditButtons = (props) => {
   const [editIsClicked, setEditIsClicked] = useState(false);
 
+  const path = props.url === "/cars" ? "editCar" : "editDriver";
+
   const handleClickMainEditButton = (e) => {
-    console.log(props.id);
+    console.log(props.url);
     setEditIsClicked(true);
   };
 
   const handleEditBtn = () => console.log("edit is clicked", props.id);
+
   const handleConfirmBtn = () => {
-    console.log("confirm is clicked", props.id);
+    console.log("confirm is clicked", props.id, props.url);
     setEditIsClicked((prevState) => !prevState);
   };
 
@@ -27,12 +31,15 @@ const EditButtons = (props) => {
       <div className={style.editButtons}>
         <div
           className={`${style.icon} ${style.delete}`}
-          onClick={() => props.delete(props.id)}>
+          onClick={() => props.delete(props.id, props.url)}>
           <FontAwesomeIcon icon={faTrash} size="sm" />
         </div>
-        <div className={`${style.icon} ${style.edit}`} onClick={handleEditBtn}>
+        <Link
+          to={`${props.url}/${path}/${props.id}`}
+          className={`${style.icon} ${style.edit}`}
+          onClick={handleEditBtn}>
           <FontAwesomeIcon icon={faPencil} />
-        </div>
+        </Link>
         <div
           className={`${style.icon} ${style.confirm}`}
           onClick={handleConfirmBtn}>

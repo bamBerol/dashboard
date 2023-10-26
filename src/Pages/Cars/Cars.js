@@ -1,8 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { parse, format, addYears, differenceInDays } from "date-fns";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
+import EmptyInfo from "../../components/EmptyInfo/EmptyInfo";
 
 import style from "./Cars.module.css";
 
@@ -12,9 +13,7 @@ const Cars = (props) => {
 
   const emptyInfo =
     props.tableData.length === 0 ? (
-      <div className={style.empty}>
-        <h3>Brak samochodów do wyświetlenia</h3>
-      </div>
+      <EmptyInfo component={url} />
     ) : (
       <div className={style.legend}>
         <div className={style.legendColor}>
@@ -78,7 +77,7 @@ const Cars = (props) => {
           {car.insuranceDate}
         </td>
         <td data-cell="buttons">
-          <EditButtons id={car.id} delete={props.delete} />
+          <EditButtons id={car.id} delete={props.delete} url={url} />
         </td>
       </tr>
     );
@@ -89,10 +88,7 @@ const Cars = (props) => {
       <h2 className={style.title}>Samochody</h2>
       <div className={style.container}>
         <div className={style.options}>
-          <Link to={`${url}/addCar`} className={style.addCarBtn}>
-            <FontAwesomeIcon icon={faPlus} size="sm" />
-            <p>Dodaj samochód</p>
-          </Link>
+          <AddButton url={url} />
         </div>
         <div className={style.carTable}>
           <table className={style.tableOfCars}>

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import AddCar from "../../Pages/Cars/AddCar/AddCar";
+import AddNewItem from "../../components/AddNewItem/AddNewItem";
 import Cars from "../../Pages/Cars/Cars";
 import Drivers from "../../Pages/Drivers/Drivers";
+import EditItem from "../../components/EditItem/EditItem";
 import Error from "../../Pages/Error/Error";
 import Home from "../../Pages/Home/Home";
 import Settelments from "../../Pages/Settelments/Settelments";
@@ -11,7 +12,7 @@ import Settelments from "../../Pages/Settelments/Settelments";
 import style from "./Main.module.css";
 
 const carsInfo = [
-  {
+  /*{
     id: 0,
     carName: "Skoda Rapid",
     plate: "WZ 86DA23",
@@ -53,6 +54,7 @@ const carsInfo = [
     dateCarInspection: "24/12/2022",
     insuranceDate: "22/09/2023",
   },
+  */
 ];
 
 const driversInfo = [
@@ -103,18 +105,27 @@ const driversInfo = [
 const Main = () => {
   const [carsData, setCarsData] = useState(carsInfo);
   const [driversData, setDriversData] = useState(driversInfo);
-  const [isAdd, setIsAdd] = useState(false);
 
-  const handleDeleteBtn = (id) => {
-    console.log("delete is clicked", id);
-    const newCarsData = carsData.filter((car) => car.id !== id);
-    console.log(carsInfo);
-    console.log(newCarsData);
-    setCarsData(newCarsData);
+  const handleDeleteBtn = (id, url) => {
+    if (url === "/cars") {
+      const newCarsData = carsData.filter((car) => car.id !== id);
+      setCarsData(newCarsData);
+    }
+    const newDriversData = driversData.filter((driver) => driver.id !== id);
+    setDriversData(newDriversData);
   };
 
   const handleAddCar = (formData) => {
     setCarsData([...carsData, formData]);
+  };
+  const handleEditCar = (editData) => {
+    const updateCarsData = carsData.map((car) => {
+      if (car.id === editData.id) {
+        return editData;
+      }
+      return car;
+    });
+    setCarsData(updateCarsData);
   };
 
   return (
@@ -125,10 +136,24 @@ const Main = () => {
           element={<Cars tableData={carsData} delete={handleDeleteBtn} />}
         />
         <Route
-          path="/cars/:id"
-          element={<AddCar submit={(formData) => handleAddCar(formData)} />}
+          path="/cars/addCar"
+          element={<AddNewItem submit={(formData) => handleAddCar(formData)} />}
         />
-        <Route path="/drivers" element={<Drivers tableData={driversData} />} />
+        <Route
+          path="/cars/editCar/:id"
+          element={
+            <EditItem
+              carsData={carsData}
+              edit={(editData) => handleEditCar(editData)}
+            />
+          }
+        />
+        <Route
+          path="/drivers"
+          element={<Drivers tableData={driversData} delete={handleDeleteBtn} />}
+        />
+        <Route path="/drivers/addDriver" element={<AddNewItem />} />
+        <Route path="/drivers/editDriver/:id" element={<EditItem />} />
         <Route path="/settelments" element={<Settelments />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />
