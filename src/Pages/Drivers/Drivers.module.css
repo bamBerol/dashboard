@@ -21,15 +21,13 @@
 .options {
   width: 100%;
   padding: 1rem;
+  padding-top: 0;
+  padding-left: 0;
   padding-bottom: 2rem;
 }
-.addCarBtn {
-  padding: 0.5rem 1rem;
-  border: 1px solid grey;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-}
 .driversTable {
+  display: flex;
+  flex-direction: column;
   flex: 1;
 }
 .tableOfDrivers {

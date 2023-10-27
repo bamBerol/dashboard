@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
 import DataPicker from "../DataPicker/DataPicker";
@@ -20,23 +20,60 @@ const EditItem = (props) => {
     carName: "",
     plate: "",
   });
+
+  const location = useLocation();
+  const component = location.pathname.split("/")[1];
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const title = component === "cars" ? "samochód" : "kierowcę";
+
   useEffect(() => {
-    const carDetail = props.carsData.filter((car) => car.id === id);
+    if (component === "cars") {
+      const carDetail = props.carsData.filter((car) => car.id === id);
 
-    if (carDetail.length !== 0) {
-      setEditCarData(carDetail[0]);
+      if (carDetail.length !== 0) {
+        setEditCarData(carDetail[0]);
+      }
+    } else {
+      const driverDetail = props.driversData.filter(
+        (driver) => driver.id === id
+      );
+      if (driverDetail.length !== 0) {
+        setEditDriverData(driverDetail[0]);
+      }
     }
-  }, [props.carsDate]);
+  }, [props.carsDate, props.driversData]);
 
-  const handleCarNameChange = (e) => {
-    setEditCarData({ ...editCarData, carName: e.target.value });
-  };
-
-  const handlePlateChange = (e) => {
-    setEditCarData({ ...editCarData, plate: e.target.value });
+  const handleChange = (e) => {
+    if (component === "cars") {
+      switch (e.currentTarget.id) {
+        case "carName":
+          setEditCarData({ ...editCarData, carName: e.target.value });
+          break;
+        case "plate":
+          setEditCarData({ ...editCarData, plate: e.target.value });
+          break;
+        default:
+          console.log("cos poszlo nie tak w cars");
+      }
+    }
+    switch (e.currentTarget.id) {
+      case "driver":
+        setEditDriverData({ ...editDriverData, driver: e.target.value });
+        break;
+      case "email":
+        setEditDriverData({ ...editDriverData, email: e.target.value });
+        break;
+      case "carName":
+        setEditDriverData({ ...editDriverData, carName: e.target.value });
+        break;
+      case "plate":
+        setEditDriverData({ ...editDriverData, plate: e.target.value });
+        break;
+      default:
+        console.log("cos poszlo nie tak w drivers");
+    }
   };
 
   const handleDateCarInspectionChange = (date) => {
@@ -49,56 +86,101 @@ const EditItem = (props) => {
     setEditCarData({ ...editCarData, insuranceDate: dateInsurance });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (component, e) => {
     e.preventDefault();
-    props.edit(editCarData);
-    setEditCarData({
-      carName: "",
-      plate: "",
-      dateCarInspection: "",
-      insuranceDate: "",
-    });
-    navigate("/cars");
+    if (component === "cars") {
+      console.log("edytowano samochód", editCarData, component);
+      props.edit(editCarData, component);
+      setEditCarData({
+        carName: "",
+        plate: "",
+        dateCarInspection: "",
+        insuranceDate: "",
+      });
+    } else {
+      console.log("edytowano kierowce", editDriverData);
+      props.edit(editDriverData, component);
+      setEditDriverData({
+        driver: "",
+        email: "",
+        carName: "",
+        plate: "",
+      });
+    }
+    navigate(`/${component}`);
   };
 
   return (
     <div className={style.editCar}>
-      <h2 className={style.title}>Edytuj samochód</h2>
+      <h2 className={style.title}>Edytuj {title}</h2>
       <div className={style.container}>
-        <form className={style.form} onSubmit={handleSubmit}>
-          <Input
-            component="edit"
-            id="carName"
-            label="Marka i model samochodu:"
-            type="text"
-            example="Np. Skoda Rapid"
-            editCarData={editCarData.carName}
-            change={handleCarNameChange}
-          />
-          <Input
-            component="edit"
-            id="plate"
-            label="Numer rejestracyjny pojazdu:"
-            type="text"
-            example="Np. WY 902398"
-            editCarData={editCarData.plate}
-            change={handlePlateChange}
-          />
-          <DataPicker
-            component="edit"
-            id="inspectionDate"
-            label="Data wykonania badania technicznego:"
-            change={handleDateCarInspectionChange}
-            editCarData={editCarData.dateCarInspection}
-          />
-
-          <DataPicker
-            component="edit"
-            id="insuranceDate"
-            label="Ubezpieczenie ważne do:"
-            change={handleInsuranceDateChange}
-            editCarData={editCarData.insuranceDate}
-          />
+        <form
+          className={style.form}
+          onSubmit={(e) => handleSubmit(component, e)}>
+          {component === "cars" ? (
+            <>
+              <Input
+                component={component}
+                action="edit"
+                id="carName"
+                change={handleChange}
+                editCarData={editCarData.carName}
+              />
+              <Input
+                component={component}
+                action="edit"
+                id="plate"
+                change={handleChange}
+                editCarData={editCarData.plate}
+              />
+              <DataPicker
+                component={component}
+                action="edit"
+                id="inspectionDate"
+                editCarData={editCarData.dateCarInspection}
+                change={handleDateCarInspectionChange}
+              />
+              <DataPicker
+                component={component}
+                action="edit"
+                id="insuranceDate"
+                editCarData={editCarData.insuranceDate}
+                change={handleInsuranceDateChange}
+              />
+            </>
+          ) : (
+            <>
+              <Input
+                component={component}
+                action="edit"
+                id="driver"
+                editDriverData={editDriverData.driver}
+                change={handleChange}
+              />
+              <Input
+                component={component}
+                action="edit"
+                id="email"
+                type="email"
+                editDriverData={editDriverData.email}
+                change={handleChange}
+              />
+              <Input
+                component={component}
+                action="edit"
+                id="carName"
+                editDriverData={editDriverData.carName}
+                change={handleChange}
+              />
+              <Input
+                component={component}
+                action="edit"
+                id="plate"
+                editDriverData={editDriverData.plate}
+                change={handleChange}
+              />
+            </>
+          )}
           <button type="submit" className={style.editBtn}>
             Zapisz
           </button>

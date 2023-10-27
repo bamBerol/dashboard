@@ -58,7 +58,7 @@ const carsInfo = [
 ];
 
 const driversInfo = [
-  {
+  /*{
     id: 0,
     driver: "Jan Hel",
     email: "acad@gmail.com",
@@ -99,33 +99,51 @@ const driversInfo = [
     email: "acad@gmail.com",
     carName: "Skoda Octavia",
     plate: "WZ 0040D",
-  },
+  },*/
 ];
 
 const Main = () => {
   const [carsData, setCarsData] = useState(carsInfo);
   const [driversData, setDriversData] = useState(driversInfo);
 
-  const handleDeleteBtn = (id, url) => {
+  const handleDelete = (id, url) => {
     if (url === "/cars") {
       const newCarsData = carsData.filter((car) => car.id !== id);
       setCarsData(newCarsData);
+    } else {
+      const newDriversData = driversData.filter((driver) => driver.id !== id);
+      setDriversData(newDriversData);
     }
-    const newDriversData = driversData.filter((driver) => driver.id !== id);
-    setDriversData(newDriversData);
   };
 
-  const handleAddCar = (formData) => {
-    setCarsData([...carsData, formData]);
+  const handleAddItem = (formData, component) => {
+    component === "cars"
+      ? setCarsData([...carsData, formData])
+      : setDriversData([...driversData, formData]);
   };
-  const handleEditCar = (editData) => {
-    const updateCarsData = carsData.map((car) => {
-      if (car.id === editData.id) {
-        return editData;
-      }
-      return car;
-    });
-    setCarsData(updateCarsData);
+  const handleEditCar = (editData, component) => {
+    switch (component) {
+      case "cars":
+        const updateCarData = carsData.map((car) => {
+          if (car.id === editData.id) {
+            return editData;
+          }
+          return car;
+        });
+        setCarsData(updateCarData);
+        break;
+      case "drivers":
+        const updateDriverData = driversData.map((driver) => {
+          if ((driver.id = editData.id)) {
+            return editData;
+          }
+          return driver;
+        });
+        setDriversData(updateDriverData);
+        break;
+      default:
+        console.log("aktualizacja nie powiodła się");
+    }
   };
 
   return (
@@ -133,27 +151,50 @@ const Main = () => {
       <Routes>
         <Route
           path="/cars"
-          element={<Cars tableData={carsData} delete={handleDeleteBtn} />}
+          element={<Cars tableData={carsData} delete={handleDelete} />}
         />
         <Route
           path="/cars/addCar"
-          element={<AddNewItem submit={(formData) => handleAddCar(formData)} />}
+          element={
+            <AddNewItem
+              submit={(formData, component) =>
+                handleAddItem(formData, component)
+              }
+            />
+          }
         />
         <Route
           path="/cars/editCar/:id"
           element={
             <EditItem
               carsData={carsData}
-              edit={(editData) => handleEditCar(editData)}
+              edit={(editData, component) => handleEditCar(editData, component)}
             />
           }
         />
         <Route
           path="/drivers"
-          element={<Drivers tableData={driversData} delete={handleDeleteBtn} />}
+          element={<Drivers tableData={driversData} delete={handleDelete} />}
         />
-        <Route path="/drivers/addDriver" element={<AddNewItem />} />
-        <Route path="/drivers/editDriver/:id" element={<EditItem />} />
+        <Route
+          path="/drivers/addDriver"
+          element={
+            <AddNewItem
+              submit={(formData, component) =>
+                handleAddItem(formData, component)
+              }
+            />
+          }
+        />
+        <Route
+          path="/drivers/editDriver/:id"
+          element={
+            <EditItem
+              driversData={driversData}
+              edit={(editData, component) => handleEditCar(editData, component)}
+            />
+          }
+        />
         <Route path="/settelments" element={<Settelments />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Error />} />

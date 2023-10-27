@@ -14,12 +14,9 @@ const EditButtons = (props) => {
 
   const path = props.url === "/cars" ? "editCar" : "editDriver";
 
-  const handleClickMainEditButton = (e) => {
-    console.log(props.url);
+  const handleClickMainEditButton = () => {
     setEditIsClicked(true);
   };
-
-  const handleEditBtn = () => console.log("edit is clicked", props.id);
 
   const handleConfirmBtn = () => {
     console.log("confirm is clicked", props.id, props.url);
@@ -36,8 +33,7 @@ const EditButtons = (props) => {
         </div>
         <Link
           to={`${props.url}/${path}/${props.id}`}
-          className={`${style.icon} ${style.edit}`}
-          onClick={handleEditBtn}>
+          className={`${style.icon} ${style.edit}`}>
           <FontAwesomeIcon icon={faPencil} />
         </Link>
         <div

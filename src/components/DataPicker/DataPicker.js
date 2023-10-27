@@ -3,16 +3,26 @@ import ReactDatePicker from "react-datepicker";
 import style from "./DataPicker.module.css";
 
 const DataPicker = (props) => {
-  const component =
-    props.component === "add" ? props.carFormData : props.editCarData;
+  let value;
+
+  if (props.action === "add") {
+    value = props.carFormData;
+  } else {
+    value = props.editCarData;
+  }
+
+  const label =
+    props.id === "inspectionDate"
+      ? "Data wykonania badania technicznego:"
+      : "Ubezpieczenie ważne do:";
 
   return (
     <>
       <div className={style.formInput}>
-        <label htmlFor={props.id}>{props.label}</label>
+        <label htmlFor={props.id}>{label}</label>
         <ReactDatePicker
           id={props.id}
-          value={component}
+          value={value}
           onChange={props.change}
           placeholderText="Kliknij aby wybrać datę"
           withPortal

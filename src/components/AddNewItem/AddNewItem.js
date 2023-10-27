@@ -32,12 +32,37 @@ const AddCar = (props) => {
 
   const title = component === "cars" ? "samochód" : "kierowcę";
 
-  const handleCarNameChange = (e) => {
-    setCarFormData({ ...carFormData, carName: e.target.value });
-  };
-
-  const handlePlateChange = (e) => {
-    setCarFormData({ ...carFormData, plate: e.target.value });
+  const handleChange = (e) => {
+    console.log(component, e.currentTarget.id);
+    if (component === "cars") {
+      switch (e.currentTarget.id) {
+        case "carName":
+          console.log("carName zmiana");
+          setCarFormData({ ...carFormData, carName: e.target.value });
+          break;
+        case "plate":
+          setCarFormData({ ...carFormData, plate: e.target.value });
+          break;
+        default:
+          console.log("cos poszlo nie tak");
+      }
+    }
+    switch (e.currentTarget.id) {
+      case "driver":
+        setDriverFormData({ ...driverFormData, driver: e.target.value });
+        break;
+      case "email":
+        setDriverFormData({ ...driverFormData, email: e.target.value });
+        break;
+      case "carName":
+        setDriverFormData({ ...driverFormData, carName: e.target.value });
+        break;
+      case "plate":
+        setDriverFormData({ ...driverFormData, plate: e.target.value });
+        break;
+      default:
+        console.log("cos poszlo nie tak");
+    }
   };
 
   const handleDateCarInspectionChange = (date) => {
@@ -50,16 +75,33 @@ const AddCar = (props) => {
     setCarFormData({ ...carFormData, insuranceDate: dateInsurance });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (component, e) => {
     e.preventDefault();
-    props.submit(carFormData);
-    setCarFormData({
-      id: uuidv4(),
-      carName: "",
-      plate: "",
-      dateCarInspection: "",
-      insuranceDate: "",
-    });
+
+    if (component === "cars") {
+      console.log("samochód add");
+      console.log(carFormData);
+      props.submit(carFormData, component);
+      setCarFormData({
+        id: uuidv4(),
+        carName: "",
+        plate: "",
+        dateCarInspection: "",
+        insuranceDate: "",
+      });
+    } else {
+      console.log("kierowca add");
+      console.log(driverFormData);
+      props.submit(driverFormData, component);
+      setCarFormData({
+        id: uuidv4(),
+        driver: "",
+        email: "",
+        carName: "",
+        plate: "",
+      });
+    }
+
     navigate(`/${component}`);
   };
 
@@ -67,34 +109,36 @@ const AddCar = (props) => {
     <div className={style.addCar}>
       <h2 className={style.title}>Dodaj {title}</h2>
       <div className={style.container}>
-        <form className={style.form} onSubmit={handleSubmit}>
+        <form
+          className={style.form}
+          onSubmit={(e) => handleSubmit(component, e)}>
           {component === "cars" ? (
             <>
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="carName"
-                example="Np. Skoda Rapid"
                 carFormData={carFormData.carName}
-                change={handleCarNameChange}
+                change={handleChange}
               />
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="plate"
-                example="Np. WY 902398"
                 carFormData={carFormData.plate}
-                change={handlePlateChange}
+                change={handleChange}
               />
               <DataPicker
-                component="add"
+                component={component}
+                action="add"
                 id="inspectionDate"
-                label="Data wykonania badania technicznego:"
                 carFormData={carFormData.dateCarInspection}
                 change={handleDateCarInspectionChange}
               />
               <DataPicker
-                component="add"
+                component={component}
+                action="add"
                 id="insuranceDate"
-                label="Ubezpieczenie ważne do:"
                 carFormData={carFormData.insuranceDate}
                 change={handleInsuranceDateChange}
               />
@@ -102,33 +146,33 @@ const AddCar = (props) => {
           ) : (
             <>
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="driver"
-                example="Np. Jan Kowalski"
-                //carFormData={carFormData.carName}
-                //change={handleCarNameChange}
+                driverFormData={driverFormData.driver}
+                change={handleChange}
               />
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="email"
                 type="email"
-                example="Np. jan.kowalski@wp.pl"
-                //carFormData={carFormData.plate}
-                //change={handlePlateChange}
+                driverFormData={driverFormData.email}
+                change={handleChange}
               />
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="carName"
-                example="Np. Skoda Rapid"
-                //carFormData={carFormData.carName}
-                //change={handleCarNameChange}
+                driverFormData={driverFormData.carName}
+                change={handleChange}
               />
               <Input
-                component="add"
+                component={component}
+                action="add"
                 id="plate"
-                example="Np. WY 902398"
-                //carFormData={carFormData.plate}
-                //change={handlePlateChange}
+                driverFormData={driverFormData.plate}
+                change={handleChange}
               />
             </>
           )}
