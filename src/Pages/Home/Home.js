@@ -1,16 +1,15 @@
 import { Link } from "react-router-dom";
+import HomeInfo from "./HomeInfo/HomeInfo";
 
 import style from "./Home.module.css";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <div className={style.home}>
       <h2 className={style.title}>Witaj w panelu!</h2>
       <div className={style.container}>
         <div className={style.containerBox}>
-          <div className={style.smallBox}>
-            <h3>Strona główna</h3>
-          </div>
+          <HomeInfo carsData={props.carsData} />
         </div>
         <div className={style.containerBox}>
           <Link to="/cars" className={style.smallBox}>

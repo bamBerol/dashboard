@@ -15,7 +15,7 @@ const Drivers = (props) => {
     return (
       <tr key={driver.id}>
         <td data-cell="driver">{driver.driver}</td>
-        <td data-cell="email">{driver.email}</td>
+        <td data-cell="number">{driver.number}</td>
         <td data-cell="carName">{driver.carName}</td>
         <td data-cell="plate">{driver.plate}</td>
         <td data-cell="buttons">
@@ -37,7 +37,7 @@ const Drivers = (props) => {
             <thead>
               <tr>
                 <th>Imię i Nazwisko</th>
-                <th>Adres e-mail</th>
+                <th>Numer tel.</th>
                 <th>Samochód</th>
                 <th>Rejestracja</th>
                 <th></th>

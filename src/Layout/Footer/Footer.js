@@ -1,12 +1,15 @@
 import style from "./Footer.module.css";
 
-const Footer = () => {
+const Footer = (props) => {
   const date = new Date();
   const year = date.getFullYear();
 
   return (
     <>
-      <footer className={style.footer}>&copy; devTro {year}</footer>
+      <footer className={props.navIsOpen ? style.footer : style.footerSmall}>
+        <p>&copy; devTro</p>
+        <p>{year}</p>
+      </footer>
     </>
   );
 };

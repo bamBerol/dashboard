@@ -20,9 +20,9 @@ const Input = (props) => {
       label = "Imię i nazwisko kierowcy";
       example = "Np. Jan Kowalski";
       break;
-    case "email":
-      label = "Adres e-mail";
-      example = "Np. jan.kowalski@wp.pl";
+    case "number":
+      label = "Numer tel.";
+      example = "666 777 000";
       break;
     default:
       label = "Popraw nazwę";

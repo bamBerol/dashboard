@@ -2,7 +2,7 @@ import style from "./Settelments.module.css";
 
 const Settelments = () => {
   const handleFileSelected = (e) => {
-    console.log(e.target.files);
+    console.log(e.target.files[0]);
   };
   return (
     <div className={style.settelments}>

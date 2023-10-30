@@ -1,0 +1,25 @@
+.clock {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.actualTime,
+.actualDay,
+.actualDate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.actualTime {
+  font-size: 3rem;
+  font-weight: 600;
+}
+.actualDay {
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+.actualDate {
+  font-size: 1.5rem;
+  font-weight: 400;
+}

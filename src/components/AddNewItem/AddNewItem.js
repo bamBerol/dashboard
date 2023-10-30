@@ -20,7 +20,7 @@ const AddCar = (props) => {
   const [driverFormData, setDriverFormData] = useState({
     id: uuidv4(),
     driver: "",
-    email: "",
+    number: "",
     carName: "",
     plate: "",
   });
@@ -51,8 +51,9 @@ const AddCar = (props) => {
       case "driver":
         setDriverFormData({ ...driverFormData, driver: e.target.value });
         break;
-      case "email":
-        setDriverFormData({ ...driverFormData, email: e.target.value });
+      case "number":
+        console.log(e.target.value);
+        setDriverFormData({ ...driverFormData, number: e.target.value });
         break;
       case "carName":
         setDriverFormData({ ...driverFormData, carName: e.target.value });
@@ -96,7 +97,7 @@ const AddCar = (props) => {
       setCarFormData({
         id: uuidv4(),
         driver: "",
-        email: "",
+        number: "",
         carName: "",
         plate: "",
       });
@@ -155,8 +156,8 @@ const AddCar = (props) => {
               <Input
                 component={component}
                 action="add"
-                id="email"
-                type="email"
+                id="number"
+                type="number"
                 driverFormData={driverFormData.email}
                 change={handleChange}
               />

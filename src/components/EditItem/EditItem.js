@@ -16,7 +16,7 @@ const EditItem = (props) => {
   });
   const [editDriverData, setEditDriverData] = useState({
     driver: "",
-    email: "",
+    number: "",
     carName: "",
     plate: "",
   });
@@ -62,8 +62,8 @@ const EditItem = (props) => {
       case "driver":
         setEditDriverData({ ...editDriverData, driver: e.target.value });
         break;
-      case "email":
-        setEditDriverData({ ...editDriverData, email: e.target.value });
+      case "number":
+        setEditDriverData({ ...editDriverData, number: e.target.value });
         break;
       case "carName":
         setEditDriverData({ ...editDriverData, carName: e.target.value });
@@ -102,7 +102,7 @@ const EditItem = (props) => {
       props.edit(editDriverData, component);
       setEditDriverData({
         driver: "",
-        email: "",
+        number: "",
         carName: "",
         plate: "",
       });
@@ -160,9 +160,9 @@ const EditItem = (props) => {
               <Input
                 component={component}
                 action="edit"
-                id="email"
-                type="email"
-                editDriverData={editDriverData.email}
+                id="number"
+                type="number"
+                editDriverData={editDriverData.number}
                 change={handleChange}
               />
               <Input

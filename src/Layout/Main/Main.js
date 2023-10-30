@@ -121,6 +121,7 @@ const Main = () => {
       ? setCarsData([...carsData, formData])
       : setDriversData([...driversData, formData]);
   };
+
   const handleEditCar = (editData, component) => {
     switch (component) {
       case "cars":
@@ -196,7 +197,7 @@ const Main = () => {
           }
         />
         <Route path="/settelments" element={<Settelments />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home carsData={carsData} />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </main>
