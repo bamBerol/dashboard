@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { differenceInDays, addYears, format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 
 import Input from "../Input/Input";
@@ -15,7 +15,10 @@ const AddCar = (props) => {
     carName: "",
     plate: "",
     dateCarInspection: "",
+    nextCarInspection: "",
+    daysLeft: "",
     insuranceDate: "",
+    insuranceDaysLeft: "",
   });
   const [driverFormData, setDriverFormData] = useState({
     id: uuidv4(),
@@ -29,6 +32,8 @@ const AddCar = (props) => {
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
+
+  const todayDate = new Date();
 
   const title = component === "cars" ? "samochód" : "kierowcę";
 
@@ -67,13 +72,28 @@ const AddCar = (props) => {
   };
 
   const handleDateCarInspectionChange = (date) => {
+    const addYear = addYears(date, 1);
     const inspectionDate = format(date, "dd/MM/RRRR");
-    setCarFormData({ ...carFormData, dateCarInspection: inspectionDate });
+    const endInspectionDate = format(addYear, "dd/MM/RRRR");
+    const daysLeft = differenceInDays(addYear, todayDate);
+
+    setCarFormData({
+      ...carFormData,
+      dateCarInspection: inspectionDate,
+      nextCarInspection: endInspectionDate,
+      daysLeft: daysLeft,
+    });
   };
 
   const handleInsuranceDateChange = (date) => {
     const dateInsurance = format(date, "dd/MM/RRRR");
-    setCarFormData({ ...carFormData, insuranceDate: dateInsurance });
+    const insuranceDaysLeft = differenceInDays(date, todayDate);
+
+    setCarFormData({
+      ...carFormData,
+      insuranceDate: dateInsurance,
+      insuranceDaysLeft: insuranceDaysLeft,
+    });
   };
 
   const handleSubmit = (component, e) => {
@@ -88,7 +108,10 @@ const AddCar = (props) => {
         carName: "",
         plate: "",
         dateCarInspection: "",
+        nextCarInspection: "",
+        daysLeft: "",
         insuranceDate: "",
+        insuranceDaysLeft: "",
       });
     } else {
       console.log("kierowca add");

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { parse, format, addYears, differenceInDays } from "date-fns";
+import { parse, differenceInDays } from "date-fns";
 
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
@@ -29,38 +29,22 @@ const Cars = (props) => {
     );
 
   const table = props.tableData.map((car) => {
-    const todayDate = new Date();
-
-    const dateCarInspection = car.dateCarInspection;
-    const objDateCarInspection = parse(
-      dateCarInspection,
-      "dd/MM/yyyy",
-      new Date()
-    );
-    const addYear = addYears(objDateCarInspection, 1);
-    const expirationDate = format(addYear, "dd/MM/RRRR");
-    const timeLeft = differenceInDays(addYear, todayDate);
-
-    const insuranceDate = car.insuranceDate;
-    const endOfInsurance = parse(insuranceDate, "dd/MM/yyyy", new Date());
-    const insuranceLeft = differenceInDays(endOfInsurance, todayDate);
-
     const periodInspection = () => {
-      if (timeLeft >= 30) {
+      if (car.daysLeft >= 30) {
         return style.green;
-      } else if (timeLeft < 30 && timeLeft > 7) {
+      } else if (car.daysLeft < 30 && car.daysLeft > 7) {
         return style.orange;
-      } else if (timeLeft <= 7) {
+      } else if (car.daysLeft <= 7) {
         return style.red;
       }
     };
 
     const periodInsurance = () => {
-      if (insuranceLeft >= 30) {
+      if (car.insuranceDaysLeft >= 30) {
         return style.green;
-      } else if (insuranceLeft < 30 && insuranceLeft > 7) {
+      } else if (car.insuranceDaysLeft < 30 && car.insuranceDaysLeft > 7) {
         return style.orange;
-      } else if (insuranceLeft <= 7) {
+      } else if (car.insuranceDaysLeft <= 7) {
         return style.red;
       }
     };
@@ -71,7 +55,7 @@ const Cars = (props) => {
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="dateCarInspection">{car.dateCarInspection}</td>
         <td data-cell="dateNextCarInspection" className={periodInspection()}>
-          {expirationDate}
+          {car.nextCarInspection}
         </td>
         <td data-cell="insuranceDate" className={periodInsurance()}>
           {car.insuranceDate}

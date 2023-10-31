@@ -1,0 +1,43 @@
+.inspectionInfo {
+  display: flex;
+  flex: 1;
+  background-color: aliceblue;
+  border-radius: 0.5rem;
+}
+.carInspectionInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.tableOfInspectionPeriod {
+  width: 100%;
+  color: #000000;
+  border-collapse: collapse;
+}
+.tableOfInspectionPeriod th,
+.tableOfInspectionPeriod td {
+  padding: 1rem 0.5rem;
+  text-align: left;
+}
+.tableOfInspectionPeriod th {
+  border-bottom: 1px solid grey;
+}
+.tableOfInspectionPeriod tr:nth-of-type(even) {
+  background-color: rgba(229, 229, 229, 0.5);
+}
+.tableOfInspectionPeriod th:nth-child(3),
+.tableOfInspectionPeriod tr td:nth-child(3) {
+  text-align: center;
+}
+.tableOfInspectionPeriod tr:last-child,
+.tableOfInspectionPeriod tr:last-child td:first-child,
+.tableOfInspectionPeriod tr:last-child td:last-child {
+  border-radius: 0.5rem;
+}
+.emptyInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}

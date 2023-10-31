@@ -150,6 +150,7 @@ const Main = () => {
   return (
     <main className={style.main}>
       <Routes>
+        <Route path="/" element={<Home carsData={carsData} />} />
         <Route
           path="/cars"
           element={<Cars tableData={carsData} delete={handleDelete} />}
@@ -197,7 +198,6 @@ const Main = () => {
           }
         />
         <Route path="/settelments" element={<Settelments />} />
-        <Route path="/" element={<Home carsData={carsData} />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </main>

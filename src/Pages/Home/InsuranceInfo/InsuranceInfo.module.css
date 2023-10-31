@@ -1,0 +1,39 @@
+.insuranceInfo {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: aliceblue;
+  border-radius: 0.5rem;
+}
+.carInsuranceInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.tableOfInsurancePeriod {
+  width: 100%;
+  color: #000000;
+  border-collapse: collapse;
+}
+.tableOfInsurancePeriod th,
+.tableOfInsurancePeriod td {
+  padding: 1rem 0.5rem;
+  text-align: left;
+}
+.tableOfInsurancePeriod th {
+  border-bottom: 1px solid grey;
+}
+.tableOfInsurancePeriod tr:nth-of-type(even) {
+  background-color: rgba(229, 229, 229, 0.5);
+}
+.tableOfInsurancePeriod th:nth-child(3),
+.tableOfInsurancePeriod tr td:nth-child(3) {
+  text-align: center;
+}
+.emptyInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+}
