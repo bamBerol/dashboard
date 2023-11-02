@@ -123,6 +123,7 @@ const Main = () => {
   };
 
   const handleEditCar = (editData, component) => {
+    console.log(editData);
     switch (component) {
       case "cars":
         const updateCarData = carsData.map((car) => {

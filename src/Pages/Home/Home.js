@@ -6,7 +6,6 @@ import InsuranceInfo from "./InsuranceInfo/InsuranceInfo";
 import style from "./Home.module.css";
 
 const Home = (props) => {
-  console.log(props.carsData.length);
   return (
     <div className={style.home}>
       <h2 className={style.title}>Witaj w panelu!</h2>

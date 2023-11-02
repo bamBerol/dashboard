@@ -5,10 +5,12 @@
   justify-content: center;
   align-items: center;
   flex: 1;
+  background-color: #4f4f4f;
 }
 .title {
   padding: 1rem 0;
   font-size: 1.75rem;
+  color: #fada5e;
 }
 .container {
   display: flex;
@@ -44,17 +46,19 @@
   align-items: center;
   font-size: 0.75rem;
   gap: 1rem;
+  color: white;
 }
-.colorGreen,
-.colorOrange,
-.colorRed {
-  width: 2rem;
-  height: 1.25rem;
-}
+
 .tableOfCars {
   width: 100%;
   color: #000000;
   border-collapse: collapse;
+}
+.tableOfCars thead tr :first-child {
+  border-top-left-radius: 0.5rem;
+}
+.tableOfCars thead tr :last-child {
+  border-top-right-radius: 0.5rem;
 }
 .tableOfCars th,
 .tableOfCars td {
@@ -62,10 +66,27 @@
   text-align: left;
 }
 .tableOfCars th {
-  background-color: #e5e5e5;
+  background-color: #dbdbdb;
 }
-.tableOfCars tr:nth-of-type(even) {
-  background-color: rgba(229, 229, 229, 0.5);
+.tableOfCars tbody tr:nth-of-type(odd) {
+  background-color: #a1a1a1;
+}
+.tableOfCars tbody tr:nth-of-type(even) {
+  background-color: #dbdbdb;
+}
+.tableOfCars tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+  border: 1px solid transparent;
+}
+.tableOfCars tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+  border: 1px solid transparent;
+}
+.colorGreen,
+.colorOrange,
+.colorRed {
+  width: 2rem;
+  height: 1.25rem;
 }
 .green {
   color: green;

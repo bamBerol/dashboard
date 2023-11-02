@@ -17,17 +17,20 @@ const Cars = (props) => {
     ) : (
       <div className={style.legend}>
         <div className={style.legendColor}>
-          <div className={style.colorGreen}></div>powyżej 30 dni
+          <div className={style.colorGreen}></div>
+          <p>powyżej 30 dni</p>
         </div>
         <div className={style.legendColor}>
-          <div className={style.colorOrange}></div>między 30-7 dni
+          <div className={style.colorOrange}></div>
+          <p>między 30-7 dni</p>
         </div>
         <div className={style.legendColor}>
-          <div className={style.colorRed}></div>poniżej 7 dni
+          <div className={style.colorRed}></div>
+          <p>poniżej 7 dni</p>
         </div>
       </div>
     );
-
+  console.log(props.tableData);
   const table = props.tableData.map((car) => {
     const periodInspection = () => {
       if (car.daysLeft >= 30) {

@@ -46,7 +46,9 @@ const Navbar = (props) => {
   return (
     <>
       <aside className={style.navbar}>
-        <div className={style.navButton} onClick={props.changeNav}>
+        <div
+          className={props.navIsOpen ? style.navButton : style.navButtonOff}
+          onClick={props.changeNav}>
           {navBtn}
         </div>
         <nav className={style.navigation}>

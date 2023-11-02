@@ -22,11 +22,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 0.5rem;
+  padding: 0.5rem 0.5rem;
   flex: 1;
   text-decoration: none;
-  color: #000;
-  background-color: aliceblue;
+  color: #2a2a2a;
+  background-color: #dbdbdb;
   border-radius: 0.5rem;
 }
 .cars p,

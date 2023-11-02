@@ -2,7 +2,7 @@
   display: flex;
   height: 100%;
   width: 100%;
-  background-color: aliceblue;
+  background-color: #dbdbdb;
   border-radius: 0.5rem;
 }
 .carInsuranceInfo {
@@ -12,8 +12,15 @@
 }
 .tableOfInsurancePeriod {
   width: 100%;
-  color: #000000;
+  color: #2a2a2a;
   border-collapse: collapse;
+}
+
+.tableOfInsurancePeriod thead tr :first-child {
+  border-top-left-radius: 0.5rem;
+}
+.tableOfInsurancePeriod thead tr :last-child {
+  border-top-right-radius: 0.5rem;
 }
 .tableOfInsurancePeriod th,
 .tableOfInsurancePeriod td {
@@ -21,10 +28,11 @@
   text-align: left;
 }
 .tableOfInsurancePeriod th {
-  border-bottom: 1px solid grey;
+  background-color: #dbdbdb;
+  border-bottom: 1px solid #a1a1a1;
 }
-.tableOfInsurancePeriod tr:nth-of-type(even) {
-  background-color: rgba(229, 229, 229, 0.5);
+.tableOfInsurancePeriod tr:nth-of-type(odd) {
+  background-color: #a1a1a1;
 }
 .tableOfInsurancePeriod th:nth-child(3),
 .tableOfInsurancePeriod tr td:nth-child(3) {
@@ -36,4 +44,13 @@
   align-items: center;
   width: 100%;
   flex: 1;
+}
+.green {
+  color: green;
+}
+.orange {
+  color: orange;
+}
+.red {
+  color: red;
 }

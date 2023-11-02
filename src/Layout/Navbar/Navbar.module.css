@@ -7,12 +7,20 @@
   transition: width 1s;
 }
 
-.navButton {
+.navButton,
+.navButtonOff {
   display: flex;
   align-items: center;
+  color: #fada5e;
+}
+.navButton {
   justify-content: flex-start;
 }
-.navButton:hover {
+.navButtonOff {
+  justify-content: center;
+}
+.navButton:hover,
+.navButtonOff:hover {
   cursor: pointer;
 }
 .nameOn {
@@ -57,18 +65,25 @@
 }
 .active {
   font-weight: bold;
-  color: #f08a5d;
-  background-color: #e5e5e5;
+  color: #2a2a2a;
+  background-color: #fada5e;
   border: 1px solid transparent;
   border-radius: 0.5rem;
+  transition: color 0.3s, background-color 0.3s;
 }
 .active .icon {
-  background-color: #e5e5e5;
+  background-color: #fada5e;
+  transition: background-color 0.6s;
 }
 .inactive {
   display: flex;
   font-weight: normal;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #2a2a2a;
+  color: #fada5e;
   border: 1px solid transparent;
+  border-radius: 0.5rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+.inactive:hover {
+  border: 1px solid #fada5e;
 }

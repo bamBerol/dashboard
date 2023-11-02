@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { format } from "date-fns";
+import { addYears, differenceInDays, format } from "date-fns";
 
 import DataPicker from "../DataPicker/DataPicker";
 import Input from "../Input/Input";
@@ -26,12 +26,14 @@ const EditItem = (props) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const todayDate = new Date();
+
   const title = component === "cars" ? "samochód" : "kierowcę";
 
   useEffect(() => {
     if (component === "cars") {
       const carDetail = props.carsData.filter((car) => car.id === id);
-
+      console.log(carDetail[0]);
       if (carDetail.length !== 0) {
         setEditCarData(carDetail[0]);
       }
@@ -77,13 +79,29 @@ const EditItem = (props) => {
   };
 
   const handleDateCarInspectionChange = (date) => {
+    console.log(date);
+    const addYear = addYears(date, 1);
     const inspectionDate = format(date, "dd/MM/RRRR");
-    setEditCarData({ ...editCarData, dateCarInspection: inspectionDate });
+    const endInspectionDate = format(addYear, "dd/MM/RRRR");
+    const daysLeft = differenceInDays(addYear, todayDate);
+
+    setEditCarData({
+      ...editCarData,
+      dateCarInspection: inspectionDate,
+      nextCarInspection: endInspectionDate,
+      daysLeft: daysLeft,
+    });
   };
 
   const handleInsuranceDateChange = (date) => {
+    console.log(date);
     const dateInsurance = format(date, "dd/MM/RRRR");
-    setEditCarData({ ...editCarData, insuranceDate: dateInsurance });
+    const insuranceDaysLeft = differenceInDays(date, todayDate);
+    setEditCarData({
+      ...editCarData,
+      insuranceDate: dateInsurance,
+      insuranceDaysLeft: insuranceDaysLeft,
+    });
   };
 
   const handleSubmit = (component, e) => {
