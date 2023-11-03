@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { LoginContext } from "../../context/LoginContext/LoginContext";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -5,9 +7,11 @@ import {
   faCoins,
   faCar,
   faHouse,
+  faPowerOff,
   faUsers,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 import Footer from "../Footer/Footer";
 
 import style from "./Navbar.module.css";
@@ -20,6 +24,8 @@ const panelTabs = [
 ];
 
 const Navbar = (props) => {
+  const loginContext = useContext(LoginContext);
+
   const tabs = panelTabs.map((tab) => {
     return (
       <NavLink
@@ -54,6 +60,12 @@ const Navbar = (props) => {
         <nav className={style.navigation}>
           <ul className={style.navigationList}>{tabs}</ul>
         </nav>
+        <div className={style.logout} onClick={loginContext.toggleIsLogged}>
+          <FontAwesomeIcon icon={faPowerOff} className={style.icon} size="lg" />
+          <p className={props.navIsOpen ? style.nameOn : style.nameOff}>
+            {props.navIsOpen ? "Wyloguj" : ""}
+          </p>
+        </div>
         <Footer navIsOpen={props.navIsOpen} />
       </aside>
     </>

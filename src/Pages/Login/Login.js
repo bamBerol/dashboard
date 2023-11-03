@@ -1,7 +1,11 @@
+import { useContext } from "react";
+import { LoginContext } from "../../context/LoginContext/LoginContext";
 import { Link } from "react-router-dom";
 import style from "./Login.module.css";
 
 const Login = (props) => {
+  const loginContext = useContext(LoginContext);
+
   return (
     <div className={style.container}>
       <div className={style.login}>
@@ -14,7 +18,10 @@ const Login = (props) => {
             className={style.inputLogin}
           />
         </div>
-        <Link to="/" className={style.loginBtn} onClick={props.login}>
+        <Link
+          to="/"
+          className={style.loginBtn}
+          onClick={loginContext.toggleIsLogged}>
           Zaloguj
         </Link>
       </div>

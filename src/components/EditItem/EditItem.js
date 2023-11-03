@@ -9,13 +9,15 @@ import style from "./EditItem.module.css";
 
 const EditItem = (props) => {
   const [editCarData, setEditCarData] = useState({
-    carName: "",
+    carMake: "",
+    carModel: "",
     plate: "",
     dateCarInspection: "",
     insuranceDate: "",
   });
   const [editDriverData, setEditDriverData] = useState({
-    driver: "",
+    driverName: "",
+    driverSurname: "",
     number: "",
     carName: "",
     plate: "",
@@ -50,8 +52,11 @@ const EditItem = (props) => {
   const handleChange = (e) => {
     if (component === "cars") {
       switch (e.currentTarget.id) {
-        case "carName":
-          setEditCarData({ ...editCarData, carName: e.target.value });
+        case "carMake":
+          setEditCarData({ ...editCarData, carMake: e.target.value });
+          break;
+        case "carModel":
+          setEditCarData({ ...editCarData, carModel: e.target.value });
           break;
         case "plate":
           setEditCarData({ ...editCarData, plate: e.target.value });
@@ -61,8 +66,11 @@ const EditItem = (props) => {
       }
     }
     switch (e.currentTarget.id) {
-      case "driver":
-        setEditDriverData({ ...editDriverData, driver: e.target.value });
+      case "driverName":
+        setEditDriverData({ ...editDriverData, driverName: e.target.value });
+        break;
+      case "driverSurname":
+        setEditDriverData({ ...editDriverData, driverSurname: e.target.value });
         break;
       case "number":
         setEditDriverData({ ...editDriverData, number: e.target.value });
@@ -110,7 +118,8 @@ const EditItem = (props) => {
       console.log("edytowano samochód", editCarData, component);
       props.edit(editCarData, component);
       setEditCarData({
-        carName: "",
+        carMake: "",
+        carModel: "",
         plate: "",
         dateCarInspection: "",
         insuranceDate: "",
@@ -119,7 +128,8 @@ const EditItem = (props) => {
       console.log("edytowano kierowce", editDriverData);
       props.edit(editDriverData, component);
       setEditDriverData({
-        driver: "",
+        driverName: "",
+        driverSurname: "",
         number: "",
         carName: "",
         plate: "",
@@ -137,13 +147,22 @@ const EditItem = (props) => {
           onSubmit={(e) => handleSubmit(component, e)}>
           {component === "cars" ? (
             <>
-              <Input
-                component={component}
-                action="edit"
-                id="carName"
-                change={handleChange}
-                editCarData={editCarData.carName}
-              />
+              <div className={style.carName}>
+                <Input
+                  component={component}
+                  action="edit"
+                  id="carMake"
+                  change={handleChange}
+                  editCarData={editCarData.carMake}
+                />
+                <Input
+                  component={component}
+                  action="edit"
+                  id="carModel"
+                  change={handleChange}
+                  editCarData={editCarData.carModel}
+                />
+              </div>
               <Input
                 component={component}
                 action="edit"
@@ -168,13 +187,22 @@ const EditItem = (props) => {
             </>
           ) : (
             <>
-              <Input
-                component={component}
-                action="edit"
-                id="driver"
-                editDriverData={editDriverData.driver}
-                change={handleChange}
-              />
+              <div className={style.driverFullName}>
+                <Input
+                  component={component}
+                  action="edit"
+                  id="driverName"
+                  editDriverData={editDriverData.driverName}
+                  change={handleChange}
+                />
+                <Input
+                  component={component}
+                  action="edit"
+                  id="driverSurname"
+                  editDriverData={editDriverData.driverSurname}
+                  change={handleChange}
+                />
+              </div>
               <Input
                 component={component}
                 action="edit"

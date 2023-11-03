@@ -9,12 +9,22 @@
   margin-top: 1rem;
   padding: 0.5rem;
   border: none;
-  border-bottom: 1px solid grey;
+  color: #fada5e;
+  background-color: #4f4f4f;
+  border-bottom: 1px solid #fada5e;
 }
 .formInput label {
+  color: #fada5e;
   font-weight: 600;
 }
 
 .formInput input:hover {
   cursor: pointer;
+}
+.formInput input::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: #dbdbdb;
+}
+.formInput input:focus {
+  outline: none;
 }

@@ -17,23 +17,18 @@ const InsuranceInfo = (props) => {
   const nearestToEnd = sortInsuranceDayLeft.slice(0, 4);
 
   const insuranceInfo = nearestToEnd.map((car) => {
-    console.log(car.insuranceDaysLeft);
     const infoColor = () => {
-      console.log(car.insuranceDaysLeft);
       if (car.insuranceDaysLeft >= 30) {
-        console.log("zielony");
         return style.green;
       } else if (car.insuranceDaysLeft < 30 && car.insuranceDaysLeft > 7) {
-        console.log("orange");
         return style.orange;
       } else if (car.insuranceDaysLeft <= 7) {
-        console.log("red");
         return style.red;
       }
     };
     return (
       <tr key={car.id}>
-        <td data-cell="carName">{car.carName}</td>
+        <td data-cell="carMake">{car.carMake}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="daysLeft" className={infoColor()}>
           {car.insuranceDaysLeft}

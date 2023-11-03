@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   color: #fada5e;
+  padding: 0 1rem;
 }
 .navButton {
   justify-content: flex-start;
@@ -77,7 +78,6 @@
 }
 .inactive {
   display: flex;
-  font-weight: normal;
   background-color: #2a2a2a;
   color: #fada5e;
   border: 1px solid transparent;
@@ -86,4 +86,18 @@
 }
 .inactive:hover {
   border: 1px solid #fada5e;
+}
+.logout {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding: 0.5rem 1rem;
+  color: #fada5e;
+  border: 1px solid transparent;
+}
+.logout:hover {
+  cursor: pointer;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
 }

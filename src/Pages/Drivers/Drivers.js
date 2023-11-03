@@ -14,9 +14,10 @@ const Drivers = (props) => {
   const table = props.tableData.map((driver) => {
     return (
       <tr key={driver.id}>
-        <td data-cell="driver">{driver.driver}</td>
+        <td data-cell="driverName">{driver.driverName}</td>
+        <td data-cell="driverSurname">{driver.driverSurname}</td>
         <td data-cell="number">{driver.number}</td>
-        <td data-cell="carName">{driver.carName}</td>
+        <td data-cell="carMake">{driver.carMake}</td>
         <td data-cell="plate">{driver.plate}</td>
         <td data-cell="buttons">
           <EditButtons id={driver.id} url={url} delete={props.delete} />
@@ -36,7 +37,8 @@ const Drivers = (props) => {
           <table className={style.tableOfDrivers}>
             <thead>
               <tr>
-                <th>Imię i Nazwisko</th>
+                <th>Imię </th>
+                <th>Nazwisko</th>
                 <th>Numer tel.</th>
                 <th>Samochód</th>
                 <th>Rejestracja</th>

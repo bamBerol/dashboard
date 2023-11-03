@@ -6,9 +6,11 @@ import InsuranceInfo from "./InsuranceInfo/InsuranceInfo";
 import style from "./Home.module.css";
 
 const Home = (props) => {
+  const quantityOfCars = props.carsData.length;
+
   return (
     <div className={style.home}>
-      <h2 className={style.title}>Witaj w panelu!</h2>
+      {/* <h2 className={style.title}>Witaj w panelu!</h2> */}
       <div className={style.container}>
         <div className={style.containerBox}>
           <Clock />
@@ -19,7 +21,10 @@ const Home = (props) => {
             <InsuranceInfo carsData={props.carsData} />
           </div>
           <div className={style.smallBox}>
-            <HomeButtons />
+            <HomeButtons
+              quantityOfDrivers={props.quantityOfDrivers}
+              quantityOfCars={quantityOfCars}
+            />
           </div>
         </div>
       </div>

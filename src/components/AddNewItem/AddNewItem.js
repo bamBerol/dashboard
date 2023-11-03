@@ -12,7 +12,8 @@ import style from "./AddNewItem.module.css";
 const AddCar = (props) => {
   const [carFormData, setCarFormData] = useState({
     id: uuidv4(),
-    carName: "",
+    carMake: "",
+    carModel: "",
     plate: "",
     dateCarInspection: "",
     nextCarInspection: "",
@@ -22,9 +23,10 @@ const AddCar = (props) => {
   });
   const [driverFormData, setDriverFormData] = useState({
     id: uuidv4(),
-    driver: "",
+    driverName: "",
+    driverSurname: "",
     number: "",
-    carName: "",
+    carMake: "",
     plate: "",
   });
 
@@ -41,30 +43,58 @@ const AddCar = (props) => {
     console.log(component, e.currentTarget.id);
     if (component === "cars") {
       switch (e.currentTarget.id) {
-        case "carName":
-          console.log("carName zmiana");
-          setCarFormData({ ...carFormData, carName: e.target.value });
+        case "carMake":
+          console.log("zmiana marki");
+          setCarFormData({
+            ...carFormData,
+            carMake: e.target.value.toLowerCase(),
+          });
+          break;
+        case "carModel":
+          console.log("zmiana modelu");
+          setCarFormData({
+            ...carFormData,
+            carModel: e.target.value.toLowerCase(),
+          });
           break;
         case "plate":
-          setCarFormData({ ...carFormData, plate: e.target.value });
+          setCarFormData({
+            ...carFormData,
+            plate: e.target.value.toUpperCase(),
+          });
           break;
         default:
           console.log("cos poszlo nie tak");
       }
     }
     switch (e.currentTarget.id) {
-      case "driver":
-        setDriverFormData({ ...driverFormData, driver: e.target.value });
+      case "driverName":
+        setDriverFormData({
+          ...driverFormData,
+          driverName: e.target.value.toLowerCase(),
+        });
+        break;
+      case "driverSurname":
+        setDriverFormData({
+          ...driverFormData,
+          driverSurname: e.target.value.toLowerCase(),
+        });
         break;
       case "number":
         console.log(e.target.value);
         setDriverFormData({ ...driverFormData, number: e.target.value });
         break;
-      case "carName":
-        setDriverFormData({ ...driverFormData, carName: e.target.value });
+      case "carMake":
+        setDriverFormData({
+          ...driverFormData,
+          carMake: e.target.value.toLowerCase(),
+        });
         break;
       case "plate":
-        setDriverFormData({ ...driverFormData, plate: e.target.value });
+        setDriverFormData({
+          ...driverFormData,
+          plate: e.target.value.toUpperCase(),
+        });
         break;
       default:
         console.log("cos poszlo nie tak");
@@ -105,7 +135,8 @@ const AddCar = (props) => {
       props.submit(carFormData, component);
       setCarFormData({
         id: uuidv4(),
-        carName: "",
+        carMake: "",
+        carModel: "",
         plate: "",
         dateCarInspection: "",
         nextCarInspection: "",
@@ -119,9 +150,10 @@ const AddCar = (props) => {
       props.submit(driverFormData, component);
       setCarFormData({
         id: uuidv4(),
-        driver: "",
+        driverName: "",
+        driverSurname: "",
         number: "",
-        carName: "",
+        carMake: "",
         plate: "",
       });
     }
@@ -138,13 +170,22 @@ const AddCar = (props) => {
           onSubmit={(e) => handleSubmit(component, e)}>
           {component === "cars" ? (
             <>
-              <Input
-                component={component}
-                action="add"
-                id="carName"
-                carFormData={carFormData.carName}
-                change={handleChange}
-              />
+              <div className={style.carName}>
+                <Input
+                  component={component}
+                  action="add"
+                  id="carMake"
+                  carFormData={carFormData.carName}
+                  change={handleChange}
+                />
+                <Input
+                  component={component}
+                  action="add"
+                  id="carModel"
+                  carFormData={carFormData.carName}
+                  change={handleChange}
+                />
+              </div>
               <Input
                 component={component}
                 action="add"
@@ -169,13 +210,22 @@ const AddCar = (props) => {
             </>
           ) : (
             <>
-              <Input
-                component={component}
-                action="add"
-                id="driver"
-                driverFormData={driverFormData.driver}
-                change={handleChange}
-              />
+              <div className={style.driverFullName}>
+                <Input
+                  component={component}
+                  action="add"
+                  id="driverName"
+                  driverFormData={driverFormData.driver}
+                  change={handleChange}
+                />
+                <Input
+                  component={component}
+                  action="add"
+                  id="driverSurname"
+                  driverFormData={driverFormData.driver}
+                  change={handleChange}
+                />
+              </div>
               <Input
                 component={component}
                 action="add"
@@ -187,8 +237,8 @@ const AddCar = (props) => {
               <Input
                 component={component}
                 action="add"
-                id="carName"
-                driverFormData={driverFormData.carName}
+                id="carMake"
+                driverFormData={driverFormData.carMake}
                 change={handleChange}
               />
               <Input

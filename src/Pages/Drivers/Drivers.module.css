@@ -36,6 +36,9 @@
   color: #000000;
   border-collapse: collapse;
 }
+.tableOfDrivers td {
+  text-transform: capitalize;
+}
 .tableOfDrivers thead tr :first-child {
   border-top-left-radius: 0.5rem;
 }

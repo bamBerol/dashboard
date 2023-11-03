@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { parse, differenceInDays } from "date-fns";
 
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
@@ -30,7 +29,7 @@ const Cars = (props) => {
         </div>
       </div>
     );
-  console.log(props.tableData);
+
   const table = props.tableData.map((car) => {
     const periodInspection = () => {
       if (car.daysLeft >= 30) {
@@ -54,7 +53,8 @@ const Cars = (props) => {
 
     return (
       <tr key={car.id}>
-        <td data-cell="carName">{car.carName}</td>
+        <td data-cell="carMake">{car.carMake}</td>
+        <td data-cell="carModel">{car.carModel}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="dateCarInspection">{car.dateCarInspection}</td>
         <td data-cell="dateNextCarInspection" className={periodInspection()}>
@@ -81,7 +81,8 @@ const Cars = (props) => {
           <table className={style.tableOfCars}>
             <thead>
               <tr>
-                <th>Samochód</th>
+                <th>Marka</th>
+                <th>Model</th>
                 <th>Rejestracja</th>
                 <th>Data badania</th>
                 <th>Data kolejnego badania</th>

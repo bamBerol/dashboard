@@ -17,21 +17,17 @@ const InspectionInfo = (props) => {
 
   const inspectionInfo = nearestToEnd.map((car) => {
     const infoColor = () => {
-      console.log(car.daysLeft);
       if (car.daysLeft >= 30) {
-        console.log("zielony");
         return style.green;
       } else if (car.daysLeft < 30 && car.daysLeft > 7) {
-        console.log("orange");
         return style.orange;
       } else if (car.daysLeft <= 7) {
-        console.log("red");
         return style.red;
       }
     };
     return (
       <tr key={car.id}>
-        <td data-cell="carName">{car.carName}</td>
+        <td data-cell="carMake">{car.carMake}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="daysLeft" className={infoColor()}>
           {car.daysLeft}

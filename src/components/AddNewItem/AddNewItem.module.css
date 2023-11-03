@@ -5,10 +5,12 @@
   justify-content: center;
   align-items: center;
   flex: 1;
+  background-color: #4f4f4f;
 }
 .title {
   padding: 1rem 0;
   font-size: 1.75rem;
+  color: #fada5e;
 }
 .container {
   display: flex;
@@ -24,6 +26,11 @@
   align-items: center;
   justify-content: center;
 }
+.carName,
+.driverFullName {
+  display: flex;
+  width: 50%;
+}
 .formInput {
   display: flex;
   width: 50%;
@@ -35,7 +42,7 @@
   margin-top: 1rem;
   padding: 0.5rem;
   border: none;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #fada5e;
 }
 .formInput label {
   font-weight: 600;
@@ -45,10 +52,17 @@
 }
 .addBtn {
   padding: 0.5rem 1rem;
-  border: 1px solid grey;
+  color: #fada5e;
+  background-color: #2a2a2a;
+  border: 1px solid #fada5e;
   border-radius: 0.5rem;
+  transition: color 0.3s, backround-color 0.3s;
 }
 .addBtn:hover,
 .formInput input:hover {
   cursor: pointer;
+}
+.addBtn:hover {
+  color: #2a2a2a;
+  background-color: #fada5e;
 }

@@ -106,6 +106,8 @@ const Main = () => {
   const [carsData, setCarsData] = useState(carsInfo);
   const [driversData, setDriversData] = useState(driversInfo);
 
+  const quantityOfDrivers = driversData.length;
+
   const handleDelete = (id, url) => {
     if (url === "/cars") {
       const newCarsData = carsData.filter((car) => car.id !== id);
@@ -136,7 +138,7 @@ const Main = () => {
         break;
       case "drivers":
         const updateDriverData = driversData.map((driver) => {
-          if ((driver.id = editData.id)) {
+          if (driver.id === editData.id) {
             return editData;
           }
           return driver;
@@ -151,7 +153,12 @@ const Main = () => {
   return (
     <main className={style.main}>
       <Routes>
-        <Route path="/" element={<Home carsData={carsData} />} />
+        <Route
+          path="/"
+          element={
+            <Home carsData={carsData} quantityOfDrivers={quantityOfDrivers} />
+          }
+        />
         <Route
           path="/cars"
           element={<Cars tableData={carsData} delete={handleDelete} />}

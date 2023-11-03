@@ -5,7 +5,7 @@ import Main from "./Main/Main";
 
 import style from "./Layout.module.css";
 
-const Layout = () => {
+const Layout = (props) => {
   const [navOpen, setNavOpen] = useState(false);
 
   const handleNavOn = () => {

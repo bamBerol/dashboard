@@ -29,6 +29,7 @@ const DataPicker = (props) => {
           showMonthDropdown
           showYearDropdown
           dropdownMode="select"
+          autoComplete="off"
         />
       </div>
     </>

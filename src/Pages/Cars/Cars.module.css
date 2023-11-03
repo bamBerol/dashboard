@@ -65,6 +65,9 @@
   padding: 1rem;
   text-align: left;
 }
+.tableOfCars td {
+  text-transform: capitalize;
+}
 .tableOfCars th {
   background-color: #dbdbdb;
 }

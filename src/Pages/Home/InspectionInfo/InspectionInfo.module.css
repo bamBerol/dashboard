@@ -8,11 +8,15 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  background-color: #4f4f4f;
 }
 .tableOfInspectionPeriod {
   width: 100%;
   color: #2a2a2a;
   border-collapse: collapse;
+}
+.carInspectionInfo td {
+  text-transform: capitalize;
 }
 .tableOfInspectionPeriod thead tr :first-child {
   border-top-left-radius: 0.5rem;
@@ -32,6 +36,19 @@
 .tableOfInspectionPeriod tr:nth-of-type(odd) {
   background-color: #a1a1a1;
 }
+.tableOfInspectionPeriod tr:nth-of-type(even) {
+  background-color: #dbdbdb;
+}
+.tableOfInspectionPeriod tbody tr:last-child {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+.tableOfInspectionPeriod tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+.tableOfInspectionPeriod tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
 .tableOfInspectionPeriod th:nth-child(3),
 .tableOfInspectionPeriod tr td:nth-child(3) {
   text-align: center;
@@ -42,6 +59,7 @@
   align-items: center;
   width: 100%;
   flex: 1;
+  color: #fada5e;
 }
 .green {
   color: green;

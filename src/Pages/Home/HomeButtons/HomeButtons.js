@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 import style from "./HomeButtons.module.css";
 
-const HomeButtons = () => {
+const HomeButtons = (props) => {
   return (
     <>
       <div className={style.buttons}>
         <div className={style.smallButtons}>
           <div className={style.leftButtons}>
             <Link to="/cars" className={style.cars}>
-              <h3>Samochody</h3>
+              <h3>Samochody ({props.quantityOfCars})</h3>
               <p>Zakładka zawiera informację o samochodach </p>
             </Link>
           </div>
@@ -22,7 +22,7 @@ const HomeButtons = () => {
         </div>
         <div className={style.smallButtons}>
           <Link to="/drivers" className={style.drivers}>
-            <h3>Kierowcy</h3>
+            <h3>Kierowcy ({props.quantityOfDrivers})</h3>
             <p>Zakładka zawiera informację o kierowcach</p>
           </Link>
         </div>

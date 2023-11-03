@@ -8,17 +8,25 @@ const Input = (props) => {
   let value;
 
   switch (props.id) {
-    case "carName":
-      label = "Marka i model samochodu:";
-      example = "Np. Skoda Rapid";
+    case "carMake":
+      label = "Marka samochodu:";
+      example = "Np. Skoda";
+      break;
+    case "carModel":
+      label = "Model samochodu:";
+      example = "Np. Octavia";
       break;
     case "plate":
       label = "Numer rejestracyjny pojazdu:";
       example = "Np. WY 902398";
       break;
-    case "driver":
-      label = "Imię i nazwisko kierowcy";
-      example = "Np. Jan Kowalski";
+    case "driverName":
+      label = "Imię  kierowcy";
+      example = "Np. Jan";
+      break;
+    case "driverSurname":
+      label = "Nazwisko kierowcy";
+      example = "Np. Kowalski";
       break;
     case "number":
       label = "Numer tel.";
@@ -52,6 +60,7 @@ const Input = (props) => {
           placeholder={example}
           value={value}
           onChange={props.change}
+          autocomplete="off"
         />
       </div>
     </>
