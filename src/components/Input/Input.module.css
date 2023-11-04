@@ -28,3 +28,6 @@
 .formInput input:focus {
   outline: none;
 }
+.formInput input::-webkit-inner-spin-button {
+  display: none;
+}

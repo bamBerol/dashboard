@@ -29,6 +29,8 @@ const AddCar = (props) => {
     carMake: "",
     plate: "",
   });
+  const [carErrors, setCarErrors] = useState({});
+  const [driverErrors, setDriverErrors] = useState({});
 
   const navigate = useNavigate();
 
@@ -42,62 +44,16 @@ const AddCar = (props) => {
   const handleChange = (e) => {
     console.log(component, e.currentTarget.id);
     if (component === "cars") {
-      switch (e.currentTarget.id) {
-        case "carMake":
-          console.log("zmiana marki");
-          setCarFormData({
-            ...carFormData,
-            carMake: e.target.value.toLowerCase(),
-          });
-          break;
-        case "carModel":
-          console.log("zmiana modelu");
-          setCarFormData({
-            ...carFormData,
-            carModel: e.target.value.toLowerCase(),
-          });
-          break;
-        case "plate":
-          setCarFormData({
-            ...carFormData,
-            plate: e.target.value.toUpperCase(),
-          });
-          break;
-        default:
-          console.log("cos poszlo nie tak");
-      }
+      setCarFormData({
+        ...carFormData,
+        [e.currentTarget.id]: e.target.value.toLowerCase(),
+      });
     }
-    switch (e.currentTarget.id) {
-      case "driverName":
-        setDriverFormData({
-          ...driverFormData,
-          driverName: e.target.value.toLowerCase(),
-        });
-        break;
-      case "driverSurname":
-        setDriverFormData({
-          ...driverFormData,
-          driverSurname: e.target.value.toLowerCase(),
-        });
-        break;
-      case "number":
-        console.log(e.target.value);
-        setDriverFormData({ ...driverFormData, number: e.target.value });
-        break;
-      case "carMake":
-        setDriverFormData({
-          ...driverFormData,
-          carMake: e.target.value.toLowerCase(),
-        });
-        break;
-      case "plate":
-        setDriverFormData({
-          ...driverFormData,
-          plate: e.target.value.toUpperCase(),
-        });
-        break;
-      default:
-        console.log("cos poszlo nie tak");
+    if (component === "drivers") {
+      setDriverFormData({
+        ...driverFormData,
+        [e.currentTarget.id]: e.target.value.toLowerCase(),
+      });
     }
   };
 
@@ -132,39 +88,83 @@ const AddCar = (props) => {
     if (component === "cars") {
       console.log("samochód add");
       console.log(carFormData);
-      props.submit(carFormData, component);
-      setCarFormData({
-        id: uuidv4(),
-        carMake: "",
-        carModel: "",
-        plate: "",
-        dateCarInspection: "",
-        nextCarInspection: "",
-        daysLeft: "",
-        insuranceDate: "",
-        insuranceDaysLeft: "",
-      });
+      setCarErrors(validateForm(carFormData, component));
+      // props.submit(carFormData, component);
+      // setCarFormData({
+      //   id: uuidv4(),
+      //   carMake: "",
+      //   carModel: "",
+      //   plate: "",
+      //   dateCarInspection: "",
+      //   nextCarInspection: "",
+      //   daysLeft: "",
+      //   insuranceDate: "",
+      //   insuranceDaysLeft: "",
+      // });
     } else {
       console.log("kierowca add");
       console.log(driverFormData);
-      props.submit(driverFormData, component);
-      setCarFormData({
-        id: uuidv4(),
-        driverName: "",
-        driverSurname: "",
-        number: "",
-        carMake: "",
-        plate: "",
-      });
+      setDriverErrors(validateForm(driverFormData, component));
+      // props.submit(driverFormData, component);
+      // setCarFormData({
+      //   id: uuidv4(),
+      //   driverName: "",
+      //   driverSurname: "",
+      //   number: "",
+      //   carMake: "",
+      //   plate: "",
+      // });
     }
 
     navigate(`/${component}`);
+  };
+
+  const validateForm = (values, component) => {
+    const errors = {};
+    if (component === "cars") {
+      //console.log(values.carMake);
+      if (!values.carMake) {
+        console.log("marka jest wymagana");
+      }
+      if (!values.carModel) {
+        console.log("model jest wymagana");
+      }
+      if (!values.plate) {
+        console.log("numer rej. jest wymagana");
+      }
+      if (!values.dateCarInspection) {
+        console.log("data przeglądu jest wymagana");
+      }
+      if (!values.insuranceDate) {
+        console.log("data ubezpieczenia jest wymagana");
+      }
+    }
+    if (component === "drivers") {
+      //console.log(values.carMake);
+      if (!values.carMake) {
+        console.log("marka jest wymagana");
+      }
+      if (!values.number) {
+        console.log("numer jest wymagana");
+      }
+      if (!values.driverName) {
+        console.log("imie  jest wymagana");
+      }
+      if (!values.driverSurname) {
+        console.log("nazwisko  jest wymagana");
+      }
+      if (!values.plate) {
+        console.log("nr rej  jest wymagana");
+      }
+    }
+    return errors;
   };
 
   return (
     <div className={style.addCar}>
       <h2 className={style.title}>Dodaj {title}</h2>
       <div className={style.container}>
+        {/* <pre>{JSON.stringify(carFormData, undefined, 2)}</pre> */}
         <form
           className={style.form}
           onSubmit={(e) => handleSubmit(component, e)}>

@@ -6,31 +6,38 @@ const Input = (props) => {
   let example;
   let label;
   let value;
+  let maxLength;
 
   switch (props.id) {
     case "carMake":
       label = "Marka samochodu:";
       example = "Np. Skoda";
+      maxLength = "20";
       break;
     case "carModel":
       label = "Model samochodu:";
       example = "Np. Octavia";
+      maxLength = "20";
       break;
     case "plate":
       label = "Numer rejestracyjny pojazdu:";
       example = "Np. WY 902398";
+      maxLength = "9";
       break;
     case "driverName":
       label = "Imię  kierowcy";
       example = "Np. Jan";
+      maxLength = "20";
       break;
     case "driverSurname":
       label = "Nazwisko kierowcy";
       example = "Np. Kowalski";
+      maxLength = "20";
       break;
     case "number":
       label = "Numer tel.";
       example = "666 777 000";
+      maxLength = "9";
       break;
     default:
       label = "Popraw nazwę";
@@ -60,7 +67,8 @@ const Input = (props) => {
           placeholder={example}
           value={value}
           onChange={props.change}
-          autocomplete="off"
+          autoComplete="off"
+          maxLength={maxLength}
         />
       </div>
     </>
