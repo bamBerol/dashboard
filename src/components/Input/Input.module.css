@@ -2,16 +2,22 @@
   display: flex;
   width: 50%;
   flex-direction: column;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
 }
-.formInput input {
+.inputOk,
+.inputError {
   width: 100%;
   margin-top: 1rem;
   padding: 0.5rem;
   border: none;
   color: #fada5e;
   background-color: #4f4f4f;
+}
+.inputOk {
   border-bottom: 1px solid #fada5e;
+}
+.inputError {
+  border-bottom: 1px solid red;
 }
 .formInput label {
   color: #fada5e;
@@ -30,4 +36,9 @@
 }
 .formInput input::-webkit-inner-spin-button {
   display: none;
+}
+.errorMsg {
+  margin-top: 0.5rem;
+  color: red;
+  font-size: 0.85rem;
 }

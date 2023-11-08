@@ -22,13 +22,16 @@ const EditItem = (props) => {
     carName: "",
     plate: "",
   });
+  const [carEditErrors, setCarEditErrors] = useState({});
+  const [driverEditErrors, setDriverEditErrors] = useState({});
+  const [isEdit, setIsEdit] = useState(false);
+
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const todayDate = new Date();
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  const todayDate = new Date();
 
   const title = component === "cars" ? "samochód" : "kierowcę";
 
@@ -51,38 +54,13 @@ const EditItem = (props) => {
 
   const handleChange = (e) => {
     if (component === "cars") {
-      switch (e.currentTarget.id) {
-        case "carMake":
-          setEditCarData({ ...editCarData, carMake: e.target.value });
-          break;
-        case "carModel":
-          setEditCarData({ ...editCarData, carModel: e.target.value });
-          break;
-        case "plate":
-          setEditCarData({ ...editCarData, plate: e.target.value });
-          break;
-        default:
-          console.log("cos poszlo nie tak w cars");
-      }
+      setEditCarData({ ...editCarData, [e.currentTarget.id]: e.target.value });
     }
-    switch (e.currentTarget.id) {
-      case "driverName":
-        setEditDriverData({ ...editDriverData, driverName: e.target.value });
-        break;
-      case "driverSurname":
-        setEditDriverData({ ...editDriverData, driverSurname: e.target.value });
-        break;
-      case "number":
-        setEditDriverData({ ...editDriverData, number: e.target.value });
-        break;
-      case "carName":
-        setEditDriverData({ ...editDriverData, carName: e.target.value });
-        break;
-      case "plate":
-        setEditDriverData({ ...editDriverData, plate: e.target.value });
-        break;
-      default:
-        console.log("cos poszlo nie tak w drivers");
+    if (component === "drivers") {
+      setEditDriverData({
+        ...editDriverData,
+        [e.currentTarget.id]: e.target.value,
+      });
     }
   };
 
@@ -115,27 +93,73 @@ const EditItem = (props) => {
   const handleSubmit = (component, e) => {
     e.preventDefault();
     if (component === "cars") {
+      console.log(props);
       console.log("edytowano samochód", editCarData, component);
-      props.edit(editCarData, component);
-      setEditCarData({
-        carMake: "",
-        carModel: "",
-        plate: "",
-        dateCarInspection: "",
-        insuranceDate: "",
-      });
-    } else {
-      console.log("edytowano kierowce", editDriverData);
-      props.edit(editDriverData, component);
-      setEditDriverData({
-        driverName: "",
-        driverSurname: "",
-        number: "",
-        carName: "",
-        plate: "",
-      });
+      setCarEditErrors(validateEditForm(editCarData, component));
+      setIsEdit(true);
     }
-    navigate(`/${component}`);
+    if (component === "drivers") {
+      console.log("edytowano kierowce", editDriverData);
+      setDriverEditErrors(validateEditForm(editDriverData, component));
+      setIsEdit(true);
+    }
+  };
+
+  useEffect(() => {
+    if (component === "cars") {
+      if (Object.keys(carEditErrors).length === 0 && isEdit) {
+        props.edit(editCarData, component);
+        navigate(`/${component}`);
+      }
+    }
+    if (component === "drivers") {
+      if (Object.keys(driverEditErrors).length === 0 && isEdit) {
+        props.edit(editDriverData, component);
+        navigate(`/${component}`);
+      }
+    }
+  }, [carEditErrors, driverEditErrors]);
+
+  const validateEditForm = (values, component) => {
+    const errors = {};
+
+    if (component === "cars") {
+      console.log(values.carMake);
+      if (!values.carMake) {
+        errors.carMake = "Wypełnij pole";
+      }
+      if (!values.carModel) {
+        errors.carModel = "Wypełnij pole";
+      }
+      if (!values.plate) {
+        errors.plate = "Wypełnij pole";
+      }
+      if (!values.dateCarInspection) {
+        errors.dateCarInspection = "Wypełnij pole";
+      }
+      if (!values.insuranceDate) {
+        errors.insuranceDate = "Wypełnij pole";
+      }
+      return errors;
+    }
+    if (component === "drivers") {
+      if (!values.driverName) {
+        errors.driverName = "Wypełnij pole";
+      }
+      if (!values.driverSurname) {
+        errors.driverSurname = "Wypełnij pole";
+      }
+      if (!values.number) {
+        errors.number = "Wypełnij pole";
+      }
+      if (!values.carMake) {
+        errors.carMake = "Wypełnij pole";
+      }
+      if (!values.plate) {
+        errors.plate = "Wypełnij pole";
+      }
+      return errors;
+    }
   };
 
   return (
@@ -154,6 +178,7 @@ const EditItem = (props) => {
                   id="carMake"
                   change={handleChange}
                   editCarData={editCarData.carMake}
+                  errorMsg={carEditErrors.carMake}
                 />
                 <Input
                   component={component}
@@ -161,6 +186,7 @@ const EditItem = (props) => {
                   id="carModel"
                   change={handleChange}
                   editCarData={editCarData.carModel}
+                  errorMsg={carEditErrors.carModel}
                 />
               </div>
               <Input
@@ -169,6 +195,7 @@ const EditItem = (props) => {
                 id="plate"
                 change={handleChange}
                 editCarData={editCarData.plate}
+                errorMsg={carEditErrors.plate}
               />
               <DataPicker
                 component={component}
@@ -176,6 +203,7 @@ const EditItem = (props) => {
                 id="inspectionDate"
                 editCarData={editCarData.dateCarInspection}
                 change={handleDateCarInspectionChange}
+                errorMsg={carEditErrors.inspectionDate}
               />
               <DataPicker
                 component={component}
@@ -183,6 +211,7 @@ const EditItem = (props) => {
                 id="insuranceDate"
                 editCarData={editCarData.insuranceDate}
                 change={handleInsuranceDateChange}
+                errorMsg={carEditErrors.insuranceDate}
               />
             </>
           ) : (
@@ -194,6 +223,7 @@ const EditItem = (props) => {
                   id="driverName"
                   editDriverData={editDriverData.driverName}
                   change={handleChange}
+                  errorMsg={driverEditErrors.driverName}
                 />
                 <Input
                   component={component}
@@ -201,6 +231,7 @@ const EditItem = (props) => {
                   id="driverSurname"
                   editDriverData={editDriverData.driverSurname}
                   change={handleChange}
+                  errorMsg={driverEditErrors.driverSurname}
                 />
               </div>
               <Input
@@ -210,13 +241,15 @@ const EditItem = (props) => {
                 type="number"
                 editDriverData={editDriverData.number}
                 change={handleChange}
+                errorMsg={driverEditErrors.number}
               />
               <Input
                 component={component}
                 action="edit"
-                id="carName"
-                editDriverData={editDriverData.carName}
+                id="carMake"
+                editDriverData={editDriverData.carMake}
                 change={handleChange}
+                errorMsg={driverEditErrors.carMake}
               />
               <Input
                 component={component}
@@ -224,6 +257,7 @@ const EditItem = (props) => {
                 id="plate"
                 editDriverData={editDriverData.plate}
                 change={handleChange}
+                errorMsg={driverEditErrors.plate}
               />
             </>
           )}

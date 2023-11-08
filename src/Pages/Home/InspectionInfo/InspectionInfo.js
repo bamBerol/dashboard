@@ -13,7 +13,7 @@ const InspectionInfo = (props) => {
     (a, b) => a.daysLeft - b.daysLeft
   );
 
-  const nearestToEnd = sortInspectionDay.slice(0, 4);
+  const nearestToEnd = sortInspectionDay.slice(0, 5);
 
   const inspectionInfo = nearestToEnd.map((car) => {
     const infoColor = () => {

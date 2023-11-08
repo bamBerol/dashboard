@@ -36,6 +36,9 @@
   color: #000000;
   border-collapse: collapse;
 }
+.tableOfDrivers td[data-cell="plate"] {
+  text-transform: uppercase;
+}
 .tableOfDrivers td {
   text-transform: capitalize;
 }

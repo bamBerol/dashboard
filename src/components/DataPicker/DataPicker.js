@@ -22,6 +22,7 @@ const DataPicker = (props) => {
         <label htmlFor={props.id}>{label}</label>
         <ReactDatePicker
           id={props.id}
+          className={!props.errorMsg ? style.inputOk : style.inputError}
           value={value}
           onChange={props.change}
           placeholderText="Kliknij aby wybrać datę"
@@ -31,6 +32,7 @@ const DataPicker = (props) => {
           dropdownMode="select"
           autoComplete="off"
         />
+        <p className={style.errorMsg}>{props.errorMsg}</p>
       </div>
     </>
   );

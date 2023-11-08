@@ -14,7 +14,7 @@ const InsuranceInfo = (props) => {
     (a, b) => a.insuranceDaysLeft - b.insuranceDaysLeft
   );
 
-  const nearestToEnd = sortInsuranceDayLeft.slice(0, 4);
+  const nearestToEnd = sortInsuranceDayLeft.slice(0, 5);
 
   const insuranceInfo = nearestToEnd.map((car) => {
     const infoColor = () => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { differenceInDays, addYears, format } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
@@ -31,6 +31,7 @@ const AddCar = (props) => {
   });
   const [carErrors, setCarErrors] = useState({});
   const [driverErrors, setDriverErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const navigate = useNavigate();
 
@@ -87,74 +88,98 @@ const AddCar = (props) => {
 
     if (component === "cars") {
       console.log("samochód add");
-      console.log(carFormData);
+      // console.log(carFormData);
       setCarErrors(validateForm(carFormData, component));
-      // props.submit(carFormData, component);
-      // setCarFormData({
-      //   id: uuidv4(),
-      //   carMake: "",
-      //   carModel: "",
-      //   plate: "",
-      //   dateCarInspection: "",
-      //   nextCarInspection: "",
-      //   daysLeft: "",
-      //   insuranceDate: "",
-      //   insuranceDaysLeft: "",
-      // });
-    } else {
-      console.log("kierowca add");
-      console.log(driverFormData);
-      setDriverErrors(validateForm(driverFormData, component));
-      // props.submit(driverFormData, component);
-      // setCarFormData({
-      //   id: uuidv4(),
-      //   driverName: "",
-      //   driverSurname: "",
-      //   number: "",
-      //   carMake: "",
-      //   plate: "",
-      // });
+      setIsSubmit(true);
     }
-
-    navigate(`/${component}`);
+    if (component === "drivers") {
+      console.log("kierowca add");
+      // console.log(driverFormData);
+      setDriverErrors(validateForm(driverFormData, component));
+      setIsSubmit(true);
+    }
   };
 
-  const validateForm = (values, component) => {
-    const errors = {};
+  useEffect(() => {
     if (component === "cars") {
-      //console.log(values.carMake);
-      if (!values.carMake) {
-        console.log("marka jest wymagana");
-      }
-      if (!values.carModel) {
-        console.log("model jest wymagana");
-      }
-      if (!values.plate) {
-        console.log("numer rej. jest wymagana");
-      }
-      if (!values.dateCarInspection) {
-        console.log("data przeglądu jest wymagana");
-      }
-      if (!values.insuranceDate) {
-        console.log("data ubezpieczenia jest wymagana");
+      if (Object.keys(carErrors).length === 0 && isSubmit) {
+        props.submit(carFormData, component);
+        setCarFormData({
+          id: uuidv4(),
+          carMake: "",
+          carModel: "",
+          plate: "",
+          dateCarInspection: "",
+          nextCarInspection: "",
+          daysLeft: "",
+          insuranceDate: "",
+          insuranceDaysLeft: "",
+        });
+        navigate(`/${component}`);
+        console.log(carFormData);
       }
     }
     if (component === "drivers") {
-      //console.log(values.carMake);
+      if (Object.keys(driverErrors).length === 0 && isSubmit) {
+        props.submit(driverFormData, component);
+        setCarFormData({
+          id: uuidv4(),
+          driverName: "",
+          driverSurname: "",
+          number: "",
+          carMake: "",
+          plate: "",
+        });
+        navigate(`/${component}`);
+      }
+    }
+  }, [carErrors, driverErrors]);
+
+  const validateForm = (values, component) => {
+    const errors = {};
+    const numberCheck = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{3}$/g;
+    const plateCheck = /^([a-z0-9]{2,3})[ ]([a-z0-9]{4,5})/g;
+    if (component === "cars") {
       if (!values.carMake) {
-        console.log("marka jest wymagana");
+        errors.carMake = "Marka jest wymagana";
       }
-      if (!values.number) {
-        console.log("numer jest wymagana");
-      }
-      if (!values.driverName) {
-        console.log("imie  jest wymagana");
-      }
-      if (!values.driverSurname) {
-        console.log("nazwisko  jest wymagana");
+      if (!values.carModel) {
+        errors.carModel = "Model jest wymagany";
       }
       if (!values.plate) {
-        console.log("nr rej  jest wymagana");
+        errors.plate = "Numer rejestracyjny jest wymagany";
+      } else if (!plateCheck.test(values.plate)) {
+        errors.plate =
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, spacja, 4-5 znaków";
+      }
+      if (!values.dateCarInspection) {
+        errors.dateCarInspection = "Data wykonania przeglądu jest wymagana";
+      }
+      if (!values.insuranceDate) {
+        errors.insuranceDate = "Data końca ubezpieczenia jest wymagana";
+      }
+      return errors;
+    }
+    if (component === "drivers") {
+      if (!values.carMake) {
+        errors.carMake = "Marka jest wymagana";
+      }
+      if (!values.number) {
+        errors.number = "Numer jest wymagany";
+      } else if (!numberCheck.test(values.number)) {
+        errors.number = "Wprowadź poprawny numer telefonu";
+      }
+      if (!values.driverName) {
+        errors.driverName = "Imię jest wymagane";
+      }
+      if (!values.driverSurname) {
+        errors.driverSurname = "Nazwisko jest wymagane";
+      }
+      if (!values.plate) {
+        errors.plate = "Numer rejestracyjny jest wymagany";
+      } else if (!plateCheck.test(values.plate)) {
+        errors.plate =
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, spacja, 4-5 znaków";
       }
     }
     return errors;
@@ -164,7 +189,6 @@ const AddCar = (props) => {
     <div className={style.addCar}>
       <h2 className={style.title}>Dodaj {title}</h2>
       <div className={style.container}>
-        {/* <pre>{JSON.stringify(carFormData, undefined, 2)}</pre> */}
         <form
           className={style.form}
           onSubmit={(e) => handleSubmit(component, e)}>
@@ -175,15 +199,17 @@ const AddCar = (props) => {
                   component={component}
                   action="add"
                   id="carMake"
-                  carFormData={carFormData.carName}
+                  carFormData={carFormData.carMake}
                   change={handleChange}
+                  errorMsg={carErrors.carMake}
                 />
                 <Input
                   component={component}
                   action="add"
                   id="carModel"
-                  carFormData={carFormData.carName}
+                  carFormData={carFormData.carModel}
                   change={handleChange}
+                  errorMsg={carErrors.carModel}
                 />
               </div>
               <Input
@@ -192,6 +218,7 @@ const AddCar = (props) => {
                 id="plate"
                 carFormData={carFormData.plate}
                 change={handleChange}
+                errorMsg={carErrors.plate}
               />
               <DataPicker
                 component={component}
@@ -199,6 +226,7 @@ const AddCar = (props) => {
                 id="inspectionDate"
                 carFormData={carFormData.dateCarInspection}
                 change={handleDateCarInspectionChange}
+                errorMsg={carErrors.dateCarInspection}
               />
               <DataPicker
                 component={component}
@@ -206,6 +234,7 @@ const AddCar = (props) => {
                 id="insuranceDate"
                 carFormData={carFormData.insuranceDate}
                 change={handleInsuranceDateChange}
+                errorMsg={carErrors.insuranceDate}
               />
             </>
           ) : (
@@ -215,15 +244,17 @@ const AddCar = (props) => {
                   component={component}
                   action="add"
                   id="driverName"
-                  driverFormData={driverFormData.driver}
+                  driverFormData={driverFormData.driverName}
                   change={handleChange}
+                  errorMsg={driverErrors.driverName}
                 />
                 <Input
                   component={component}
                   action="add"
                   id="driverSurname"
-                  driverFormData={driverFormData.driver}
+                  driverFormData={driverFormData.driverSurname}
                   change={handleChange}
+                  errorMsg={driverErrors.driverSurname}
                 />
               </div>
               <Input
@@ -231,8 +262,9 @@ const AddCar = (props) => {
                 action="add"
                 id="number"
                 type="number"
-                driverFormData={driverFormData.email}
+                driverFormData={driverFormData.number}
                 change={handleChange}
+                errorMsg={driverErrors.number}
               />
               <Input
                 component={component}
@@ -240,6 +272,7 @@ const AddCar = (props) => {
                 id="carMake"
                 driverFormData={driverFormData.carMake}
                 change={handleChange}
+                errorMsg={driverErrors.carMake}
               />
               <Input
                 component={component}
@@ -247,6 +280,7 @@ const AddCar = (props) => {
                 id="plate"
                 driverFormData={driverFormData.plate}
                 change={handleChange}
+                errorMsg={driverErrors.plate}
               />
             </>
           )}

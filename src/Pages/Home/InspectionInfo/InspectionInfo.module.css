@@ -7,6 +7,7 @@
 .carInspectionInfo {
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
   flex: 1;
   background-color: #4f4f4f;
 }
@@ -62,11 +63,14 @@
   color: #fada5e;
 }
 .green {
+  font-weight: 900;
   color: green;
 }
 .orange {
+  font-weight: 900;
   color: orange;
 }
 .red {
+  font-weight: 900;
   color: red;
 }

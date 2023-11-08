@@ -63,6 +63,7 @@ const Input = (props) => {
         <label htmlFor={props.id}>{label}</label>
         <input
           id={props.id}
+          className={!props.errorMsg ? style.inputOk : style.inputError}
           type={type}
           placeholder={example}
           value={value}
@@ -70,6 +71,7 @@ const Input = (props) => {
           autoComplete="off"
           maxLength={maxLength}
         />
+        <p className={style.errorMsg}>{props.errorMsg}</p>
       </div>
     </>
   );
