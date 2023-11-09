@@ -52,11 +52,18 @@ const Navbar = (props) => {
   return (
     <>
       <aside className={style.navbar}>
-        <div
+        {/* <div
           className={props.navIsOpen ? style.navButton : style.navButtonOff}
           onClick={props.changeNav}>
-          {navBtn}
+          {navBtn} */}
+        <div
+          className={props.navIsOpen ? style.xmarkBtn : style.hamburgerBtn}
+          onClick={props.changeNav}>
+          <div className={style.topBar}></div>
+          <div className={style.middleBar}></div>
+          <div className={style.bottomBar}></div>
         </div>
+        {/* </div> */}
         <nav className={style.navigation}>
           <ul className={style.navigationList}>{tabs}</ul>
         </nav>

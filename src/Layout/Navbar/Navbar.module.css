@@ -6,7 +6,6 @@
   padding: 1rem 0.5rem;
   transition: width 1s;
 }
-
 .navButton,
 .navButtonOff {
   display: flex;
@@ -100,4 +99,32 @@
   cursor: pointer;
   border: 1px solid #fada5e;
   border-radius: 0.5rem;
+}
+.hamburgerBtn {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+.topBar,
+.middleBar,
+.bottomBar {
+  width: 32px;
+  height: 3px;
+  margin: 6px 0;
+  border-radius: 3px;
+  background-color: #fada5e;
+  transition: 0.4s;
+}
+.xmarkBtn {
+  padding: 0 1rem;
+  cursor: pointer;
+}
+.xmarkBtn .topBar {
+  transform: translate(0, 11px) rotate(-45deg);
+}
+.xmarkBtn .middleBar {
+  opacity: 0;
+}
+.xmarkBtn .bottomBar {
+  transform: translate(0, -11px) rotate(45deg);
 }
