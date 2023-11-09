@@ -54,12 +54,15 @@ const EditItem = (props) => {
 
   const handleChange = (e) => {
     if (component === "cars") {
-      setEditCarData({ ...editCarData, [e.currentTarget.id]: e.target.value });
+      setEditCarData({
+        ...editCarData,
+        [e.currentTarget.id]: e.target.value.toLowerCase(),
+      });
     }
     if (component === "drivers") {
       setEditDriverData({
         ...editDriverData,
-        [e.currentTarget.id]: e.target.value,
+        [e.currentTarget.id]: e.target.value.toLowerCase(),
       });
     }
   };
@@ -122,6 +125,8 @@ const EditItem = (props) => {
 
   const validateEditForm = (values, component) => {
     const errors = {};
+    const numberCheck = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{3}$/g;
+    const plateCheck = /^([a-z0-9]{2,3})[ ]([a-z0-9]{4,5})/g;
 
     if (component === "cars") {
       console.log(values.carMake);
@@ -133,6 +138,9 @@ const EditItem = (props) => {
       }
       if (!values.plate) {
         errors.plate = "Wypełnij pole";
+      } else if (!plateCheck.test(values.plate)) {
+        errors.plate =
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, odstęp i 4-5 znaków";
       }
       if (!values.dateCarInspection) {
         errors.dateCarInspection = "Wypełnij pole";
@@ -151,12 +159,17 @@ const EditItem = (props) => {
       }
       if (!values.number) {
         errors.number = "Wypełnij pole";
+      } else if (!numberCheck.test(values.number)) {
+        errors.number = "Wprowadź poprawny numer telefonu";
       }
       if (!values.carMake) {
         errors.carMake = "Wypełnij pole";
       }
       if (!values.plate) {
         errors.plate = "Wypełnij pole";
+      } else if (!plateCheck.test(values.plate)) {
+        errors.plate =
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, odstęp i 4-5 znaków";
       }
       return errors;
     }

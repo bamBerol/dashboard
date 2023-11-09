@@ -20,6 +20,9 @@
 .tableOfInsurancePeriod td {
   text-transform: capitalize;
 }
+.tableOfInsurancePeriod td[data-cell="plate"] {
+  text-transform: uppercase;
+}
 .tableOfInsurancePeriod thead tr :first-child {
   border-top-left-radius: 0.5rem;
 }

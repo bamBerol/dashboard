@@ -87,14 +87,10 @@ const AddCar = (props) => {
     e.preventDefault();
 
     if (component === "cars") {
-      console.log("samochód add");
-      // console.log(carFormData);
       setCarErrors(validateForm(carFormData, component));
       setIsSubmit(true);
     }
     if (component === "drivers") {
-      console.log("kierowca add");
-      // console.log(driverFormData);
       setDriverErrors(validateForm(driverFormData, component));
       setIsSubmit(true);
     }
@@ -150,7 +146,7 @@ const AddCar = (props) => {
         errors.plate = "Numer rejestracyjny jest wymagany";
       } else if (!plateCheck.test(values.plate)) {
         errors.plate =
-          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, spacja, 4-5 znaków";
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, odstęp i 4-5 znaków";
       }
       if (!values.dateCarInspection) {
         errors.dateCarInspection = "Data wykonania przeglądu jest wymagana";
@@ -179,7 +175,7 @@ const AddCar = (props) => {
         errors.plate = "Numer rejestracyjny jest wymagany";
       } else if (!plateCheck.test(values.plate)) {
         errors.plate =
-          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, spacja, 4-5 znaków";
+          "Poprawny numer rejestracyjny powinien mieć 2-3 znaki, odstęp i 4-5 znaków";
       }
     }
     return errors;

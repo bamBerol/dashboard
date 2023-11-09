@@ -30,6 +30,9 @@
   padding: 1rem 0.5rem;
   text-align: left;
 }
+.tableOfInspectionPeriod td[data-cell="plate"] {
+  text-transform: uppercase;
+}
 .tableOfInspectionPeriod th {
   background-color: #dbdbdb;
   border-bottom: 1px solid #a1a1a1;

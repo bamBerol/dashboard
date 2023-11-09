@@ -17,8 +17,6 @@
   width: 100%;
   flex-direction: column;
   padding: 1rem;
-  padding-right: 0;
-  flex: 1;
 }
 .form {
   display: flex;
@@ -48,6 +46,7 @@
   font-weight: 600;
 }
 .editBtn {
+  margin-top: 2rem;
   padding: 0.5rem 1rem;
   color: #fada5e;
   border: 1px solid #fada5e;
