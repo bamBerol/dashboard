@@ -7,6 +7,7 @@ import {
   faPencil,
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
+
 import style from "./EditButtons.module.css";
 
 const EditButtons = (props) => {

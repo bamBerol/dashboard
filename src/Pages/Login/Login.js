@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../context/LoginContext/LoginContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import style from "./Login.module.css";
 
 const Login = (props) => {
@@ -90,15 +90,6 @@ const Login = (props) => {
             {errorMsg}
             <button type="submit" className={style.loginBtn}>
               Zaloguj
-              {/* <Link
-                // to="/"
-                // type="submit"
-                className={style.loginBtn}
-                // onClick={() => console.log("działam")}
-                // onClick={loginContext.toggleIsLogged}
-              >
-                Zaloguj
-              </Link> */}
             </button>
           </div>
         </form>

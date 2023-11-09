@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Navbar from "./Navbar/Navbar";
 import Main from "./Main/Main";
+import Navbar from "./Navbar/Navbar";
 
 import style from "./Layout.module.css";
 

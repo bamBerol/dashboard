@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
+
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
+import EmptyInfo from "../../components/EmptyInfo/EmptyInfo";
 
 import style from "./Drivers.module.css";
-import EmptyInfo from "../../components/EmptyInfo/EmptyInfo";
 
 const Drivers = (props) => {
   const location = useLocation();

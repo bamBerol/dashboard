@@ -3,13 +3,11 @@ import { LoginContext } from "../../context/LoginContext/LoginContext";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBars,
   faCoins,
   faCar,
   faHouse,
   faPowerOff,
   faUsers,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Footer from "../Footer/Footer";
@@ -43,19 +41,9 @@ const Navbar = (props) => {
     );
   });
 
-  const navBtn = props.navIsOpen ? (
-    <FontAwesomeIcon icon={faXmark} size="lg" />
-  ) : (
-    <FontAwesomeIcon icon={faBars} size="lg" />
-  );
-
   return (
     <>
       <aside className={style.navbar}>
-        {/* <div
-          className={props.navIsOpen ? style.navButton : style.navButtonOff}
-          onClick={props.changeNav}>
-          {navBtn} */}
         <div
           className={props.navIsOpen ? style.xmarkBtn : style.hamburgerBtn}
           onClick={props.changeNav}>

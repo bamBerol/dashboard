@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-
 import {
   LoginContext,
   defaultLoginObject,
 } from "./context/LoginContext/LoginContext";
-import Login from "./Pages/Login/Login";
+
 import Layout from "./Layout/Layout";
+import Login from "./Pages/Login/Login";
 
 import style from "./App.module.css";
 
