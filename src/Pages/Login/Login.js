@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../context/LoginContext/LoginContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 import style from "./Login.module.css";
 
 const Login = (props) => {
@@ -10,7 +12,6 @@ const Login = (props) => {
     password: "",
   });
   const [loginErrors, setLoginErrors] = useState({});
-  const [btnClicked, setBtnClicked] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,42 +29,30 @@ const Login = (props) => {
     setLogin({ ...login, [e.target.id]: e.target.value });
   };
 
-  useEffect(() => {
-    if (Object.keys(loginErrors).length === 0 && btnClicked) {
-      console.log("brak błędów");
-      loginContext.toggleIsLogged();
-      navigate("/");
-    }
-    if (Object.keys(loginErrors).length !== 0) {
-    }
-  }, [loginErrors]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoginErrors(loginValidation(login));
-    setBtnClicked(true);
-  };
+    try {
+      const res = await axios.post(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBhjsw9JhMcnbv7Ia-cURfBCxXoiXmnzYg",
+        {
+          email: login.login,
+          password: login.password,
+          returnSecureToken: true,
+        }
+      );
 
-  const loginValidation = (values) => {
-    const errors = {};
-    const emailCheck =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const passwordCheck =
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+      if (res.status === 200) {
+        console.log("status ok");
+        loginContext.toggleIsLogged();
+        navigate("/");
+      }
 
-    if (!values.login) {
-      errors.login = "Wpisz login";
-    } else if (!emailCheck.test(values.login)) {
-      errors.login = "Błędny format adresu email";
+      console.log(res);
+    } catch (error) {
+      console.log(error.response);
+      setLoginErrors(error.response.data.error.message);
     }
-
-    if (!values.password) {
-      errors.password = "Podaj hasło";
-    } else if (!passwordCheck.test(values.password)) {
-      errors.password = "Błędne hasło";
-    }
-    return errors;
   };
 
   return (
