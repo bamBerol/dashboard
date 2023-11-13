@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LoginContext } from "../../context/LoginContext/LoginContext";
+import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,7 +22,12 @@ const panelTabs = [
 ];
 
 const Navbar = (props) => {
-  const loginContext = useContext(LoginContext);
+  const authContext = useContext(AuthContext);
+
+  const handleLogout = () => {
+    window.localStorage.removeItem("tokenData");
+    authContext.toggleIsLogged();
+  };
 
   const tabs = panelTabs.map((tab) => {
     return (
@@ -51,11 +56,10 @@ const Navbar = (props) => {
           <div className={style.middleBar}></div>
           <div className={style.bottomBar}></div>
         </div>
-        {/* </div> */}
         <nav className={style.navigation}>
           <ul className={style.navigationList}>{tabs}</ul>
         </nav>
-        <div className={style.logout} onClick={loginContext.toggleIsLogged}>
+        <div className={style.logout} onClick={handleLogout}>
           <FontAwesomeIcon icon={faPowerOff} className={style.icon} size="lg" />
           <p className={props.navIsOpen ? style.nameOn : style.nameOff}>
             {props.navIsOpen ? "Wyloguj" : ""}

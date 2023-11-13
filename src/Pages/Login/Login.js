@@ -1,12 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../../context/LoginContext/LoginContext";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import style from "./Login.module.css";
 
 const Login = (props) => {
-  const loginContext = useContext(LoginContext);
+  const authContext = useContext(AuthContext);
+
   const [login, setLogin] = useState({
     login: "",
     password: "",
@@ -18,14 +19,14 @@ const Login = (props) => {
   let errorMsg =
     Object.keys(loginErrors).length !== 0 ? (
       <div className={style.errorMsg}>
-        <p>Błędny login lub hasło. Spróbuj jeszcze raz.</p>
+        <p>Błędny login lub hasło</p>
       </div>
     ) : (
       ""
     );
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setLogin({ ...login, [e.target.id]: e.target.value });
   };
 
@@ -43,12 +44,18 @@ const Login = (props) => {
       );
 
       if (res.status === 200) {
-        console.log("status ok");
-        loginContext.toggleIsLogged();
+        console.log("status ok", res.data);
+        const tokenData = {
+          email: res.data.email,
+          idToken: res.data.idToken,
+          localId: res.data.localId,
+          refresh: res.data.refreshToken,
+        };
+
+        window.localStorage.setItem("tokenData", JSON.stringify(tokenData));
+        authContext.toggleIsLogged();
         navigate("/");
       }
-
-      console.log(res);
     } catch (error) {
       console.log(error.response);
       setLoginErrors(error.response.data.error.message);

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import {
-  LoginContext,
+  AuthContext,
   defaultLoginObject,
-} from "./context/LoginContext/LoginContext";
+} from "./context/AuthContext/AuthContext";
 
 import Layout from "./Layout/Layout";
 import Login from "./Pages/Login/Login";
@@ -13,6 +13,13 @@ import style from "./App.module.css";
 function App() {
   const [isLogged, setIsLogged] = useState(defaultLoginObject.isLogged);
 
+  useEffect(() => {
+    const tokenData = JSON.parse(window.localStorage.getItem("tokenData"));
+    if (tokenData) {
+      setIsLogged(true);
+    }
+  }, []);
+
   const handleToggle = () => {
     setIsLogged((prevState) => !prevState);
   };
@@ -20,11 +27,11 @@ function App() {
   const checkedIsLogged = isLogged ? <Layout /> : <Login />;
 
   return (
-    <LoginContext.Provider value={{ isLogged, toggleIsLogged: handleToggle }}>
+    <AuthContext.Provider value={{ isLogged, toggleIsLogged: handleToggle }}>
       <Router>
         <div className={style.app}>{checkedIsLogged}</div>
       </Router>
-    </LoginContext.Provider>
+    </AuthContext.Provider>
   );
 }
 

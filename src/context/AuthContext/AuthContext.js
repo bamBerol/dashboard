@@ -7,4 +7,4 @@ export const defaultLoginObject = {
   },
 };
 
-export const LoginContext = createContext(defaultLoginObject);
+export const AuthContext = createContext(defaultLoginObject);

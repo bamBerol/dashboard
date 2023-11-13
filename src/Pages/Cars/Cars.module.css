@@ -103,15 +103,15 @@
 }
 .orange {
   font-weight: 900;
-  color: orange;
+  color: #ffa538;
 }
 .colorOrange {
-  background-color: rgb(255, 166, 0);
+  background-color: #ffa538;
 }
 .red {
   font-weight: 900;
-  color: red;
+  color: rgb(201, 0, 0);
 }
 .colorRed {
-  background-color: red;
+  background-color: rgb(201, 0, 0);
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
 import Cars from "../../Pages/Cars/Cars";
@@ -118,10 +119,46 @@ const Main = () => {
     }
   };
 
-  const handleAddItem = (formData, component) => {
-    component === "cars"
-      ? setCarsData([...carsData, formData])
-      : setDriversData([...driversData, formData]);
+  const handleAddItem = async (formData, component) => {
+    if (component === "cars") {
+      try {
+        await axios.post(
+          "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json",
+          {
+            id: formData.id,
+            carMake: formData.carMake,
+            carModel: formData.carModel,
+            plate: formData.plate,
+            dateCarInspection: formData.dateCarInspection,
+            nextCarInspection: formData.nextCarInspection,
+            daysLeft: formData.daysLeft,
+            insuranceDate: formData.insuranceDate,
+            insuranceDaysLeft: formData.insuranceDaysLeft,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      setCarsData([...carsData, formData]);
+    }
+    if (component === "drivers") {
+      try {
+        await axios.post(
+          "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json",
+          {
+            id: formData.id,
+            driverName: formData.driverName,
+            driverSurname: formData.driverSurname,
+            number: formData.number,
+            carMake: formData.carMake,
+            plate: formData.plate,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      setDriversData([...driversData, formData]);
+    }
   };
 
   const handleEditCar = (editData, component) => {
