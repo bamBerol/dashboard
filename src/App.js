@@ -14,8 +14,8 @@ function App() {
   const [isLogged, setIsLogged] = useState(defaultLoginObject.isLogged);
 
   useEffect(() => {
-    const tokenData = JSON.parse(window.localStorage.getItem("tokenData"));
-    if (tokenData) {
+    const userData = JSON.parse(window.localStorage.getItem("userData"));
+    if (userData) {
       setIsLogged(true);
     }
   }, []);

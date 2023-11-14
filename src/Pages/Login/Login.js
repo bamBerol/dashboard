@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 
 import style from "./Login.module.css";
 
-const Login = (props) => {
+const Login = () => {
   const authContext = useContext(AuthContext);
 
   const [login, setLogin] = useState({
@@ -19,54 +20,46 @@ const Login = (props) => {
   let errorMsg =
     Object.keys(loginErrors).length !== 0 ? (
       <div className={style.errorMsg}>
-        <p>Błędny login lub hasło</p>
+        <p>Błędne dane logowania</p>
       </div>
     ) : (
       ""
     );
 
   const handleChange = (e) => {
-    // console.log(e.target.value);
     setLogin({ ...login, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBhjsw9JhMcnbv7Ia-cURfBCxXoiXmnzYg",
-        {
-          email: login.login,
-          password: login.password,
-          returnSecureToken: true,
+    await signInWithEmailAndPassword(auth, login.login, login.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        if (userCredential.operationType === "signIn") {
+          console.log("zaloguj");
+          console.log(auth.currentUser);
+          const userData = {
+            email: user.email,
+            id: user.uid,
+          };
+          window.localStorage.setItem("userData", JSON.stringify(userData));
+          authContext.toggleIsLogged();
+          navigate("/");
         }
-      );
-
-      if (res.status === 200) {
-        console.log("status ok", res.data);
-        const tokenData = {
-          email: res.data.email,
-          idToken: res.data.idToken,
-          localId: res.data.localId,
-          refresh: res.data.refreshToken,
-        };
-
-        window.localStorage.setItem("tokenData", JSON.stringify(tokenData));
-        authContext.toggleIsLogged();
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error.response);
-      setLoginErrors(error.response.data.error.message);
-    }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoginErrors(error);
+      });
   };
 
   return (
     <div className={style.container}>
       <div className={style.login}>
         <h2>Zaloguj się</h2>
-        <form className={style.form} onSubmit={(e) => handleSubmit(e)}>
+        <form className={style.form} onSubmit={(e) => handleLogin(e)}>
           <div className={style.formContainer}>
             <input
               type="email"

@@ -1,3 +1,4 @@
+import { auth } from "../../firebase";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
@@ -120,21 +121,37 @@ const Main = () => {
   };
 
   const handleAddItem = async (formData, component) => {
-    if (component === "cars") {
+    const user = auth.currentUser;
+    console.log(user);
+
+    if (user && component === "cars") {
+      console.log(user.getIdToken());
+      let token = user.getIdToken();
+      const firebaseUrlCars =
+        "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json";
+
+      formData.userId = user.uid;
       try {
         await axios.post(
-          "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json",
-          {
-            id: formData.id,
-            carMake: formData.carMake,
-            carModel: formData.carModel,
-            plate: formData.plate,
-            dateCarInspection: formData.dateCarInspection,
-            nextCarInspection: formData.nextCarInspection,
-            daysLeft: formData.daysLeft,
-            insuranceDate: formData.insuranceDate,
-            insuranceDaysLeft: formData.insuranceDaysLeft,
-          }
+          firebaseUrlCars,
+          formData
+          // {
+          //   headers: {
+          //     Authorization: `Bearer ${token}`,
+          //     "Content-Type": "application/json",
+          //   },
+          // }
+          //   {
+          //   id: formData.id,
+          //   carMake: formData.carMake,
+          //   carModel: formData.carModel,
+          //   plate: formData.plate,
+          //   dateCarInspection: formData.dateCarInspection,
+          //   nextCarInspection: formData.nextCarInspection,
+          //   daysLeft: formData.daysLeft,
+          //   insuranceDate: formData.insuranceDate,
+          //   insuranceDaysLeft: formData.insuranceDaysLeft,
+          // }
         );
       } catch (error) {
         console.log(error);
@@ -142,18 +159,17 @@ const Main = () => {
       setCarsData([...carsData, formData]);
     }
     if (component === "drivers") {
+      const firebaseUrlDrivers =
+        "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
       try {
-        await axios.post(
-          "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json",
-          {
-            id: formData.id,
-            driverName: formData.driverName,
-            driverSurname: formData.driverSurname,
-            number: formData.number,
-            carMake: formData.carMake,
-            plate: formData.plate,
-          }
-        );
+        await axios.post(firebaseUrlDrivers, {
+          id: formData.id,
+          driverName: formData.driverName,
+          driverSurname: formData.driverSurname,
+          number: formData.number,
+          carMake: formData.carMake,
+          plate: formData.plate,
+        });
       } catch (error) {
         console.log(error);
       }
