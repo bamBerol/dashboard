@@ -25,7 +25,7 @@ const Navbar = (props) => {
   const authContext = useContext(AuthContext);
 
   const handleLogout = () => {
-    window.localStorage.removeItem("tokenData");
+    window.localStorage.removeItem("userData");
     authContext.toggleIsLogged();
   };
 

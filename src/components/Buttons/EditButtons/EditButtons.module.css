@@ -12,10 +12,17 @@
   color: #000000;
   opacity: 0.3;
   transition: opacity 0.3s;
-}
-.icon:hover {
   cursor: pointer;
 }
+.delete {
+  color: rgb(201, 0, 0);
+}
+.edit {
+}
+.confirm {
+  color: green;
+}
+
 .delete:hover,
 .edit:hover,
 .confirm:hover,

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { differenceInDays, addYears, format } from "date-fns";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
 import Input from "../Input/Input";
@@ -12,7 +11,6 @@ import style from "./AddNewItem.module.css";
 
 const AddCar = (props) => {
   const [carFormData, setCarFormData] = useState({
-    id: uuidv4(),
     carMake: "",
     carModel: "",
     plate: "",
@@ -23,7 +21,6 @@ const AddCar = (props) => {
     insuranceDaysLeft: "",
   });
   const [driverFormData, setDriverFormData] = useState({
-    id: uuidv4(),
     driverName: "",
     driverSurname: "",
     number: "",
@@ -102,7 +99,6 @@ const AddCar = (props) => {
       if (Object.keys(carErrors).length === 0 && isSubmit) {
         props.submit(carFormData, component);
         setCarFormData({
-          id: uuidv4(),
           carMake: "",
           carModel: "",
           plate: "",
@@ -120,7 +116,6 @@ const AddCar = (props) => {
       if (Object.keys(driverErrors).length === 0 && isSubmit) {
         props.submit(driverFormData, component);
         setCarFormData({
-          id: uuidv4(),
           driverName: "",
           driverSurname: "",
           number: "",

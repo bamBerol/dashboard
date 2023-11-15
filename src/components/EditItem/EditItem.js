@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { addYears, differenceInDays, format } from "date-fns";
+import axios from "axios";
 
 import DataPicker from "../DataPicker/DataPicker";
 import Input from "../Input/Input";
@@ -8,21 +9,9 @@ import Input from "../Input/Input";
 import style from "./EditItem.module.css";
 
 const EditItem = (props) => {
-  const [editCarData, setEditCarData] = useState({
-    carMake: "",
-    carModel: "",
-    plate: "",
-    dateCarInspection: "",
-    insuranceDate: "",
-  });
-  const [editDriverData, setEditDriverData] = useState({
-    driverName: "",
-    driverSurname: "",
-    number: "",
-    carName: "",
-    plate: "",
-  });
+  const [editCarData, setEditCarData] = useState({});
   const [carEditErrors, setCarEditErrors] = useState({});
+  const [editDriverData, setEditDriverData] = useState({});
   const [driverEditErrors, setDriverEditErrors] = useState({});
   const [isEdit, setIsEdit] = useState(false);
 
@@ -36,20 +25,18 @@ const EditItem = (props) => {
   const title = component === "cars" ? "samochód" : "kierowcę";
 
   useEffect(() => {
-    if (component === "cars") {
-      const carDetail = props.carsData.filter((car) => car.id === id);
-      console.log(carDetail[0]);
-      if (carDetail.length !== 0) {
-        setEditCarData(carDetail[0]);
-      }
-    } else {
-      const driverDetail = props.driversData.filter(
-        (driver) => driver.id === id
-      );
-      if (driverDetail.length !== 0) {
-        setEditDriverData(driverDetail[0]);
-      }
-    }
+    axios
+      .get(
+        `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/${component}/${id}.json`
+      )
+      .then((res) => {
+        if (component === "cars") {
+          setEditCarData(res.data);
+        }
+        if (component === "drivers") {
+          setEditDriverData(res.data);
+        }
+      });
   }, [props.carsDate, props.driversData]);
 
   const handleChange = (e) => {
@@ -111,13 +98,13 @@ const EditItem = (props) => {
   useEffect(() => {
     if (component === "cars") {
       if (Object.keys(carEditErrors).length === 0 && isEdit) {
-        props.edit(editCarData, component);
+        props.edit(editCarData, component, id);
         navigate(`/${component}`);
       }
     }
     if (component === "drivers") {
       if (Object.keys(driverEditErrors).length === 0 && isEdit) {
-        props.edit(editDriverData, component);
+        props.edit(editDriverData, component, id);
         navigate(`/${component}`);
       }
     }
