@@ -14,6 +14,10 @@ const InspectionInfo = (props) => {
   );
 
   const nearestToEnd = sortInspectionDay.slice(0, 5);
+  const fullHeight =
+    nearestToEnd.length === 5
+      ? `${style.tableOfInspectionPeriod} ${style.maxHeight}`
+      : style.tableOfInspectionPeriod;
 
   const inspectionInfo = nearestToEnd.map((car) => {
     const infoColor = () => {
@@ -40,7 +44,7 @@ const InspectionInfo = (props) => {
   return (
     <div className={style.inspectionInfo}>
       <div className={style.carInspectionInfo}>
-        <table className={style.tableOfInspectionPeriod}>
+        <table className={fullHeight}>
           <thead>
             <tr>
               <th>Samochód</th>

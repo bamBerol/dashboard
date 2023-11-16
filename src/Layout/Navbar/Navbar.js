@@ -1,3 +1,5 @@
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { NavLink } from "react-router-dom";
@@ -25,8 +27,13 @@ const Navbar = (props) => {
   const authContext = useContext(AuthContext);
 
   const handleLogout = () => {
-    window.localStorage.removeItem("userData");
-    authContext.toggleIsLogged();
+    signOut(auth)
+      .then(() => {
+        console.log("wylogowano");
+        window.localStorage.removeItem("userData");
+        authContext.toggleIsLogged();
+      })
+      .catch((error) => console.log(error));
   };
 
   const tabs = panelTabs.map((tab) => {
@@ -38,7 +45,11 @@ const Navbar = (props) => {
         className={(state) =>
           state.isActive ? `${style.active}` : `${style.inactive}`
         }>
-        <FontAwesomeIcon icon={tab.icon} className={style.icon} size="lg" />
+        <FontAwesomeIcon
+          icon={tab.icon}
+          className={`${style.icon} `}
+          size="lg"
+        />
         <p className={props.navIsOpen ? style.nameOn : style.nameOff}>
           {props.navIsOpen ? tab.name : ""}
         </p>

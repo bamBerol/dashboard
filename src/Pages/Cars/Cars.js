@@ -11,24 +11,7 @@ const Cars = (props) => {
   const url = location.pathname;
 
   const emptyInfo =
-    props.tableData.length === 0 ? (
-      <EmptyInfo component={url} />
-    ) : (
-      <div className={style.legend}>
-        <div className={style.legendColor}>
-          <div className={style.colorGreen}></div>
-          <p>powyżej 30 dni</p>
-        </div>
-        <div className={style.legendColor}>
-          <div className={style.colorOrange}></div>
-          <p>między 30-7 dni</p>
-        </div>
-        <div className={style.legendColor}>
-          <div className={style.colorRed}></div>
-          <p>poniżej 7 dni</p>
-        </div>
-      </div>
-    );
+    props.tableData.length === 0 ? <EmptyInfo component={url} /> : "";
 
   const table = props.tableData.map((car) => {
     const periodInspection = () => {
@@ -73,10 +56,26 @@ const Cars = (props) => {
   return (
     <div className={style.cars}>
       <h2 className={style.title}>Samochody</h2>
-      <div className={style.container}>
-        <div className={style.options}>
+      <div className={style.options}>
+        <div className="addBtn">
           <AddButton url={url} />
         </div>
+        <div className={style.legend}>
+          <div className={style.legendColor}>
+            <div className={style.colorGreen}></div>
+            <p>powyżej 30 dni</p>
+          </div>
+          <div className={style.legendColor}>
+            <div className={style.colorOrange}></div>
+            <p>między 30-7 dni</p>
+          </div>
+          <div className={style.legendColor}>
+            <div className={style.colorRed}></div>
+            <p>poniżej 7 dni</p>
+          </div>
+        </div>
+      </div>
+      <div className={style.container}>
         <div className={style.carTable}>
           <table className={style.tableOfCars}>
             <thead>

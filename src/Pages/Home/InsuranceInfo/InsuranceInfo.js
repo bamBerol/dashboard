@@ -15,6 +15,10 @@ const InsuranceInfo = (props) => {
   );
 
   const nearestToEnd = sortInsuranceDayLeft.slice(0, 5);
+  const fullHeight =
+    nearestToEnd.length === 5
+      ? `${style.tableOfInsurancePeriod} ${style.maxHeight}`
+      : style.tableOfInsurancePeriod;
 
   const insuranceInfo = nearestToEnd.map((car) => {
     const infoColor = () => {
@@ -40,7 +44,7 @@ const InsuranceInfo = (props) => {
   return (
     <div className={style.insuranceInfo}>
       <div className={style.carInsuranceInfo}>
-        <table className={style.tableOfInsurancePeriod}>
+        <table className={fullHeight}>
           <thead>
             <tr>
               <th>Samochód</th>

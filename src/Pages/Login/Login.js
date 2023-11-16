@@ -38,11 +38,10 @@ const Login = () => {
         const user = userCredential.user;
 
         if (userCredential.operationType === "signIn") {
-          console.log("zaloguj");
+          console.log("zalogowano");
           console.log(auth.currentUser);
           const userData = {
             email: user.email,
-            id: user.uid,
           };
           window.localStorage.setItem("userData", JSON.stringify(userData));
           authContext.toggleIsLogged();
@@ -50,7 +49,7 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, auth);
         setLoginErrors(error);
       });
   };

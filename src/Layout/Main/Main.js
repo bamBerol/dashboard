@@ -17,6 +17,8 @@ const Main = () => {
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
 
+  const user = auth.currentUser;
+
   const firebaseUrlCars =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json";
 
@@ -26,23 +28,30 @@ const Main = () => {
   const quantityOfDrivers = driversData.length;
 
   const getCarsData = async () => {
-    try {
-      await axios.get(firebaseUrlCars).then((res) => {
-        const cars = [];
-        for (const key in res.data) {
-          cars.push({ ...res.data[key], id: key });
-        }
-        console.log(cars);
-        setCarsData(cars);
-      });
-    } catch (error) {
-      console.log(error);
+    if (user) {
+      try {
+        const token = await auth.currentUser.getIdToken();
+
+        await axios.get(`${firebaseUrlCars}?auth=${token}`).then((res) => {
+          const cars = [];
+          for (const key in res.data) {
+            cars.push({ ...res.data[key], id: key });
+          }
+          console.log(cars);
+          setCarsData(cars);
+        });
+      } catch (error) {
+        console.log("blad uzyskiwania tokena", error);
+      }
+    } else {
+      console.error("Użytkownik nieuwierzytelniony");
     }
   };
 
   const getDriversData = async () => {
     try {
-      await axios.get(firebaseUrlDrivers).then((res) => {
+      const token = await auth.currentUser.getIdToken();
+      await axios.get(`${firebaseUrlDrivers}?auth=${token}`).then((res) => {
         const drivers = [];
         for (const key in res.data) {
           drivers.push({ ...res.data[key], id: key });
@@ -61,8 +70,9 @@ const Main = () => {
   }, []);
 
   const handleDelete = async (id, url) => {
+    const token = await auth.currentUser.getIdToken();
     await axios.delete(
-      `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json`
+      `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
     );
     if (url === "/cars") {
       const newCarsData = carsData.filter((car) => car.id !== id);
@@ -75,49 +85,28 @@ const Main = () => {
   };
 
   const handleAddItem = async (formData, component) => {
-    const user = auth.currentUser;
-    console.log(user);
-    console.log(auth.currentUser.getIdToken(true));
-
+    const token = await auth.currentUser.getIdToken();
     if (user && component === "cars") {
-      // console.log(user.getIdToken());
-      let token = auth.currentUser.getIdToken(true);
-
       formData.userId = user.uid;
       try {
         console.log("samochód dodany");
-        await axios.post(
-          // firebaseUrlCars,
-          `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json?auth=${token}`,
-          formData
-          // {
-          //   headers: {
-          //     Authorization: `Bearer ${token}`,
-          //     "Content-Type": "application/json",
-          //   },
-          // }
-          //   {
-          //   id: formData.id,
-          //   carMake: formData.carMake,
-          //   carModel: formData.carModel,
-          //   plate: formData.plate,
-          //   dateCarInspection: formData.dateCarInspection,
-          //   nextCarInspection: formData.nextCarInspection,
-          //   daysLeft: formData.daysLeft,
-          //   insuranceDate: formData.insuranceDate,
-          //   insuranceDaysLeft: formData.insuranceDaysLeft,
-          // }
-        );
+        await axios.post(`${firebaseUrlCars}?auth=${token}`, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         getCarsData();
       } catch (error) {
-        console.log(error);
+        console.log("blad uzyskiwania tokena", error);
       }
+    } else {
+      console.error("uzytkownik nieuwierzytelniony");
     }
     if (component === "drivers") {
       formData.userId = user.uid;
       try {
         console.log("kierowca dodany");
-        await axios.post(firebaseUrlDrivers, formData);
+        await axios.post(`${firebaseUrlDrivers}?auth=${token}`, formData);
         getDriversData();
       } catch (error) {
         console.log(error);
@@ -128,9 +117,10 @@ const Main = () => {
   const handleEdit = async (editData, component, id) => {
     console.log(editData);
     console.log(id);
+    const token = await auth.currentUser.getIdToken();
     try {
       await axios.put(
-        `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/${component}/${id}.json`,
+        `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/${component}/${id}.json?auth=${token}`,
         editData
       );
 

@@ -30,10 +30,10 @@ const Drivers = (props) => {
   return (
     <div className={style.drivers}>
       <h2 className={style.title}>Kierowcy</h2>
+      <div className={style.options}>
+        <AddButton url={url} />
+      </div>
       <div className={style.container}>
-        <div className={style.options}>
-          <AddButton url={url} />
-        </div>
         <div className={style.driversTable}>
           <table className={style.tableOfDrivers}>
             <thead>

@@ -1,3 +1,4 @@
+import { auth } from "../../firebase";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { addYears, differenceInDays, format } from "date-fns";
@@ -24,19 +25,29 @@ const EditItem = (props) => {
 
   const title = component === "cars" ? "samochód" : "kierowcę";
 
+  const handleGetDetails = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+
+      await axios
+        .get(
+          `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/${component}/${id}.json?auth=${token}`
+        )
+        .then((res) => {
+          if (component === "cars") {
+            setEditCarData(res.data);
+          }
+          if (component === "drivers") {
+            setEditDriverData(res.data);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(
-        `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/${component}/${id}.json`
-      )
-      .then((res) => {
-        if (component === "cars") {
-          setEditCarData(res.data);
-        }
-        if (component === "drivers") {
-          setEditDriverData(res.data);
-        }
-      });
+    handleGetDetails();
   }, [props.carsDate, props.driversData]);
 
   const handleChange = (e) => {
