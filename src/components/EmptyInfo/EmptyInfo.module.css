@@ -1,9 +1,13 @@
 .empty {
   display: flex;
+  flex-direction: column;
   width: 100%;
   align-items: center;
   justify-content: center;
   padding: 1rem 2rem;
   flex: 1;
   color: #fada5e;
+}
+.subtitle {
+  margin-top: 1rem;
 }

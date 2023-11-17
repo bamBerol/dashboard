@@ -26,8 +26,8 @@ const panelTabs = [
 const Navbar = (props) => {
   const authContext = useContext(AuthContext);
 
-  const handleLogout = () => {
-    signOut(auth)
+  const handleLogout = async () => {
+    await signOut(auth)
       .then(() => {
         console.log("wylogowano");
         window.localStorage.removeItem("userData");

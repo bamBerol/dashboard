@@ -1,7 +1,9 @@
-import { auth } from "../../firebase";
-import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
 import axios from "axios";
+import { auth } from "../../firebase";
+import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { onAuthStateChanged } from "firebase/auth";
+import { useContext, useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
 import Cars from "../../Pages/Cars/Cars";
@@ -16,8 +18,25 @@ import style from "./Main.module.css";
 const Main = () => {
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
+  const [isAuth, setIsAuth] = useState(false);
 
-  const user = auth.currentUser;
+  const authContext = useContext(AuthContext);
+
+  // console.log((authContext.isLoading = !authContext.isLoading));
+  // console.log(authContext.isLoading);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuth((prevState) => !prevState);
+        authContext.isLoading = false;
+      } else {
+        console.log(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const firebaseUrlCars =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json";
@@ -28,23 +47,18 @@ const Main = () => {
   const quantityOfDrivers = driversData.length;
 
   const getCarsData = async () => {
-    if (user) {
-      try {
-        const token = await auth.currentUser.getIdToken();
-
-        await axios.get(`${firebaseUrlCars}?auth=${token}`).then((res) => {
-          const cars = [];
-          for (const key in res.data) {
-            cars.push({ ...res.data[key], id: key });
-          }
-          console.log(cars);
-          setCarsData(cars);
-        });
-      } catch (error) {
-        console.log("blad uzyskiwania tokena", error);
-      }
-    } else {
-      console.error("Użytkownik nieuwierzytelniony");
+    try {
+      const token = await auth.currentUser.getIdToken();
+      await axios.get(`${firebaseUrlCars}?auth=${token}`).then((res) => {
+        const cars = [];
+        for (const key in res.data) {
+          cars.push({ ...res.data[key], id: key });
+        }
+        // console.log(cars);
+        setCarsData(cars);
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -56,7 +70,6 @@ const Main = () => {
         for (const key in res.data) {
           drivers.push({ ...res.data[key], id: key });
         }
-        console.log(drivers);
         setDriversData(drivers);
       });
     } catch (error) {
@@ -67,7 +80,7 @@ const Main = () => {
   useEffect(() => {
     getCarsData();
     getDriversData();
-  }, []);
+  }, [isAuth]);
 
   const handleDelete = async (id, url) => {
     const token = await auth.currentUser.getIdToken();
@@ -85,8 +98,9 @@ const Main = () => {
   };
 
   const handleAddItem = async (formData, component) => {
+    const user = auth.currentUser;
     const token = await auth.currentUser.getIdToken();
-    if (user && component === "cars") {
+    if (isAuth && component === "cars") {
       formData.userId = user.uid;
       try {
         console.log("samochód dodany");
@@ -115,8 +129,6 @@ const Main = () => {
   };
 
   const handleEdit = async (editData, component, id) => {
-    console.log(editData);
-    console.log(id);
     const token = await auth.currentUser.getIdToken();
     try {
       await axios.put(

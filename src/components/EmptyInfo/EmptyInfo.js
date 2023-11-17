@@ -1,14 +1,14 @@
 import style from "./EmptyInfo.module.css";
 
 const EmptyInfo = (props) => {
-  const title =
-    props.component === "/cars"
-      ? "Brak samochodów do wyświetlenia"
-      : "Brak kierowców do wyświetlenia";
+  console.log(props.url);
+  const title = props.url === "/cars" ? "samochodów" : "kierowców";
+  const subtitle = props.url === "/cars" ? "samochód" : "kierowcę";
   return (
     <>
       <div className={style.empty}>
-        <h3>{title}</h3>
+        <h3>Brak {title} do wyświetlenia.</h3>
+        <h3 className={style.subtitle}>Dodaj {subtitle}.</h3>
       </div>
     </>
   );

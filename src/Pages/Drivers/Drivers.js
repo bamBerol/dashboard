@@ -1,8 +1,11 @@
+import { AuthContext } from "../../context/AuthContext/AuthContext";
+import { useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
 import EmptyInfo from "../../components/EmptyInfo/EmptyInfo";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 import style from "./Drivers.module.css";
 
@@ -10,7 +13,7 @@ const Drivers = (props) => {
   const location = useLocation();
   const url = location.pathname;
 
-  const emptyInfo = props.tableData.length === 0 ? <EmptyInfo /> : "";
+  const authContext = useContext(AuthContext);
 
   const table = props.tableData.map((driver) => {
     return (
@@ -35,20 +38,27 @@ const Drivers = (props) => {
       </div>
       <div className={style.container}>
         <div className={style.driversTable}>
-          <table className={style.tableOfDrivers}>
-            <thead>
-              <tr>
-                <th>Imię </th>
-                <th>Nazwisko</th>
-                <th>Numer tel.</th>
-                <th>Samochód</th>
-                <th>Rejestracja</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>{table}</tbody>
-          </table>
-          {emptyInfo}
+          {authContext.isLoading ? (
+            <LoadingSpinner />
+          ) : props.tableData.length ? (
+            <>
+              <table className={style.tableOfDrivers}>
+                <thead>
+                  <tr>
+                    <th>Imię </th>
+                    <th>Nazwisko</th>
+                    <th>Numer tel.</th>
+                    <th>Samochód</th>
+                    <th>Rejestracja</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>{table}</tbody>
+              </table>
+            </>
+          ) : (
+            <EmptyInfo url={url} />
+          )}
         </div>
       </div>
     </div>

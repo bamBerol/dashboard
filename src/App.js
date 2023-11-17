@@ -12,6 +12,7 @@ import style from "./App.module.css";
 
 function App() {
   const [isLogged, setIsLogged] = useState(defaultLoginObject.isLogged);
+  const [isLoading, setIsLoading] = useState(defaultLoginObject.isLoading);
 
   useEffect(() => {
     const userData = JSON.parse(window.localStorage.getItem("userData"));
@@ -27,7 +28,8 @@ function App() {
   const checkedIsLogged = isLogged ? <Layout /> : <Login />;
 
   return (
-    <AuthContext.Provider value={{ isLogged, toggleIsLogged: handleToggle }}>
+    <AuthContext.Provider
+      value={{ isLogged, isLoading, toggleIsLogged: handleToggle }}>
       <Router>
         <div className={style.app}>{checkedIsLogged}</div>
       </Router>

@@ -1,8 +1,17 @@
+import { AuthContext } from "../../../context/AuthContext/AuthContext";
+import { useContext } from "react";
+
+import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+
 import style from "./InsuranceInfo.module.css";
 
 const InsuranceInfo = (props) => {
+  const authContext = useContext(AuthContext);
+
   const emptyInfo =
-    props.carsData.length === 0 ? (
+    props.carsData.length === 0 && authContext.isLoading ? (
+      <LoadingSpinner />
+    ) : props.carsData.length === 0 && authContext.isLoading === false ? (
       <div className={style.emptyInfo}>
         <p>Nie masz jeszcze dodanego samochodu</p>
       </div>
