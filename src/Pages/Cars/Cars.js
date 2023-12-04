@@ -5,17 +5,19 @@ import { useLocation } from "react-router-dom";
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
 import EmptyInfo from "../../components/EmptyInfo/EmptyInfo";
-import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 import style from "./Cars.module.css";
 
 const Cars = (props) => {
+  const authContext = useContext(AuthContext);
+
   const location = useLocation();
   const url = location.pathname;
 
-  const authContext = useContext(AuthContext);
+  const info = props.tableData.length ? "" : <EmptyInfo />;
 
   const table = props.tableData.map((car) => {
+    authContext.isLoading = false;
     const periodInspection = () => {
       if (car.daysLeft >= 30) {
         return style.green;
@@ -79,28 +81,21 @@ const Cars = (props) => {
       </div>
       <div className={style.container}>
         <div className={style.carTable}>
-          {authContext.isLoading ? (
-            <LoadingSpinner />
-          ) : props.tableData.length ? (
-            <>
-              <table className={style.tableOfCars}>
-                <thead>
-                  <tr>
-                    <th>Marka</th>
-                    <th>Model</th>
-                    <th>Rejestracja</th>
-                    <th>Data badania</th>
-                    <th>Data kolejnego badania</th>
-                    <th>Koniec ubezpieczenia</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>{table}</tbody>
-              </table>
-            </>
-          ) : (
-            <EmptyInfo url={url} />
-          )}
+          <table className={style.tableOfCars}>
+            <thead>
+              <tr>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Rejestracja</th>
+                <th>Data badania</th>
+                <th>Data kolejnego badania</th>
+                <th>Koniec ubezpieczenia</th>
+                <th></th>
+              </tr>
+            </thead>
+            {props.tableData.length ? <tbody>{table}</tbody> : ""}
+          </table>
+          {info}
         </div>
       </div>
     </div>

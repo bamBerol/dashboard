@@ -20,7 +20,7 @@ const Main = () => {
   const [driversData, setDriversData] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
 
   // console.log((authContext.isLoading = !authContext.isLoading));
   // console.log(authContext.isLoading);
@@ -29,7 +29,7 @@ const Main = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsAuth((prevState) => !prevState);
-        authContext.isLoading = false;
+        //authContext.isLoading = false;
       } else {
         console.log(null);
       }

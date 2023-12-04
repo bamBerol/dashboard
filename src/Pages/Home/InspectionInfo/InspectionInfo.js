@@ -1,25 +1,13 @@
-import { AuthContext } from "../../../context/AuthContext/AuthContext";
-import { useContext } from "react";
-
-import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
-
 import style from "./InspectionInfo.module.css";
 
 const InspectionInfo = (props) => {
-  const authContext = useContext(AuthContext);
-
-  console.log(authContext.isLoading);
-
-  const emptyInfo =
-    props.carsData.length === 0 && authContext.isLoading ? (
-      <LoadingSpinner />
-    ) : props.carsData.length === 0 && authContext.isLoading === false ? (
-      <div className={style.emptyInfo}>
-        <p>Nie masz jeszcze dodanego samochodu</p>
-      </div>
-    ) : (
-      ""
-    );
+  const emptyInfo = props.carsData.length ? (
+    ""
+  ) : (
+    <div className={style.emptyInfo}>
+      <p>Nie masz jeszcze dodanego samochodu</p>
+    </div>
+  );
   const sortInspectionDay = props.carsData.sort(
     (a, b) => a.daysLeft - b.daysLeft
   );
