@@ -1,8 +1,7 @@
 import axios from "axios";
 import { auth } from "../../firebase";
-import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { onAuthStateChanged } from "firebase/auth";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
@@ -20,24 +19,6 @@ const Main = () => {
   const [driversData, setDriversData] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
-  // const authContext = useContext(AuthContext);
-
-  // console.log((authContext.isLoading = !authContext.isLoading));
-  // console.log(authContext.isLoading);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsAuth((prevState) => !prevState);
-        //authContext.isLoading = false;
-      } else {
-        console.log(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
   const firebaseUrlCars =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/cars.json";
 
@@ -45,6 +26,19 @@ const Main = () => {
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
 
   const quantityOfDrivers = driversData.length;
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuth((prevState) => !prevState);
+        //authContext.isLoading = false;
+      } else {
+        console.log("state changed - logout");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const getCarsData = async () => {
     try {
@@ -54,7 +48,6 @@ const Main = () => {
         for (const key in res.data) {
           cars.push({ ...res.data[key], id: key });
         }
-        // console.log(cars);
         setCarsData(cars);
       });
     } catch (error) {
@@ -100,31 +93,31 @@ const Main = () => {
   const handleAddItem = async (formData, component) => {
     const user = auth.currentUser;
     const token = await auth.currentUser.getIdToken();
-    if (isAuth && component === "cars") {
-      formData.userId = user.uid;
-      try {
-        console.log("samochód dodany");
-        await axios.post(`${firebaseUrlCars}?auth=${token}`, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        getCarsData();
-      } catch (error) {
-        console.log("blad uzyskiwania tokena", error);
+
+    if (isAuth) {
+      if (component === "cars") {
+        formData.userId = user.uid;
+        try {
+          console.log("samochód dodany");
+          await axios.post(`${firebaseUrlCars}?auth=${token}`, formData);
+          getCarsData();
+        } catch (error) {
+          console.log("blad uzyskiwania tokena", error);
+        }
+      }
+
+      if (component === "drivers") {
+        formData.userId = user.uid;
+        try {
+          console.log("kierowca dodany");
+          await axios.post(`${firebaseUrlDrivers}?auth=${token}`, formData);
+          getDriversData();
+        } catch (error) {
+          console.log(error);
+        }
       }
     } else {
-      console.error("uzytkownik nieuwierzytelniony");
-    }
-    if (component === "drivers") {
-      formData.userId = user.uid;
-      try {
-        console.log("kierowca dodany");
-        await axios.post(`${firebaseUrlDrivers}?auth=${token}`, formData);
-        getDriversData();
-      } catch (error) {
-        console.log(error);
-      }
+      console.log("użytkownik nie jest zalogowany");
     }
   };
 
@@ -151,7 +144,7 @@ const Main = () => {
     <main className={style.main}>
       <Routes>
         <Route
-          path="/"
+          index
           element={
             <Home carsData={carsData} quantityOfDrivers={quantityOfDrivers} />
           }

@@ -36,8 +36,13 @@ const Input = (props) => {
       break;
     case "number":
       label = "Numer tel.";
-      example = "666 777 000";
+      example = "Np. 666 777 000";
       maxLength = "9";
+      break;
+    case "email":
+      label = "Adres e-mail";
+      example = "Np. przykladowy@gmail.com";
+
       break;
     default:
       label = "Popraw nazwę";

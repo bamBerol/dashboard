@@ -5,7 +5,7 @@ import Navbar from "./Navbar/Navbar";
 
 import style from "./Layout.module.css";
 
-const Layout = (props) => {
+const Layout = () => {
   const [navOpen, setNavOpen] = useState(false);
 
   const handleNavOn = () => {

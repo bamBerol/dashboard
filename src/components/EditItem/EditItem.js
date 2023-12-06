@@ -124,6 +124,7 @@ const EditItem = (props) => {
   const validateEditForm = (values, component) => {
     const errors = {};
     const numberCheck = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{3}$/g;
+    const emailCheck = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const plateCheck = /^([a-z0-9]{2,3})[ ]([a-z0-9]{4,5})/g;
 
     if (component === "cars") {
@@ -159,6 +160,12 @@ const EditItem = (props) => {
         errors.number = "Wypełnij pole";
       } else if (!numberCheck.test(values.number)) {
         errors.number = "Wprowadź poprawny numer telefonu";
+      }
+      if (!values.email) {
+        errors.email = "Adres e-mail jest wymagany";
+      } else if (!emailCheck.test(values.email)) {
+        errors.email =
+          "Podany e-mail jest błędny. Poprawny adres email to np. google@gmail.com";
       }
       if (!values.carMake) {
         errors.carMake = "Wypełnij pole";
@@ -245,15 +252,26 @@ const EditItem = (props) => {
                   errorMsg={driverEditErrors.driverSurname}
                 />
               </div>
-              <Input
-                component={component}
-                action="edit"
-                id="number"
-                type="number"
-                editDriverData={editDriverData.number}
-                change={handleChange}
-                errorMsg={driverEditErrors.number}
-              />
+              <div className={style.contactData}>
+                <Input
+                  component={component}
+                  action="add"
+                  id="number"
+                  type="number"
+                  driverFormData={editDriverData.number}
+                  change={handleChange}
+                  errorMsg={driverEditErrors.number}
+                />
+                <Input
+                  component={component}
+                  action="add"
+                  id="email"
+                  type="email"
+                  driverFormData={editDriverData.email}
+                  change={handleChange}
+                  errorMsg={driverEditErrors.email}
+                />
+              </div>
               <Input
                 component={component}
                 action="edit"

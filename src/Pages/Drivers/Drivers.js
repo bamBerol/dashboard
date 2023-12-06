@@ -18,6 +18,7 @@ const Drivers = (props) => {
         <td data-cell="driverName">{driver.driverName}</td>
         <td data-cell="driverSurname">{driver.driverSurname}</td>
         <td data-cell="number">{driver.number}</td>
+        <td data-cell="email">{driver.email}</td>
         <td data-cell="carMake">{driver.carMake}</td>
         <td data-cell="plate">{driver.plate}</td>
         <td data-cell="buttons">
@@ -41,6 +42,7 @@ const Drivers = (props) => {
                 <th>Imię </th>
                 <th>Nazwisko</th>
                 <th>Numer tel.</th>
+                <th>Adres e-mail</th>
                 <th>Samochód</th>
                 <th>Rejestracja</th>
                 <th></th>

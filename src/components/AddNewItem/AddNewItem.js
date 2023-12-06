@@ -84,6 +84,8 @@ const AddCar = (props) => {
   const handleSubmit = (component, e) => {
     e.preventDefault();
 
+    console.log(component);
+
     if (component === "cars") {
       setCarErrors(validateForm(carFormData, component));
       setIsSubmit(true);
@@ -120,6 +122,7 @@ const AddCar = (props) => {
           driverSurname: "",
           number: "",
           carMake: "",
+          email: "",
           plate: "",
         });
         navigate(`/${component}`);
@@ -130,7 +133,9 @@ const AddCar = (props) => {
   const validateForm = (values, component) => {
     const errors = {};
     const numberCheck = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{3}$/g;
+    const emailCheck = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const plateCheck = /^([a-z0-9]{2,3})[ ]([a-z0-9]{4,5})/g;
+
     if (component === "cars") {
       if (!values.carMake) {
         errors.carMake = "Marka jest wymagana";
@@ -153,19 +158,25 @@ const AddCar = (props) => {
       return errors;
     }
     if (component === "drivers") {
-      if (!values.carMake) {
-        errors.carMake = "Marka jest wymagana";
+      if (!values.driverName) {
+        errors.driverName = "Imię jest wymagane";
+      }
+      if (!values.driverSurname) {
+        errors.driverSurname = "Nazwisko jest wymagane";
       }
       if (!values.number) {
         errors.number = "Numer jest wymagany";
       } else if (!numberCheck.test(values.number)) {
         errors.number = "Wprowadź poprawny numer telefonu";
       }
-      if (!values.driverName) {
-        errors.driverName = "Imię jest wymagane";
+      if (!values.email) {
+        errors.email = "Adres e-mail jest wymagany";
+      } else if (!emailCheck.test(values.email)) {
+        errors.email =
+          "Podany e-mail jest błędny. Poprawny adres email to np. google@gmail.com";
       }
-      if (!values.driverSurname) {
-        errors.driverSurname = "Nazwisko jest wymagane";
+      if (!values.carMake) {
+        errors.carMake = "Marka jest wymagana";
       }
       if (!values.plate) {
         errors.plate = "Numer rejestracyjny jest wymagany";
@@ -249,15 +260,26 @@ const AddCar = (props) => {
                   errorMsg={driverErrors.driverSurname}
                 />
               </div>
-              <Input
-                component={component}
-                action="add"
-                id="number"
-                type="number"
-                driverFormData={driverFormData.number}
-                change={handleChange}
-                errorMsg={driverErrors.number}
-              />
+              <div className={style.contactData}>
+                <Input
+                  component={component}
+                  action="add"
+                  id="number"
+                  type="number"
+                  driverFormData={driverFormData.number}
+                  change={handleChange}
+                  errorMsg={driverErrors.number}
+                />
+                <Input
+                  component={component}
+                  action="add"
+                  id="email"
+                  type="email"
+                  driverFormData={driverFormData.email}
+                  change={handleChange}
+                  errorMsg={driverErrors.email}
+                />
+              </div>
               <Input
                 component={component}
                 action="add"

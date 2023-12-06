@@ -1,7 +1,11 @@
+import style from "./Error.module.css";
+
 const Error = () => {
   return (
-    <div>
-      <h2>Page not found 404</h2>
+    <div className={style.error}>
+      <h2 className={style.title}>
+        Strona nie została znaleziona, podaj poprawny adres strony.
+      </h2>
     </div>
   );
 };
