@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
+import Bolt from "../../Pages/Settelments/bolt/Bolt";
 import Cars from "../../Pages/Cars/Cars";
 import Drivers from "../../Pages/Drivers/Drivers";
 import EditItem from "../../components/EditItem/EditItem";
 import Error from "../../Pages/Error/Error";
 import Home from "../../Pages/Home/Home";
+import Itaxi from "../../Pages/Settelments/itaxi/Itaxi";
 import Settelments from "../../Pages/Settelments/Settelments";
 
 import style from "./Main.module.css";
@@ -99,6 +101,7 @@ const Main = () => {
         formData.userId = user.uid;
         try {
           console.log("samochód dodany");
+          console.log(formData);
           await axios.post(`${firebaseUrlCars}?auth=${token}`, formData);
           getCarsData();
         } catch (error) {
@@ -150,11 +153,11 @@ const Main = () => {
           }
         />
         <Route
-          path="/cars"
+          path="cars"
           element={<Cars tableData={carsData} delete={handleDelete} />}
         />
         <Route
-          path="/cars/addCar"
+          path="cars/addCar"
           element={
             <AddNewItem
               submit={(formData, component) =>
@@ -164,7 +167,7 @@ const Main = () => {
           }
         />
         <Route
-          path="/cars/editCar/:id"
+          path="cars/editCar/:id"
           element={
             <EditItem
               carsData={carsData}
@@ -175,11 +178,11 @@ const Main = () => {
           }
         />
         <Route
-          path="/drivers"
+          path="drivers"
           element={<Drivers tableData={driversData} delete={handleDelete} />}
         />
         <Route
-          path="/drivers/addDriver"
+          path="drivers/addDriver"
           element={
             <AddNewItem
               submit={(formData, component) =>
@@ -189,7 +192,7 @@ const Main = () => {
           }
         />
         <Route
-          path="/drivers/editDriver/:id"
+          path="drivers/editDriver/:id"
           element={
             <EditItem
               driversData={driversData}
@@ -199,7 +202,12 @@ const Main = () => {
             />
           }
         />
-        <Route path="/settelments" element={<Settelments />} />
+        <Route path="settelments" element={<Settelments />}>
+          <Route index element={<Itaxi />} />
+          <Route path="itaxi" element={<Itaxi />} />
+          <Route path="bolt" element={<Bolt />} />
+          <Route path="*" element={<Error />} />
+        </Route>
         <Route path="*" element={<Error />} />
       </Routes>
     </main>

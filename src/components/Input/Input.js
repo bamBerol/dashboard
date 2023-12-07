@@ -3,6 +3,8 @@ import style from "./Input.module.css";
 const Input = (props) => {
   const type = props.type === undefined ? "text" : props.type;
 
+  console.log(props.id);
+
   let example;
   let label;
   let value;

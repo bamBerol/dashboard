@@ -32,6 +32,7 @@ const Navbar = (props) => {
         console.log("wylogowano");
         window.localStorage.removeItem("userData");
         authContext.toggleIsLogged();
+        console.log(authContext.isLogged);
       })
       .catch((error) => console.log(error));
   };

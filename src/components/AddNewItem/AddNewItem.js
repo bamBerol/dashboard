@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { differenceInDays, addYears, format } from "date-fns";
-import axios from "axios";
 
 import Input from "../Input/Input";
 import DataPicker from "../DataPicker/DataPicker";

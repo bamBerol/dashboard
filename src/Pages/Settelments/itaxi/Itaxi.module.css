@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1;
+}
+.title {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.title h3 {
+  font-size: 1.5rem;
+  color: #fada5e;
+}
+.settelments {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+.settelments::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.settelments::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.settelments::-webkit-scrollbar-thumb {
+  border-radius: 0.3rem;
+  background-color: #fada5e;
+}
+.addContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+}
+.addInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.addEmailInput {
+  width: 60%;
+  padding: 0.5rem;
+  border: none;
+  color: #fada5e;
+  background-color: #4f4f4f;
+  border-bottom: 1px solid #fada5e;
+}
+.addEmailInputError {
+  width: 60%;
+  padding: 0.5rem;
+  border: none;
+  color: #fada5e;
+  background-color: #4f4f4f;
+  border-bottom: 1px solid red;
+}
+.addEmailInput:focus,
+.addEmailInputError:focus {
+  outline: none;
+}
+.addEmailInput::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: #dbdbdb;
+}
+.addBtn {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #fada5e;
+  background-color: #2a2a2a;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.addBtn p {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+.addBtn:hover {
+  color: #2a2a2a;
+  background-color: #fada5e;
+}
+.error {
+  margin-top: 0.5rem;
+  color: red;
+  font-size: 0.85rem;
+}
+.errorOff {
+  margin-top: 0.5rem;
+  color: #4f4f4f;
+  font-size: 0.85rem;
+}
