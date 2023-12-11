@@ -11,7 +11,7 @@ import Drivers from "../../Pages/Drivers/Drivers";
 import EditItem from "../../components/EditItem/EditItem";
 import Error from "../../Pages/Error/Error";
 import Home from "../../Pages/Home/Home";
-import Itaxi from "../../Pages/Settelments/itaxi/Itaxi";
+import Sumup from "../../Pages/Settelments/sumup/Sumup";
 import Settelments from "../../Pages/Settelments/Settelments";
 
 import style from "./Main.module.css";
@@ -19,6 +19,7 @@ import style from "./Main.module.css";
 const Main = () => {
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
+  const [sumupData, setSumupData] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const firebaseUrlCars =
@@ -26,6 +27,9 @@ const Main = () => {
 
   const firebaseUrlDrivers =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
+
+  const firebaseUrlSettelments =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
 
   const quantityOfDrivers = driversData.length;
 
@@ -72,9 +76,26 @@ const Main = () => {
     }
   };
 
+  const getSettelmentsData = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      await axios.get(`${firebaseUrlSettelments}?auth=${token}`).then((res) => {
+        console.log(res.data.sumup);
+        const sumup = [];
+        for (const key in res.data.sumup) {
+          sumup.push({ ...res.data.sumup[key], id: key });
+        }
+        setSumupData(sumup);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCarsData();
     getDriversData();
+    getSettelmentsData();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
@@ -203,8 +224,8 @@ const Main = () => {
           }
         />
         <Route path="settelments" element={<Settelments />}>
-          <Route index element={<Itaxi />} />
-          <Route path="itaxi" element={<Itaxi />} />
+          <Route index element={<Sumup sumupData={sumupData} />} />
+          <Route path="sumup" element={<Sumup />} />
           <Route path="bolt" element={<Bolt />} />
           <Route path="*" element={<Error />} />
         </Route>

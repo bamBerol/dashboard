@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-import style from "./Itaxi.module.css";
+import style from "./Sumup.module.css";
 
-const Itaxi = () => {
+const Sumup = (props) => {
   const [email, setEmail] = useState([
     {
       email: "",
@@ -16,13 +16,20 @@ const Itaxi = () => {
   ]);
   const [emailError, setEmailError] = useState("");
   const [isAuth, setIsAuth] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
 
+  const firebaseUrlSumup =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/sumup.json";
+
+  console.log(props.sumupData);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("zalogowany settelments");
         setIsAuth((prevState) => !prevState);
       } else {
         console.log("state changed - logout");
@@ -31,9 +38,6 @@ const Itaxi = () => {
 
     return () => unsubscribe();
   }, []);
-
-  const firebaseUrlItaxi =
-    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/itaxi.json";
 
   const handleInputChange = (e) => {
     console.log(e.target.value);
@@ -44,6 +48,11 @@ const Itaxi = () => {
     console.log(value.email);
     const emailCheck = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     let errorEmail = "";
+
+    if (value.email && emailCheck.test(value.email)) {
+      console.log("email jest ok");
+      setIsSubmit(true);
+    }
 
     if (!value.email) {
       console.log("pole jest puste");
@@ -56,38 +65,37 @@ const Itaxi = () => {
     return errorEmail;
   };
 
+  const handleAddEmail = () => {
+    console.log("weryfikacja maila");
+    setEmailError(emailValidation(email));
+  };
+
   const handleAddToDatabase = async () => {
     const token = await auth.currentUser.getIdToken();
     if (isAuth) {
       try {
         console.log("wysylanie");
-        await axios.post(`${firebaseUrlItaxi}?auth=${token}`, email);
+        await axios.post(`${firebaseUrlSumup}?auth=${token}`, email);
         setEmail({ email: "" });
+        setIsSubmit(false);
       } catch (error) {
         console.log(error);
       }
     }
   };
 
-  const handleAddEmail = () => {
-    setEmailError(emailValidation(email));
-  };
-
   useEffect(() => {
-    console.log(emailError);
-    console.log(Object.values(email)[0].length);
-    console.log(Object.values(email).length);
-    if (emailError.length === 0 && Object.values(email)[0].length) {
+    console.log("useEffect executed");
+    if (emailError.length === 0 && isSubmit) {
       console.log("dodaje email do bazy");
       handleAddToDatabase();
-      setEmailError("");
     }
-  }, [emailError]);
+  }, [emailError, isSubmit]);
 
   return (
     <div className={style.container}>
       <div className={style.title}>
-        <h3>Itaxi</h3>
+        <h3>SumUp</h3>
       </div>
       <div className={style.settelments}>
         <div className={style.addContainer}>
@@ -114,9 +122,10 @@ const Itaxi = () => {
             </div>
           </div>
         </div>
+        <div></div>
       </div>
     </div>
   );
 };
 
-export default Itaxi;
+export default Sumup;
