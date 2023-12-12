@@ -14,6 +14,10 @@ const Sumup = (props) => {
       email: "",
     },
   ]);
+  const [amount, setAmount] = useState("");
+  const [convertedVal, setConvertedVal] = useState("");
+  const [isEmpty, setIsEmpty] = useState(true);
+  const [sumupData, setSumupData] = useState([]);
   const [emailError, setEmailError] = useState("");
   const [isAuth, setIsAuth] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -21,16 +25,36 @@ const Sumup = (props) => {
   const location = useLocation();
   const component = location.pathname.split("/")[1];
 
+  const firebaseUrlSettelments =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
+
   const firebaseUrlSumup =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/sumup.json";
 
-  console.log(props.sumupData);
+  const getSettelmentsData = async () => {
+    try {
+      console.log("pobieranie rozliczenia");
+      const token = await auth.currentUser.getIdToken();
+      await axios.get(`${firebaseUrlSettelments}?auth=${token}`).then((res) => {
+        console.log(res.data.sumup);
+        const sumup = [];
+        for (const key in res.data.sumup) {
+          sumup.push({ ...res.data.sumup[key], id: key });
+        }
+        setSumupData(sumup);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("zalogowany settelments");
-        setIsAuth((prevState) => !prevState);
+        getSettelmentsData();
+        console.log(sumupData);
+        setIsAuth(true);
       } else {
         console.log("state changed - logout");
       }
@@ -76,6 +100,7 @@ const Sumup = (props) => {
       try {
         console.log("wysylanie");
         await axios.post(`${firebaseUrlSumup}?auth=${token}`, email);
+        getSettelmentsData();
         setEmail({ email: "" });
         setIsSubmit(false);
       } catch (error) {
@@ -91,6 +116,37 @@ const Sumup = (props) => {
       handleAddToDatabase();
     }
   }, [emailError, isSubmit]);
+
+  const handleAmount = (e) => setAmount(e.target.value);
+
+  const handleConvertAmount = (e) => {
+    console.log(e);
+    if (Number(amount) !== 0) {
+      console.log("kwota wpisana");
+      setIsEmpty(false);
+
+      const fee = 30;
+      const amountToConvert = Number(amount);
+      const percent = (amountToConvert * 3) / 100;
+      const finalAmount = amountToConvert - percent - fee;
+
+      setConvertedVal(finalAmount.toFixed(2));
+      setAmount("");
+    } else {
+      console.log("input jest pusty");
+      setIsEmpty(true);
+    }
+  };
+
+  // const emailList = sumupData.map((email) => {
+  //   console.log(email);
+  //   return (
+  //     <div id={email.id} className={style.email}>
+  //       <p>{email.email}</p>
+  //       <input type="number" placeholder="Wpisz kwotę" />
+  //     </div>
+  //   );
+  // });
 
   return (
     <div className={style.container}>
@@ -122,7 +178,33 @@ const Sumup = (props) => {
             </div>
           </div>
         </div>
-        <div></div>
+        <div className={style.calculatorContainer}>
+          <div className={style.calculator}>
+            <input
+              type="number"
+              placeholder="Wpisz kwotę"
+              className={style.calculatorInput}
+              value={amount}
+              onChange={handleAmount}
+            />
+            <div className={style.convertBtn} onClick={handleConvertAmount}>
+              <p>Przelicz</p>
+            </div>
+          </div>
+          <div className={style.convertedValueInfo}>
+            {isEmpty ? (
+              <p>Wpisz kwotę</p>
+            ) : (
+              <>
+                <p>Kwota po przeliczeniu to:</p>
+                <p className={style.amount}>{convertedVal}</p>
+              </>
+            )}
+          </div>
+        </div>
+        {/* <div className={style.mailContainer}>
+          <div className={style.emailList}>{emailList}</div>
+        </div> */}
       </div>
     </div>
   );

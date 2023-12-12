@@ -4,4 +4,5 @@
   height: 100%;
   flex-direction: row;
   flex: 1;
+  overflow: hidden;
 }
