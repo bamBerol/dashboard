@@ -68,11 +68,11 @@
 }
 .addEmailInput:focus,
 .addEmailInputError:focus,
-.calculatorInput:focus {
+.calculatorInput input:focus {
   outline: none;
 }
 .addEmailInput::-webkit-input-placeholder,
-.calculatorInput::-webkit-input-placeholder {
+.calculatorInput input::-webkit-input-placeholder {
   opacity: 0.4;
   color: #dbdbdb;
 }
@@ -123,13 +123,18 @@
   flex: 1;
 }
 .calculator {
+  display: flex;
   width: 100%;
+  flex: 1;
+}
+.calculatorInput,
+.convertedAmount {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex: 1;
 }
-.calculatorInput {
+.calculatorInput input {
   width: 60%;
   padding: 0.5rem;
   border: none;
@@ -137,24 +142,21 @@
   background-color: #4f4f4f;
   border-bottom: 1px solid #fada5e;
 }
-.calculator input::-webkit-inner-spin-button {
+.calculatorInput input::-webkit-inner-spin-button {
   display: none;
 }
-.convertedValueInfo {
-  display: flex;
-  margin-top: 2rem;
-  justify-content: center;
+.convertedAmount {
   color: #fada5e;
 }
-.convertedValueInfo p {
+.calculatorResult {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.amount {
-  margin-left: 1rem;
+.calculatorResult h3 {
+  margin-top: 2rem;
   font-size: 1.5rem;
-  font-weight: 700;
 }
 /* .mailContainer {
   display: flex;

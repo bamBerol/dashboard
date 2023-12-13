@@ -15,8 +15,7 @@ const Sumup = (props) => {
     },
   ]);
   const [amount, setAmount] = useState("");
-  const [convertedVal, setConvertedVal] = useState("");
-  const [isEmpty, setIsEmpty] = useState(true);
+  // const [convertedAmount, setConvertedAmount] = useState();
   const [sumupData, setSumupData] = useState([]);
   const [emailError, setEmailError] = useState("");
   const [isAuth, setIsAuth] = useState(false);
@@ -117,27 +116,6 @@ const Sumup = (props) => {
     }
   }, [emailError, isSubmit]);
 
-  const handleAmount = (e) => setAmount(e.target.value);
-
-  const handleConvertAmount = (e) => {
-    console.log(e);
-    if (Number(amount) !== 0) {
-      console.log("kwota wpisana");
-      setIsEmpty(false);
-
-      const fee = 30;
-      const amountToConvert = Number(amount);
-      const percent = (amountToConvert * 3) / 100;
-      const finalAmount = amountToConvert - percent - fee;
-
-      setConvertedVal(finalAmount.toFixed(2));
-      setAmount("");
-    } else {
-      console.log("input jest pusty");
-      setIsEmpty(true);
-    }
-  };
-
   // const emailList = sumupData.map((email) => {
   //   console.log(email);
   //   return (
@@ -147,6 +125,23 @@ const Sumup = (props) => {
   //     </div>
   //   );
   // });
+  const handleConvert = () => {
+    const value = Number(amount);
+    const percentOfValue = (value * 3) / 100;
+    const fee = 30;
+    const convertedValue = (value - percentOfValue - fee).toFixed(2);
+
+    return convertedValue;
+  };
+
+  const handleAmountInputChange = (e) => {
+    setAmount(e.target.value);
+    handleConvert();
+  };
+
+  const convertedAmount = amount
+    ? handleConvert()
+    : "Wpisz kwotę do przeliczenia";
 
   return (
     <div className={style.container}>
@@ -154,7 +149,7 @@ const Sumup = (props) => {
         <h3>SumUp</h3>
       </div>
       <div className={style.settelments}>
-        <div className={style.addContainer}>
+        {/* <div className={style.addContainer}>
           <div className={style.addInput}>
             <input
               className={
@@ -168,7 +163,7 @@ const Sumup = (props) => {
             {emailError ? (
               <p className={style.error}>{emailError}</p>
             ) : (
-              <p className={style.errorOff}>tu bedzie blad</p>
+              <p className={style.errorOff}>Błąd</p>
             )}
           </div>
           <div className={style.button}>
@@ -177,30 +172,27 @@ const Sumup = (props) => {
               <p>Dodaj email</p>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className={style.calculatorContainer}>
           <div className={style.calculator}>
-            <input
-              type="number"
-              placeholder="Wpisz kwotę"
-              className={style.calculatorInput}
-              value={amount}
-              onChange={handleAmount}
-            />
-            <div className={style.convertBtn} onClick={handleConvertAmount}>
-              <p>Przelicz</p>
+            <div className={style.calculatorInput}>
+              <input
+                type="number"
+                placeholder="Wpisz kwotę"
+                onChange={handleAmountInputChange}
+                value={amount}
+              />
+            </div>
+            <div className={style.convertedAmount}>
+              <div className={style.calculatorResult}>
+                <p>Kwota uzyskana po przeliczeniu to:</p>
+                <h3 className>{convertedAmount}</h3>
+              </div>
             </div>
           </div>
-          <div className={style.convertedValueInfo}>
-            {isEmpty ? (
-              <p>Wpisz kwotę</p>
-            ) : (
-              <>
-                <p>Kwota po przeliczeniu to:</p>
-                <p className={style.amount}>{convertedVal}</p>
-              </>
-            )}
-          </div>
+          {/* <div className={style.convertBtn} onClick={handleConvertAmount}>
+              <p>Przelicz</p>
+            </div> */}
         </div>
         {/* <div className={style.mailContainer}>
           <div className={style.emailList}>{emailList}</div>

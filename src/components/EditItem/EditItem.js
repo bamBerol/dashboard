@@ -1,7 +1,7 @@
 import { auth } from "../../firebase";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { addYears, differenceInDays, format } from "date-fns";
+import { addYears, format } from "date-fns";
 import axios from "axios";
 
 import DataPicker from "../DataPicker/DataPicker";
@@ -18,7 +18,6 @@ const EditItem = (props) => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const todayDate = new Date();
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
@@ -70,24 +69,21 @@ const EditItem = (props) => {
     const addYear = addYears(date, 1);
     const inspectionDate = format(date, "dd/MM/RRRR");
     const endInspectionDate = format(addYear, "dd/MM/RRRR");
-    const daysLeft = differenceInDays(addYear, todayDate);
 
     setEditCarData({
       ...editCarData,
       dateCarInspection: inspectionDate,
       nextCarInspection: endInspectionDate,
-      daysLeft: daysLeft,
     });
   };
 
   const handleInsuranceDateChange = (date) => {
     console.log(date);
     const dateInsurance = format(date, "dd/MM/RRRR");
-    const insuranceDaysLeft = differenceInDays(date, todayDate);
+
     setEditCarData({
       ...editCarData,
       insuranceDate: dateInsurance,
-      insuranceDaysLeft: insuranceDaysLeft,
     });
   };
 

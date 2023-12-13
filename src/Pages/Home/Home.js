@@ -10,7 +10,6 @@ const Home = (props) => {
 
   return (
     <div className={style.home}>
-      {/* <h2 className={style.title}>Witaj w panelu!</h2> */}
       <div className={style.container}>
         <div className={style.containerBox}>
           <Clock />

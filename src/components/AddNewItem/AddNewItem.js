@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { differenceInDays, addYears, format } from "date-fns";
+import { addYears, format } from "date-fns";
 
 import Input from "../Input/Input";
 import DataPicker from "../DataPicker/DataPicker";
@@ -15,9 +15,7 @@ const AddCar = (props) => {
     plate: "",
     dateCarInspection: "",
     nextCarInspection: "",
-    daysLeft: "",
     insuranceDate: "",
-    insuranceDaysLeft: "",
   });
   const [driverFormData, setDriverFormData] = useState({
     driverName: "",
@@ -34,8 +32,6 @@ const AddCar = (props) => {
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
-
-  const todayDate = new Date();
 
   const title = component === "cars" ? "samochód" : "kierowcę";
 
@@ -59,24 +55,20 @@ const AddCar = (props) => {
     const addYear = addYears(date, 1);
     const inspectionDate = format(date, "dd/MM/RRRR");
     const endInspectionDate = format(addYear, "dd/MM/RRRR");
-    const daysLeft = differenceInDays(addYear, todayDate);
 
     setCarFormData({
       ...carFormData,
       dateCarInspection: inspectionDate,
       nextCarInspection: endInspectionDate,
-      daysLeft: daysLeft,
     });
   };
 
   const handleInsuranceDateChange = (date) => {
     const dateInsurance = format(date, "dd/MM/RRRR");
-    const insuranceDaysLeft = differenceInDays(date, todayDate);
 
     setCarFormData({
       ...carFormData,
       insuranceDate: dateInsurance,
-      insuranceDaysLeft: insuranceDaysLeft,
     });
   };
 
@@ -105,9 +97,7 @@ const AddCar = (props) => {
           plate: "",
           dateCarInspection: "",
           nextCarInspection: "",
-          daysLeft: "",
           insuranceDate: "",
-          insuranceDaysLeft: "",
         });
         navigate(`/${component}`);
         console.log(carFormData);

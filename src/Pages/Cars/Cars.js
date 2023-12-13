@@ -1,6 +1,7 @@
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 import { useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { differenceInDays, parse } from "date-fns";
 
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import EditButtons from "../../components/Buttons/EditButtons/EditButtons";
@@ -14,26 +15,41 @@ const Cars = (props) => {
   const location = useLocation();
   const url = location.pathname;
 
+  const today = new Date();
+
   const info = props.tableData.length ? "" : <EmptyInfo />;
 
   const table = props.tableData.map((car) => {
-    authContext.isLoading = false;
     const periodInspection = () => {
-      if (car.daysLeft >= 30) {
+      const nextCarInspection = parse(
+        car.nextCarInspection,
+        "dd/MM/yyyy",
+        new Date()
+      );
+      const inspectionDaysLeft = differenceInDays(nextCarInspection, today);
+
+      if (inspectionDaysLeft >= 30) {
         return style.green;
-      } else if (car.daysLeft < 30 && car.daysLeft > 7) {
+      } else if (inspectionDaysLeft < 30 && inspectionDaysLeft > 7) {
         return style.orange;
-      } else if (car.daysLeft <= 7) {
+      } else if (inspectionDaysLeft <= 7) {
         return style.red;
       }
     };
 
     const periodInsurance = () => {
-      if (car.insuranceDaysLeft >= 30) {
+      const endInsuranceDate = parse(
+        car.insuranceDate,
+        "dd/MM/yyyy",
+        new Date()
+      );
+      const insuranceDaysLeft = differenceInDays(endInsuranceDate, today);
+
+      if (insuranceDaysLeft >= 30) {
         return style.green;
-      } else if (car.insuranceDaysLeft < 30 && car.insuranceDaysLeft > 7) {
+      } else if (insuranceDaysLeft < 30 && insuranceDaysLeft > 7) {
         return style.orange;
-      } else if (car.insuranceDaysLeft <= 7) {
+      } else if (insuranceDaysLeft <= 7) {
         return style.red;
       }
     };
