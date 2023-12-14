@@ -6,11 +6,14 @@ const Bolt = () => {
   const location = useLocation();
   const component = location.pathname.split("/")[2];
 
-  console.log(component);
+  // console.log(component);
   return (
     <div className={style.container}>
       <div className={style.title}>
         <h3>Bolt</h3>
+      </div>
+      <div className={style.workInProgres}>
+        <p>Zakładka w budowie</p>
       </div>
     </div>
   );

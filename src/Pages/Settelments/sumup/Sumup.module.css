@@ -130,8 +130,9 @@
 .calculatorInput,
 .convertedAmount {
   display: flex;
+  margin-top: 5rem;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
 }
 .calculatorInput input {

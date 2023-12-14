@@ -10,6 +10,7 @@ import Cars from "../../Pages/Cars/Cars";
 import Drivers from "../../Pages/Drivers/Drivers";
 import EditItem from "../../components/EditItem/EditItem";
 import Error from "../../Pages/Error/Error";
+import FreeNow from "../../Pages/Settelments/freenow/FreeNow";
 import Home from "../../Pages/Home/Home";
 import Sumup from "../../Pages/Settelments/sumup/Sumup";
 import Settelments from "../../Pages/Settelments/Settelments";
@@ -204,8 +205,8 @@ const Main = () => {
         />
         <Route path="settelments" element={<Settelments />}>
           <Route index element={<Sumup />} />
-          <Route path="sumup" element={<Sumup />} />
           <Route path="bolt" element={<Bolt />} />
+          <Route path="freenow" element={<FreeNow />} />
           <Route path="*" element={<Error />} />
         </Route>
         <Route path="*" element={<Error />} />
