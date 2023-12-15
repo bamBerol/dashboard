@@ -53,6 +53,22 @@ const Cars = (props) => {
         return style.red;
       }
     };
+    const periodLegalization = () => {
+      const endLegalizationDate = parse(
+        car.legalizationDate,
+        "dd/MM/yyyy",
+        new Date()
+      );
+      const legalizationDaysLeft = differenceInDays(endLegalizationDate, today);
+
+      if (legalizationDaysLeft >= 30) {
+        return style.green;
+      } else if (legalizationDaysLeft < 30 && legalizationDaysLeft > 7) {
+        return style.orange;
+      } else if (legalizationDaysLeft <= 7) {
+        return style.red;
+      }
+    };
 
     return (
       <tr key={car.id}>
@@ -65,6 +81,9 @@ const Cars = (props) => {
         </td>
         <td data-cell="insuranceDate" className={periodInsurance()}>
           {car.insuranceDate}
+        </td>
+        <td data-cell="legalization" className={periodLegalization()}>
+          {car.legalizationDate}
         </td>
         <td data-cell="buttons">
           <EditButtons id={car.id} delete={props.delete} url={url} />
@@ -103,9 +122,10 @@ const Cars = (props) => {
                 <th>Marka</th>
                 <th>Model</th>
                 <th>Rejestracja</th>
-                <th>Data badania</th>
-                <th>Data kolejnego badania</th>
+                <th>Data przeglądu</th>
+                <th>Następny przegląd</th>
                 <th>Koniec ubezpieczenia</th>
+                <th>Legalizacja taksometru</th>
                 <th></th>
               </tr>
             </thead>

@@ -25,6 +25,7 @@
   justify-content: center;
 }
 .carName,
+.date,
 .driverFullName,
 .contactData {
   display: flex;

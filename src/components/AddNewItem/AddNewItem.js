@@ -16,6 +16,7 @@ const AddCar = (props) => {
     dateCarInspection: "",
     nextCarInspection: "",
     insuranceDate: "",
+    legalizationDate: "",
   });
   const [driverFormData, setDriverFormData] = useState({
     driverName: "",
@@ -71,6 +72,14 @@ const AddCar = (props) => {
       insuranceDate: dateInsurance,
     });
   };
+  const handleLegalizationDateChange = (date) => {
+    const dateLegalization = format(date, "dd/MM/RRRR");
+
+    setCarFormData({
+      ...carFormData,
+      legalizationDate: dateLegalization,
+    });
+  };
 
   const handleSubmit = (component, e) => {
     e.preventDefault();
@@ -98,6 +107,7 @@ const AddCar = (props) => {
           dateCarInspection: "",
           nextCarInspection: "",
           insuranceDate: "",
+          legalizationDate: "",
         });
         navigate(`/${component}`);
         console.log(carFormData);
@@ -143,6 +153,10 @@ const AddCar = (props) => {
       }
       if (!values.insuranceDate) {
         errors.insuranceDate = "Data końca ubezpieczenia jest wymagana";
+      }
+      if (!values.legalizationDate) {
+        errors.legalizationDate =
+          "Data ważności legalizacji taksometru jest wymagana";
       }
       return errors;
     }
@@ -212,21 +226,31 @@ const AddCar = (props) => {
                 change={handleChange}
                 errorMsg={carErrors.plate}
               />
+              <div className={style.date}>
+                <DataPicker
+                  component={component}
+                  action="add"
+                  id="inspectionDate"
+                  carFormData={carFormData.dateCarInspection}
+                  change={handleDateCarInspectionChange}
+                  errorMsg={carErrors.dateCarInspection}
+                />
+                <DataPicker
+                  component={component}
+                  action="add"
+                  id="insuranceDate"
+                  carFormData={carFormData.insuranceDate}
+                  change={handleInsuranceDateChange}
+                  errorMsg={carErrors.insuranceDate}
+                />
+              </div>
               <DataPicker
                 component={component}
                 action="add"
-                id="inspectionDate"
-                carFormData={carFormData.dateCarInspection}
-                change={handleDateCarInspectionChange}
-                errorMsg={carErrors.dateCarInspection}
-              />
-              <DataPicker
-                component={component}
-                action="add"
-                id="insuranceDate"
-                carFormData={carFormData.insuranceDate}
-                change={handleInsuranceDateChange}
-                errorMsg={carErrors.insuranceDate}
+                id="legalizationDate"
+                carFormData={carFormData.legalizationDate}
+                change={handleLegalizationDateChange}
+                errorMsg={carErrors.legalizationDate}
               />
             </>
           ) : (

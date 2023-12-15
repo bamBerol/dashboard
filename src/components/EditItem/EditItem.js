@@ -86,6 +86,15 @@ const EditItem = (props) => {
       insuranceDate: dateInsurance,
     });
   };
+  const handlelegalizationDateChange = (date) => {
+    console.log(date);
+    const legalizationDate = format(date, "dd/MM/RRRR");
+
+    setEditCarData({
+      ...editCarData,
+      legalizationDate: legalizationDate,
+    });
+  };
 
   const handleSubmit = (component, e) => {
     e.preventDefault();
@@ -142,6 +151,9 @@ const EditItem = (props) => {
       }
       if (!values.insuranceDate) {
         errors.insuranceDate = "Wypełnij pole";
+      }
+      if (!values.legalizationDate) {
+        errors.legalizationDate = "Wypełnij pole";
       }
       return errors;
     }
@@ -211,21 +223,31 @@ const EditItem = (props) => {
                 editCarData={editCarData.plate}
                 errorMsg={carEditErrors.plate}
               />
+              <div className={style.date}>
+                <DataPicker
+                  component={component}
+                  action="edit"
+                  id="inspectionDate"
+                  editCarData={editCarData.dateCarInspection}
+                  change={handleDateCarInspectionChange}
+                  errorMsg={carEditErrors.inspectionDate}
+                />
+                <DataPicker
+                  component={component}
+                  action="edit"
+                  id="insuranceDate"
+                  editCarData={editCarData.insuranceDate}
+                  change={handleInsuranceDateChange}
+                  errorMsg={carEditErrors.insuranceDate}
+                />
+              </div>
               <DataPicker
                 component={component}
                 action="edit"
-                id="inspectionDate"
-                editCarData={editCarData.dateCarInspection}
-                change={handleDateCarInspectionChange}
-                errorMsg={carEditErrors.inspectionDate}
-              />
-              <DataPicker
-                component={component}
-                action="edit"
-                id="insuranceDate"
-                editCarData={editCarData.insuranceDate}
-                change={handleInsuranceDateChange}
-                errorMsg={carEditErrors.insuranceDate}
+                id="legalizationDate"
+                editCarData={editCarData.legalizationDate}
+                change={handlelegalizationDateChange}
+                errorMsg={carEditErrors.legalizationDate}
               />
             </>
           ) : (

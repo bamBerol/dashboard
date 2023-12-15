@@ -145,9 +145,9 @@ const Sumup = (props) => {
 
   return (
     <div className={style.container}>
-      <div className={style.title}>
+      {/* <div className={style.title}>
         <h3>SumUp</h3>
-      </div>
+      </div> */}
       <div className={style.settelments}>
         {/* <div className={style.addContainer}>
           <div className={style.addInput}>

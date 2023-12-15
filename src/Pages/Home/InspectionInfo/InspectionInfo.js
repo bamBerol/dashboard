@@ -50,7 +50,11 @@ const InspectionInfo = (props) => {
         <td data-cell="carMake">{car.carMake}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="daysLeft" className={infoColor()}>
-          {inspectionDaysLeft}
+          {inspectionDaysLeft === 0
+            ? "Ważne do jutra!"
+            : inspectionDaysLeft < 0
+            ? "Po terminie!"
+            : inspectionDaysLeft}
         </td>
         <td data-cell="nextCarInspection">{car.nextCarInspection}</td>
       </tr>

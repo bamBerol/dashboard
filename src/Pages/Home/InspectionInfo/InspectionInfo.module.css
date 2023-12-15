@@ -19,7 +19,7 @@
 .maxHeight {
   flex: 1;
 }
-.carInspectionInfo td {
+.carInspectionInfo td[data-cell="carMake"] {
   text-transform: capitalize;
 }
 .tableOfInspectionPeriod thead tr :first-child {

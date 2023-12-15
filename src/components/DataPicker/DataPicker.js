@@ -11,10 +11,21 @@ const DataPicker = (props) => {
     value = props.editCarData;
   }
 
-  const label =
-    props.id === "inspectionDate"
-      ? "Data wykonania badania technicznego:"
-      : "Ubezpieczenie ważne do:";
+  let label;
+
+  switch (props.id) {
+    case "inspectionDate":
+      label = "Data wykonania przeglądu:";
+      break;
+    case "insuranceDate":
+      label = "Ubezpieczenie ważne do:";
+      break;
+    case "legalizationDate":
+      label = "Data ważności legalizacji taksometru:";
+      break;
+    default:
+      label = "Popraw nazwę";
+  }
 
   return (
     <>
