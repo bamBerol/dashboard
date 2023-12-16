@@ -20,7 +20,7 @@
 .maxHeight {
   flex: 1;
 }
-.tableOfInsurancePeriod td {
+.tableOfInsurancePeriod td[data-cell="carMake"] {
   text-transform: capitalize;
 }
 .tableOfInsurancePeriod td[data-cell="plate"] {

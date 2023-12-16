@@ -12,6 +12,9 @@
 .footer p {
   font-size: 0.65rem;
 }
+.footer p:first-child {
+  margin-right: 0.2rem;
+}
 .footerSmall p {
   font-size: 0.65rem;
   text-align: center;

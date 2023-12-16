@@ -44,16 +44,16 @@ const InspectionInfo = (props) => {
         return style.red;
       }
     };
-
+    console.log(inspectionDaysLeft);
     return (
       <tr key={car.id}>
         <td data-cell="carMake">{car.carMake}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="daysLeft" className={infoColor()}>
           {inspectionDaysLeft === 0
-            ? "Ważne do jutra!"
+            ? "Kończy się przegląd!"
             : inspectionDaysLeft < 0
-            ? "Po terminie!"
+            ? "Przegląd nieważny!"
             : inspectionDaysLeft}
         </td>
         <td data-cell="nextCarInspection">{car.nextCarInspection}</td>

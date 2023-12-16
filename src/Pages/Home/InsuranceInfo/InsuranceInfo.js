@@ -40,12 +40,17 @@ const InsuranceInfo = (props) => {
         return style.red;
       }
     };
+    console.log(insuranceDaysLeft);
     return (
       <tr key={car.id}>
         <td data-cell="carMake">{car.carMake}</td>
         <td data-cell="plate">{car.plate}</td>
         <td data-cell="daysLeft" className={infoColor()}>
-          {insuranceDaysLeft}
+          {insuranceDaysLeft === 0
+            ? "Kończy się ubezpieczenie!"
+            : insuranceDaysLeft < 0
+            ? "Brak ubezpieczenia!"
+            : insuranceDaysLeft}
         </td>
         <td data-cell="insuranceExpire">{car.insuranceDate}</td>
       </tr>
