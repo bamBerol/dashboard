@@ -4,7 +4,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import style from "./AddButton.module.css";
 
-const AddButton = ({ url }) => {
+const AddButton = ({ url, type }) => {
   let buttonName;
   //  = url === "/cars" ? "samochód" : "kierowcę";
   let buttonNavigate;
@@ -19,9 +19,15 @@ const AddButton = ({ url }) => {
       buttonName = "kierowcę";
       buttonNavigate = "addDriver";
       break;
-    case "settelments":
-      buttonName = "email";
-      buttonNavigate = "addCar";
+    case "/settelments/freenow":
+      if (type === "email") {
+        buttonName = "/ usuń email";
+        buttonNavigate = "editEmailList";
+      }
+      if (type === "settelment") {
+        buttonName = "rozliczenie";
+        buttonNavigate = "addFreeNowSettelment";
+      }
       break;
     default:
       buttonName = "błąd";
@@ -30,8 +36,14 @@ const AddButton = ({ url }) => {
 
   return (
     <Link to={`${url}/${buttonNavigate}`} className={style.addButton}>
-      <FontAwesomeIcon icon={faPlus} size="sm" />
-      <p>Dodaj {buttonName}</p>
+      {type === "email" ? (
+        <p style={{ marginLeft: "0px" }}>Dodaj {buttonName}</p>
+      ) : (
+        <>
+          <FontAwesomeIcon icon={faPlus} size="sm" />
+          <p>Dodaj {buttonName}</p>
+        </>
+      )}
     </Link>
   );
 };

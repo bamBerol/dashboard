@@ -1,16 +1,7 @@
-import style from "./FreeNow.module.css";
+import { Outlet } from "react-router-dom";
 
 const FreeNow = () => {
-  return (
-    <div className={style.container}>
-      <div className={style.title}>
-        <h3>FreeNow</h3>
-      </div>
-      <div className={style.workInProgres}>
-        <p>Zakładka w budowie</p>
-      </div>
-    </div>
-  );
+  return <Outlet />;
 };
 
 export default FreeNow;

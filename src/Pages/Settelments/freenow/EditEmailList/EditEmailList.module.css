@@ -1,0 +1,100 @@
+.container {
+  display: flex;
+  width: 100%;
+
+  flex-direction: column;
+  flex: 1;
+}
+.addEmail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.addEmailInput {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+}
+.inputOk,
+.inputError {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  color: #fada5e;
+  background-color: #4f4f4f;
+}
+.inputOk {
+  border-bottom: 1px solid #fada5e;
+}
+.inputError {
+  border-bottom: 1px solid red;
+}
+.addEmailInput input::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: #dbdbdb;
+}
+.addEmailInput input:focus {
+  outline: none;
+}
+.errorMsg {
+  margin-top: 0.5rem;
+  color: red;
+  font-size: 0.85rem;
+}
+.errorMsgOff {
+  opacity: 0;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+.addEmailBtn {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #fada5e;
+  background-color: #2a2a2a;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.addEmailBtn p {
+  font-size: 0.8rem;
+}
+.addEmailBtn:hover {
+  color: #2a2a2a;
+  background-color: #fada5e;
+}
+.emailListContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  flex: 1;
+}
+.subtitle h3 {
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  color: #fada5e;
+}
+.emailList {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.list {
+  list-style: decimal inside;
+  overflow-y: hidden;
+  column-count: 3;
+}
+.listItem {
+  padding: 0.5rem 0;
+  color: #fada5e;
+  break-inside: avoid-column;
+  font-size: 1rem;
+}

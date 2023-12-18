@@ -1,8 +1,9 @@
-import axios from "axios";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+
+import axios from "axios";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
 import Bolt from "../../Pages/Settelments/bolt/Bolt";
@@ -16,10 +17,14 @@ import Sumup from "../../Pages/Settelments/sumup/Sumup";
 import Settelments from "../../Pages/Settelments/Settelments";
 
 import style from "./Main.module.css";
+import EditEmailList from "../../Pages/Settelments/freenow/EditEmailList/EditEmailList";
+import FreeNowSettelments from "../../Pages/Settelments/freenow/FreeNowSettelments/FreeNowSettelments";
+import AddFreeNowSettelment from "../../Pages/Settelments/freenow/AddFreeNowSettelments/AddFreeNowSettelments";
 
 const Main = () => {
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
+  const [freeNowData, setFreeNowData] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const firebaseUrlCars =
@@ -28,13 +33,15 @@ const Main = () => {
   const firebaseUrlDrivers =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
 
+  const firebaseUrlSettelments =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
+
   const quantityOfDrivers = driversData.length;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setIsAuth((prevState) => !prevState);
-        //authContext.isLoading = false;
       } else {
         console.log("state changed - logout");
       }
@@ -73,9 +80,26 @@ const Main = () => {
     }
   };
 
+  const getSettelmentsData = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      await axios.get(`${firebaseUrlSettelments}?auth=${token}`).then((res) => {
+        console.log(res.data.freenow);
+        const freeNow = [];
+        for (const key in res.data.freenow) {
+          freeNow.push({ ...res.data.freenow[key], id: key });
+        }
+        setFreeNowData(freeNow);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCarsData();
     getDriversData();
+    getSettelmentsData();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
@@ -206,7 +230,22 @@ const Main = () => {
         <Route path="settelments" element={<Settelments />}>
           <Route index element={<Sumup />} />
           <Route path="bolt" element={<Bolt />} />
-          <Route path="freenow" element={<FreeNow />} />
+          <Route path="freenow" element={<FreeNow />}>
+            <Route index path="" element={<FreeNowSettelments />} />
+            <Route
+              path="editEmailList"
+              element={
+                <EditEmailList
+                  list={freeNowData}
+                  getList={getSettelmentsData}
+                />
+              }
+            />
+            <Route
+              path="addFreeNowSettelment"
+              element={<AddFreeNowSettelment />}
+            />
+          </Route>
           <Route path="*" element={<Error />} />
         </Route>
         <Route path="*" element={<Error />} />

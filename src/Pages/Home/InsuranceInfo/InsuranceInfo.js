@@ -40,7 +40,7 @@ const InsuranceInfo = (props) => {
         return style.red;
       }
     };
-    console.log(insuranceDaysLeft);
+
     return (
       <tr key={car.id}>
         <td data-cell="carMake">{car.carMake}</td>

@@ -44,7 +44,7 @@ const InspectionInfo = (props) => {
         return style.red;
       }
     };
-    console.log(inspectionDaysLeft);
+
     return (
       <tr key={car.id}>
         <td data-cell="carMake">{car.carMake}</td>
