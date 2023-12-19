@@ -8,8 +8,6 @@ const FreeNowSettelments = () => {
   const location = useLocation();
   const url = location.pathname;
 
-  console.log(url);
-
   return (
     <>
       <div className={style.container}>

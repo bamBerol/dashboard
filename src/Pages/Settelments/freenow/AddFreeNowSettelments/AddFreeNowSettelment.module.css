@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.addSettelmentBtn {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #fada5e;
+  background-color: #2a2a2a;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.detail {
+  display: flex;
+}
+.settelmentBtn {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.addSettelmentBtn p {
+  font-size: 0.8rem;
+}
+.addSettelmentBtn:hover {
+  color: #2a2a2a;
+  background-color: #fada5e;
+}

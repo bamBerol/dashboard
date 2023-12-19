@@ -36,6 +36,9 @@ const Main = () => {
   const firebaseUrlSettelments =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
 
+  const firebaseUrlFreeNowEmails =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow.json";
+
   const quantityOfDrivers = driversData.length;
 
   useEffect(() => {
@@ -115,6 +118,10 @@ const Main = () => {
       const newDriversData = driversData.filter((driver) => driver.id !== id);
       setDriversData(newDriversData);
     }
+    if (url === "/settelments/freenow") {
+      const newEmailData = freeNowData.filter((email) => email.id !== id);
+      setFreeNowData(newEmailData);
+    }
   };
 
   const handleAddItem = async (formData, component) => {
@@ -140,6 +147,21 @@ const Main = () => {
           console.log("kierowca dodany");
           await axios.post(`${firebaseUrlDrivers}?auth=${token}`, formData);
           getDriversData();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (component === "freenow") {
+        try {
+          console.log("komponent", component, formData);
+          if (formData.email !== "") {
+            await axios.post(
+              `${firebaseUrlFreeNowEmails}?auth=${token}`,
+              formData
+            );
+            console.log("mail w main dodany");
+            getSettelmentsData();
+          }
         } catch (error) {
           console.log(error);
         }
@@ -237,13 +259,16 @@ const Main = () => {
               element={
                 <EditEmailList
                   list={freeNowData}
-                  getList={getSettelmentsData}
+                  addEmailData={(formData, component) =>
+                    handleAddItem(formData, component)
+                  }
+                  deleteEmail={handleDelete}
                 />
               }
             />
             <Route
               path="addFreeNowSettelment"
-              element={<AddFreeNowSettelment />}
+              element={<AddFreeNowSettelment emailList={freeNowData} />}
             />
           </Route>
           <Route path="*" element={<Error />} />

@@ -9,16 +9,16 @@ const Settelments = () => {
   const location = useLocation();
   const component = location.pathname;
 
-  console.log(component);
+  // console.log(component);
 
   useEffect(() => {
-    console.log(component);
+    // console.log(component);
     if (component !== currentComponent) {
       setCurrentComponent(component);
     }
   }, [component]);
 
-  console.log("wartosc component ", component);
+  // console.log("wartosc component ", component);
 
   return (
     <div className={style.settelments}>

@@ -1,27 +1,25 @@
 import { auth } from "../../../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-
-import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import style from "./EditEmailList.module.css";
-import { useLocation } from "react-router-dom";
 
-const EditEmailList = ({ list, getList }) => {
+const EditEmailList = ({ list, addEmailData, deleteEmail }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [addEmail, setAddEmail] = useState({
     email: "",
   });
   const [addEmailError, setAddEmailError] = useState({});
+  const [emailToDelete, setEmailToDelete] = useState("");
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
   const location = useLocation();
-  const component = location.pathname;
-
-  console.log(component);
-
-  const firebaseUrlFreeNowEmails =
-    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow.json";
+  const component = location.pathname.split("/")[2];
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -35,23 +33,34 @@ const EditEmailList = ({ list, getList }) => {
     return () => unsubscribe();
   }, []);
 
-  console.log(list);
+  const handleEmailOptions = (e) => {
+    setEmailToDelete(e.currentTarget.id);
+    setWidth(e.currentTarget.offsetWidth);
+    setHeight(e.currentTarget.offsetHeight);
+  };
 
-  const showList = list.map((email) => {
-    return (
-      <li key={email.id} id={email.id} className={style.listItem}>
-        {email.email}
-      </li>
-    );
-  });
+  const handleDelete = (e) => {
+    const fullurl = location.pathname;
+    const cutUrl = fullurl.split("/editEmailList");
+    const url = cutUrl[0];
+
+    deleteEmail(emailToDelete, url);
+  };
+
+  const handleConfirm = () => {
+    console.log("ten mail nie bedzie wykasowany", emailToDelete);
+    setEmailToDelete("");
+  };
 
   const handleInputChange = (e) => {
     setAddEmail({
       email: e.target.value.toLowerCase(),
     });
+    setEmailToDelete("");
   };
 
   const emailVerification = (addEmail) => {
+    console.log("weryfikacja maila");
     const emailCheck = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const error = {};
     if (!addEmail.email) {
@@ -67,26 +76,49 @@ const EditEmailList = ({ list, getList }) => {
       if (isAuth) {
         setAddEmailError(emailVerification(addEmail));
         setIsAdded(true);
-        getList();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const postEmail = async () => {
-    const token = await auth.currentUser.getIdToken();
-    axios.post(`${firebaseUrlFreeNowEmails}?auth=${token}`, addEmail);
-  };
-
   useEffect(() => {
     if (Object.keys(addEmailError).length === 0 && isAdded) {
-      postEmail();
+      console.log("wysyłam", addEmail);
+      addEmailData(addEmail, component);
       setAddEmail({ email: "" });
     } else {
       console.log(addEmailError.email);
     }
   }, [addEmailError]);
+
+  const showList = list.map((email) => {
+    return (
+      <div
+        key={email.id}
+        id={email.id}
+        className={style.listItem}
+        onClick={handleEmailOptions}
+        style={
+          email.id === emailToDelete
+            ? { width: `${width}px`, height: `${height}px` }
+            : {}
+        }>
+        {emailToDelete === email.id ? (
+          <div className={style.options}>
+            <div className={style.icon} onClick={handleDelete}>
+              <FontAwesomeIcon icon={faTrash} size="sm" />
+            </div>
+            <div className={style.icon} onClick={handleConfirm}>
+              <FontAwesomeIcon icon={faCheck} size="sm" />
+            </div>
+          </div>
+        ) : (
+          <p className={style.email}>{email.email}</p>
+        )}
+      </div>
+    );
+  });
 
   return (
     <div className={style.container}>
@@ -117,11 +149,9 @@ const EditEmailList = ({ list, getList }) => {
       </div>
       <div className={style.emailListContainer}>
         <div className={style.subtitle}>
-          <h3>Lista adresów email</h3>
+          <h3>Lista adresów email ({list.length})</h3>
         </div>
-        <div className={style.emailList}>
-          <ol className={style.list}>{showList}</ol>
-        </div>
+        <div className={style.emailList}>{showList}</div>
       </div>
     </div>
   );
