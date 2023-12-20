@@ -10,7 +10,7 @@ const Drivers = (props) => {
   const location = useLocation();
   const url = location.pathname;
 
-  const info = props.tableData.length ? "" : <EmptyInfo />;
+  const info = props.tableData.length ? "" : <EmptyInfo url={url} />;
 
   const table = props.tableData.map((driver) => {
     return (

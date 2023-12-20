@@ -37,7 +37,10 @@ const Main = () => {
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
 
   const firebaseUrlFreeNowEmails =
-    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow.json";
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/emailList.json";
+
+  const firebaseUrlFreeNowSettelments =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/freenowSettelments.json";
 
   const quantityOfDrivers = driversData.length;
 
@@ -83,14 +86,14 @@ const Main = () => {
     }
   };
 
-  const getSettelmentsData = async () => {
+  const getEmailFreeNowData = async () => {
     try {
       const token = await auth.currentUser.getIdToken();
       await axios.get(`${firebaseUrlSettelments}?auth=${token}`).then((res) => {
-        console.log(res.data.freenow);
+        // console.log(res.data.freenow.emailList);
         const freeNow = [];
-        for (const key in res.data.freenow) {
-          freeNow.push({ ...res.data.freenow[key], id: key });
+        for (const key in res.data.freenow.emailList) {
+          freeNow.push({ ...res.data.freenow.emailList[key], id: key });
         }
         setFreeNowData(freeNow);
       });
@@ -102,7 +105,7 @@ const Main = () => {
   useEffect(() => {
     getCarsData();
     getDriversData();
-    getSettelmentsData();
+    getEmailFreeNowData();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
@@ -127,6 +130,8 @@ const Main = () => {
   const handleAddItem = async (formData, component) => {
     const user = auth.currentUser;
     const token = await auth.currentUser.getIdToken();
+    console.log(formData, component);
+    console.log(isAuth);
 
     if (isAuth) {
       if (component === "cars") {
@@ -160,8 +165,19 @@ const Main = () => {
               formData
             );
             console.log("mail w main dodany");
-            getSettelmentsData();
+            getEmailFreeNowData();
           }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (component === "addFreeNowSettelment") {
+        try {
+          console.log(formData);
+          await axios.post(
+            `${firebaseUrlFreeNowSettelments}?auth=${token}`,
+            formData
+          );
         } catch (error) {
           console.log(error);
         }
@@ -268,7 +284,14 @@ const Main = () => {
             />
             <Route
               path="addFreeNowSettelment"
-              element={<AddFreeNowSettelment emailList={freeNowData} />}
+              element={
+                <AddFreeNowSettelment
+                  emailList={freeNowData}
+                  addSettelment={(formData, component) =>
+                    handleAddItem(formData, component)
+                  }
+                />
+              }
             />
           </Route>
           <Route path="*" element={<Error />} />

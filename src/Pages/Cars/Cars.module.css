@@ -5,12 +5,18 @@
   justify-content: center;
   align-items: center;
   flex: 1;
-  background-color: #4f4f4f;
 }
 .title {
   padding: 1rem 0;
   font-size: 1.75rem;
   color: #fada5e;
+}
+.options {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  padding: 1rem;
+  padding-bottom: 2rem;
 }
 .container {
   display: flex;
@@ -20,13 +26,6 @@
   padding-top: 0;
   flex: 1;
   overflow-y: hidden;
-}
-.options {
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  padding: 1rem;
-  padding-bottom: 2rem;
 }
 .carTable {
   display: flex;

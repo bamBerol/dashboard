@@ -17,7 +17,7 @@ const Cars = (props) => {
 
   const today = new Date();
 
-  const info = props.tableData.length ? "" : <EmptyInfo />;
+  const info = props.tableData.length ? "" : <EmptyInfo url={url} />;
 
   const table = props.tableData.map((car) => {
     const periodInspection = () => {

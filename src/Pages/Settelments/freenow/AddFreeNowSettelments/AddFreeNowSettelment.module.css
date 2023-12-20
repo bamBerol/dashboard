@@ -1,9 +1,104 @@
-.container {
+.containerAddFreeNow {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* flex: 1; */
+}
+.datePicker {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  padding-top: 3rem;
+  color: #fada5e;
+  gap: 2rem;
+}
+.datePickerCalendar {
+  padding: 0.5rem;
+  color: #fada5e;
+  background-color: #4f4f4f;
+  border: none;
+  border-bottom: 1px solid #fada5e;
+  cursor: pointer;
+}
+.datePickerFrom,
+.datePickerTo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.email {
   display: flex;
   width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 3rem 0;
+}
+.listOfEmails {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.emailItem {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.emailItem:nth-child(even) {
+  border-left: 1px solid #fada5e;
+}
+.detail {
+  display: flex;
+  width: 100%;
+}
+.detailEmail,
+.detailInput {
+  display: flex;
+  align-items: center;
+  color: #fada5e;
+  flex: 1;
+}
+.detailEmail {
+  margin-left: 3rem;
+}
+.detailInput {
+  margin-right: 3rem;
+  justify-content: flex-end;
+}
+.detailInput input {
+  padding: 0.5em;
+  color: #fada5e;
+  background-color: #4f4f4f;
+  border: none;
+  border-bottom: 1px solid #fada5e;
+}
+.detailInput input::-webkit-input-placeholder,
+.datePicker input::-webkit-input-placeholder {
+  opacity: 0.4;
+  color: #dbdbdb;
+}
+.detailInput input:focus,
+.datePicker input:focus {
+  outline: none;
+}
+.detailInput input::-webkit-inner-spin-button {
+  display: none;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.infoBtn {
+  display: flex;
+  width: 100%;
+  padding: 3rem 0;
+  justify-content: center;
 }
 .addSettelmentBtn {
   display: flex;
@@ -18,9 +113,6 @@
   transition: background-color 0.3s;
   cursor: pointer;
 }
-.detail {
-  display: flex;
-}
 .settelmentBtn {
   display: flex;
   width: 100%;
@@ -28,7 +120,7 @@
   padding: 1rem 0;
 }
 .addSettelmentBtn p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .addSettelmentBtn:hover {
   color: #2a2a2a;
