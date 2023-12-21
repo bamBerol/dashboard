@@ -21,7 +21,7 @@ const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
 
   const navigate = useNavigate();
 
-  console.log(emailList);
+  // console.log(emailList);
 
   useEffect(() => {
     setSettelmentList([...emailList]);

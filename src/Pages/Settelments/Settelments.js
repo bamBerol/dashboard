@@ -23,32 +23,30 @@ const Settelments = () => {
   return (
     <div className={style.settelments}>
       <h2 className={style.title}>Rozliczenia</h2>
+      <nav className={style.nav}>
+        <Link
+          to="/settelments"
+          className={
+            component === "/settelments" ? style.active : style.inactive
+          }>
+          SumUp
+        </Link>
+        <Link
+          to="bolt"
+          className={
+            component === "/settelments/bolt" ? style.active : style.inactive
+          }>
+          Bolt
+        </Link>
+        <Link
+          to="freenow"
+          className={
+            component === "/settelments/freenow" ? style.active : style.inactive
+          }>
+          FreeNow
+        </Link>
+      </nav>
       <div className={style.container}>
-        <nav className={style.nav}>
-          <Link
-            to="/settelments"
-            className={
-              component === "/settelments" ? style.active : style.inactive
-            }>
-            SumUp
-          </Link>
-          <Link
-            to="bolt"
-            className={
-              component === "/settelments/bolt" ? style.active : style.inactive
-            }>
-            Bolt
-          </Link>
-          <Link
-            to="freenow"
-            className={
-              component === "/settelments/freenow"
-                ? style.active
-                : style.inactive
-            }>
-            FreeNow
-          </Link>
-        </nav>
         <Outlet />
       </div>
     </div>

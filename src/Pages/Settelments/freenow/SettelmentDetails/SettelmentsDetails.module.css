@@ -1,0 +1,43 @@
+.container,
+.settelmentInfo {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+}
+.settelmentInfo {
+  flex-direction: column;
+  color: #fada5e;
+  /* justify-content: space-evenly; */
+}
+.settelmentInfo h3 {
+  padding: 2rem 0;
+  font-size: 1.25rem;
+}
+.detail {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.info {
+  display: flex;
+  width: 50%;
+  justify-content: space-evenly;
+  color: #fada5e;
+}
+.email,
+.amount {
+  display: flex;
+  width: 50%;
+  padding: 0.5rem 0;
+}
+.email {
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+.amount {
+  margin-left: 1rem;
+}

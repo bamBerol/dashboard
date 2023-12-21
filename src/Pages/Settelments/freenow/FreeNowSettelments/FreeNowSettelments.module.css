@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  flex: 1;
+  /* height: 100%; */
 }
 .options {
   display: flex;
@@ -12,4 +12,36 @@
 }
 .options a {
   margin-right: 1rem;
+}
+.settelmentsList {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+  padding: 2rem 0;
+  gap: 1rem;
+}
+.settelment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  /* color: #fada5e; */
+  text-decoration: none;
+  color: #2a2a2a;
+  background-color: #dbdbdb;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.settelment:hover {
+  color: #dbdbdb;
+  /* color: #fada5e; */
+  background-color: #2a2a2a;
+  border: 1px solid #dbdbdb;
+  /* border: 1px solid #fada5e; */
+}
+.settelment p {
+  text-align: center;
 }

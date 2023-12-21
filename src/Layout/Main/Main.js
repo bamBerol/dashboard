@@ -15,6 +15,7 @@ import FreeNow from "../../Pages/Settelments/freenow/FreeNow";
 import Home from "../../Pages/Home/Home";
 import Sumup from "../../Pages/Settelments/sumup/Sumup";
 import Settelments from "../../Pages/Settelments/Settelments";
+import SettelmentDetails from "../../Pages/Settelments/freenow/SettelmentDetails/SettelmentDetails";
 
 import style from "./Main.module.css";
 import EditEmailList from "../../Pages/Settelments/freenow/EditEmailList/EditEmailList";
@@ -25,6 +26,7 @@ const Main = () => {
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
   const [freeNowData, setFreeNowData] = useState([]);
+  const [freeNowSettelments, setFreeNowSettelments] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
 
   const firebaseUrlCars =
@@ -102,10 +104,29 @@ const Main = () => {
     }
   };
 
+  const getFreeNowSettelments = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      axios
+        .get(`${firebaseUrlFreeNowSettelments}?auth=${token}`)
+        .then((res) => {
+          // console.log(res.data);
+          const settelments = [];
+          for (const key in res.data) {
+            settelments.push({ ...res.data[key], id: key });
+            setFreeNowSettelments(settelments);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCarsData();
     getDriversData();
     getEmailFreeNowData();
+    getFreeNowSettelments();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
@@ -269,7 +290,19 @@ const Main = () => {
           <Route index element={<Sumup />} />
           <Route path="bolt" element={<Bolt />} />
           <Route path="freenow" element={<FreeNow />}>
-            <Route index path="" element={<FreeNowSettelments />} />
+            <Route
+              index
+              path=""
+              element={
+                <FreeNowSettelments
+                  // emailList={freeNowData}
+                  settelments={freeNowSettelments}
+                />
+              }></Route>
+            <Route
+              path=":id"
+              element={<SettelmentDetails settelments={freeNowSettelments} />}
+            />
             <Route
               path="editEmailList"
               element={
