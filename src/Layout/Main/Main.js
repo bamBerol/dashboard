@@ -6,21 +6,21 @@ import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
+import AddFreeNowSettelment from "../../Pages/Settelments/freenow/AddFreeNowSettelments/AddFreeNowSettelments";
 import Bolt from "../../Pages/Settelments/bolt/Bolt";
 import Cars from "../../Pages/Cars/Cars";
 import Drivers from "../../Pages/Drivers/Drivers";
+import EditFullNameList from "../../Pages/Settelments/freenow/EditFullNameList/EditFullNameList";
 import EditItem from "../../components/EditItem/EditItem";
 import Error from "../../Pages/Error/Error";
 import FreeNow from "../../Pages/Settelments/freenow/FreeNow";
+import FreeNowSettelments from "../../Pages/Settelments/freenow/FreeNowSettelments/FreeNowSettelments";
 import Home from "../../Pages/Home/Home";
 import Sumup from "../../Pages/Settelments/sumup/Sumup";
 import Settelments from "../../Pages/Settelments/Settelments";
 import SettelmentDetails from "../../Pages/Settelments/freenow/SettelmentDetails/SettelmentDetails";
 
 import style from "./Main.module.css";
-import EditEmailList from "../../Pages/Settelments/freenow/EditEmailList/EditEmailList";
-import FreeNowSettelments from "../../Pages/Settelments/freenow/FreeNowSettelments/FreeNowSettelments";
-import AddFreeNowSettelment from "../../Pages/Settelments/freenow/AddFreeNowSettelments/AddFreeNowSettelments";
 
 const Main = () => {
   const [carsData, setCarsData] = useState([]);
@@ -35,11 +35,8 @@ const Main = () => {
   const firebaseUrlDrivers =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
 
-  const firebaseUrlSettelments =
-    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments.json";
-
-  const firebaseUrlFreeNowEmails =
-    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/emailList.json";
+  const firebaseUrlFreeNowFullNames =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/listOfNames.json";
 
   const firebaseUrlFreeNowSettelments =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/freenowSettelments.json";
@@ -88,17 +85,19 @@ const Main = () => {
     }
   };
 
-  const getEmailFreeNowData = async () => {
+  const getFullNamesFreeNowData = async () => {
     try {
       const token = await auth.currentUser.getIdToken();
-      await axios.get(`${firebaseUrlSettelments}?auth=${token}`).then((res) => {
-        // console.log(res.data.freenow.emailList);
-        const freeNow = [];
-        for (const key in res.data.freenow.emailList) {
-          freeNow.push({ ...res.data.freenow.emailList[key], id: key });
-        }
-        setFreeNowData(freeNow);
-      });
+      await axios
+        .get(`${firebaseUrlFreeNowFullNames}?auth=${token}`)
+        .then((res) => {
+          console.log(res.data);
+          const freeNow = [];
+          for (const key in res.data) {
+            freeNow.push({ ...res.data[key], id: key });
+          }
+          setFreeNowData(freeNow);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +109,7 @@ const Main = () => {
       axios
         .get(`${firebaseUrlFreeNowSettelments}?auth=${token}`)
         .then((res) => {
-          // console.log(res.data);
+          console.log(res.data);
           const settelments = [];
           for (const key in res.data) {
             settelments.push({ ...res.data[key], id: key });
@@ -125,12 +124,13 @@ const Main = () => {
   useEffect(() => {
     getCarsData();
     getDriversData();
-    getEmailFreeNowData();
+    getFullNamesFreeNowData();
     getFreeNowSettelments();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
     const token = await auth.currentUser.getIdToken();
+    console.log(id, url);
     await axios.delete(
       `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
     );
@@ -142,9 +142,12 @@ const Main = () => {
       const newDriversData = driversData.filter((driver) => driver.id !== id);
       setDriversData(newDriversData);
     }
-    if (url === "/settelments/freenow") {
-      const newEmailData = freeNowData.filter((email) => email.id !== id);
-      setFreeNowData(newEmailData);
+    if (url === "/settelments/freenow/listOfNames") {
+      console.log("bedzie usuniete");
+      const newFullNameData = freeNowData.filter(
+        (fullName) => fullName.id !== id
+      );
+      setFreeNowData(newFullNameData);
     }
   };
 
@@ -177,16 +180,16 @@ const Main = () => {
           console.log(error);
         }
       }
-      if (component === "freenow") {
+      if (component === "/settelments/freenow/listOfNames") {
         try {
           console.log("komponent", component, formData);
-          if (formData.email !== "") {
+          if (formData.fullName !== "") {
             await axios.post(
-              `${firebaseUrlFreeNowEmails}?auth=${token}`,
+              `${firebaseUrlFreeNowFullNames}?auth=${token}`,
               formData
             );
-            console.log("mail w main dodany");
-            getEmailFreeNowData();
+            console.log("Imię i nazwisko w main dodany");
+            getFullNamesFreeNowData();
           }
         } catch (error) {
           console.log(error);
@@ -199,6 +202,7 @@ const Main = () => {
             `${firebaseUrlFreeNowSettelments}?auth=${token}`,
             formData
           );
+          getFreeNowSettelments();
         } catch (error) {
           console.log(error);
         }
@@ -294,21 +298,18 @@ const Main = () => {
               index
               path=""
               element={
-                <FreeNowSettelments
-                  // emailList={freeNowData}
-                  settelments={freeNowSettelments}
-                />
+                <FreeNowSettelments settelments={freeNowSettelments} />
               }></Route>
             <Route
               path=":id"
               element={<SettelmentDetails settelments={freeNowSettelments} />}
             />
             <Route
-              path="editEmailList"
+              path="listOfNames"
               element={
-                <EditEmailList
+                <EditFullNameList
                   list={freeNowData}
-                  addEmailData={(formData, component) =>
+                  addFullNameData={(formData, component) =>
                     handleAddItem(formData, component)
                   }
                   deleteEmail={handleDelete}
@@ -319,7 +320,7 @@ const Main = () => {
               path="addFreeNowSettelment"
               element={
                 <AddFreeNowSettelment
-                  emailList={freeNowData}
+                  fullNamesList={freeNowData}
                   addSettelment={(formData, component) =>
                     handleAddItem(formData, component)
                   }

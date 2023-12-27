@@ -9,7 +9,7 @@ import EmptyInfo from "../../../../components/EmptyInfo/EmptyInfo";
 
 import style from "./AddFreeNowSettelment.module.css";
 
-const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
+const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [settelmentList, setSettelmentList] = useState();
   const [startDate, setStartDate] = useState("");
@@ -18,13 +18,14 @@ const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
   const location = useLocation();
   const url = location.pathname.split("/")[2];
   const component = location.pathname.split("/")[3];
+  console.log(component);
 
   const navigate = useNavigate();
 
   // console.log(emailList);
 
   useEffect(() => {
-    setSettelmentList([...emailList]);
+    setSettelmentList([...fullNamesList]);
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -68,8 +69,9 @@ const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
   };
 
   const handleAddSettelment = () => {
-    if (Object.keys(emailList).length === 0) return;
+    if (Object.keys(fullNamesList).length === 0) return;
     console.log("klikniete dodaj rozliczenie");
+    console.log(isAuth);
 
     if (isAuth) {
       const formData = {
@@ -77,25 +79,25 @@ const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
         dateTo: endDate,
         settelment: [...settelmentList],
       };
-
+      console.log(formData, component);
       addSettelment(formData, component);
       setStartDate("");
       setEndDate("");
-      setSettelmentList(emailList);
+      setSettelmentList(fullNamesList);
       navigate("/settelments/freenow");
     }
   };
 
-  const list = emailList.map((email) => {
+  const list = fullNamesList.map((name) => {
     return (
-      <div key={email.id} className={style.emailItem}>
+      <div key={name.id} className={style.emailItem}>
         <div className={style.detail}>
           <div className={style.detailEmail}>
-            <p>{email.email}</p>
+            <p>{name.fullName}</p>
           </div>
           <div className={style.detailInput}>
             <input
-              id={email.id}
+              id={name.id}
               type="number"
               placeholder="Wpisz kwotę"
               onChange={handleChange}
@@ -139,12 +141,12 @@ const AddFreeNowSettelment = ({ emailList, addSettelment }) => {
           />
         </div>
       </div>
-      {Object.keys(emailList).length === 0 ? (
+      {Object.keys(fullNamesList).length === 0 ? (
         <div className={style.info}>
           <EmptyInfo url={url} />
           <div className={style.infoBtn}>
             <div className={style.addSettelmentBtn} onClick={handleNavigate}>
-              <p>Dodaj adres email</p>
+              <p>Dodaj imie i nazwisko do listy</p>
             </div>
           </div>
         </div>

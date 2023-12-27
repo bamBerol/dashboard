@@ -21,8 +21,8 @@ const AddButton = ({ url, type }) => {
       break;
     case "/settelments/freenow":
       if (type === "email") {
-        buttonName = "/ usuń email";
-        buttonNavigate = "editEmailList";
+        buttonName = "/ usuń osobę";
+        buttonNavigate = "listOfNames";
       }
       if (type === "settelment") {
         buttonName = "rozliczenie";

@@ -43,7 +43,7 @@ const Settelments = () => {
           className={
             component === "/settelments/freenow" ? style.active : style.inactive
           }>
-          FreeNow
+          Free Now
         </Link>
       </nav>
       <div className={style.container}>

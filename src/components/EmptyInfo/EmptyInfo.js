@@ -1,6 +1,7 @@
 import style from "./EmptyInfo.module.css";
 
 const EmptyInfo = (props) => {
+  console.log(props);
   let title;
   let subtitle;
 

@@ -45,3 +45,11 @@
 .settelment p {
   text-align: center;
 }
+.info {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6rem;
+  color: #fada5e;
+}
