@@ -42,7 +42,8 @@
   border: 1px solid #dbdbdb;
   /* border: 1px solid #fada5e; */
 }
-.settelment p {
+.settelment p,
+.settelment h4 {
   text-align: center;
 }
 .info {

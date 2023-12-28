@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addYears, format } from "date-fns";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import Input from "../Input/Input";
 import DataPicker from "../DataPicker/DataPicker";
@@ -9,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import style from "./AddNewItem.module.css";
 
 const AddCar = (props) => {
+  const [carsList, setCarsList] = useState([]);
   const [carFormData, setCarFormData] = useState({
     carMake: "",
     carModel: "",
@@ -35,6 +38,7 @@ const AddCar = (props) => {
   const component = location.pathname.split("/")[1];
 
   const title = component === "cars" ? "samochód" : "kierowcę";
+  let options;
 
   const handleChange = (e) => {
     console.log(component, e.currentTarget.id);
@@ -50,6 +54,18 @@ const AddCar = (props) => {
         [e.currentTarget.id]: e.target.value.toLowerCase(),
       });
     }
+  };
+
+  const handleChangeSelect = (e) => {
+    console.log(e.target.value);
+    const car = carsList.filter((carDetail) => carDetail.id === e.target.value);
+    console.log(car[0]);
+
+    setDriverFormData({
+      ...driverFormData,
+      carMake: car[0].carMake,
+      plate: car[0].plate,
+    });
   };
 
   const handleDateCarInspectionChange = (date) => {
@@ -84,7 +100,7 @@ const AddCar = (props) => {
   const handleSubmit = (component, e) => {
     e.preventDefault();
 
-    console.log(component);
+    console.log(component, driverFormData);
 
     if (component === "cars") {
       setCarErrors(validateForm(carFormData, component));
@@ -95,6 +111,10 @@ const AddCar = (props) => {
       setIsSubmit(true);
     }
   };
+
+  useEffect(() => {
+    setCarsList([...props.cars]);
+  }, []);
 
   useEffect(() => {
     if (component === "cars") {
@@ -128,6 +148,22 @@ const AddCar = (props) => {
       }
     }
   }, [carErrors, driverErrors]);
+
+  console.log(props.cars.length);
+
+  if (carsList.length !== 0) {
+    options = carsList.map((car) => {
+      return (
+        <option
+          key={car.id}
+          value={car.id}
+          // value={`${car.carMake} ${car.plate}`}
+        >
+          {car.carMake} {car.plate.toUpperCase()}
+        </option>
+      );
+    });
+  }
 
   const validateForm = (values, component) => {
     const errors = {};
@@ -293,7 +329,16 @@ const AddCar = (props) => {
                   errorMsg={driverErrors.email}
                 />
               </div>
-              <Input
+              <div className={style.carSelect}>
+                <select
+                  id="carsList"
+                  className={style.carsList}
+                  onChange={handleChangeSelect}>
+                  <option value="Wybierz samochód">Wybierz samochód</option>
+                  {options}
+                </select>
+              </div>
+              {/* <Input
                 component={component}
                 action="add"
                 id="carMake"
@@ -308,7 +353,7 @@ const AddCar = (props) => {
                 driverFormData={driverFormData.plate}
                 change={handleChange}
                 errorMsg={driverErrors.plate}
-              />
+              /> */}
             </>
           )}
 

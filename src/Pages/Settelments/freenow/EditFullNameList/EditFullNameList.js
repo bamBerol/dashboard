@@ -45,9 +45,10 @@ const EditFullNameList = ({ list, addFullNameData, deleteEmail }) => {
     deleteEmail(fullNameToDelete, component);
   };
 
-  const handleIsOk = () => {
+  const handleConfirm = () => {
     console.log("nie bedzie usuniety");
     setIsClicked(false);
+    // setFullNameToDelete("");
   };
 
   const handleInputChange = (e) => {
@@ -105,7 +106,7 @@ const EditFullNameList = ({ list, addFullNameData, deleteEmail }) => {
             <div className={style.icon} onClick={handleDelete}>
               <FontAwesomeIcon icon={faTrash} size="sm" />
             </div>
-            <div className={style.icon} onClick={handleIsOk}>
+            <div className={style.icon} onClick={handleConfirm}>
               <FontAwesomeIcon icon={faCheck} size="sm" />
             </div>
           </div>

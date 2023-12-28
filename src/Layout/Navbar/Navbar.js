@@ -10,6 +10,7 @@ import {
   faHouse,
   faPowerOff,
   faUsers,
+  faBoxArchive,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Footer from "../Footer/Footer";
@@ -19,8 +20,9 @@ import style from "./Navbar.module.css";
 const panelTabs = [
   { name: "Strona Główna", icon: faHouse, path: "/", exact: "true" },
   { name: "Samochody", icon: faCar, path: "/cars", exact: "false" },
-  { name: "Rozliczenia", icon: faCoins, path: "/settelments", exact: "false" },
   { name: "Kierowcy", icon: faUsers, path: "/drivers", exact: "false" },
+  { name: "Rozliczenia", icon: faCoins, path: "/settelments", exact: "false" },
+  { name: "Archiwum", icon: faBoxArchive, path: "/archive", exact: "false" },
 ];
 
 const Navbar = (props) => {

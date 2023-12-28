@@ -30,7 +30,11 @@
 .driverFullName,
 .contactData {
   display: flex;
-  width: 50%;
+  width: 65%;
+}
+.driverFullName,
+.contactData {
+  padding: 1.5rem;
 }
 .formInput {
   display: flex;
@@ -50,6 +54,33 @@
 }
 .formInput > .react-datepicker-wrapper {
   border: 1px solid grey;
+}
+.carSelect {
+  display: flex;
+  position: relative;
+  margin: 3rem 0;
+}
+.carSelect::after {
+  content: "▼";
+  font-size: 0.7rem;
+  top: 0.7rem;
+  right: 0.45rem;
+  color: #fada5e;
+  position: absolute;
+}
+.carsList {
+  padding: 0.5rem 1rem;
+  padding-right: 1.5rem;
+  color: #fada5e;
+  background-color: #2a2a2a;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.carsList :focus {
+  outline: none;
 }
 .addBtn {
   padding: 0.5rem 1rem;

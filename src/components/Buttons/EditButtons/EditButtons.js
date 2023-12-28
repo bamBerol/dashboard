@@ -6,6 +6,7 @@ import {
   faCheck,
   faPencil,
   faPenToSquare,
+  faBoxArchive,
 } from "@fortawesome/free-solid-svg-icons";
 
 import style from "./EditButtons.module.css";
@@ -37,6 +38,18 @@ const EditButtons = (props) => {
           className={`${style.icon} ${style.edit}`}>
           <FontAwesomeIcon icon={faPencil} />
         </Link>
+
+        {props.url === "/drivers" ? (
+          <>
+            <div
+              className={`${style.icon} ${style.archive}`}
+              onClick={() => props.archive(props.id, props.url)}>
+              <FontAwesomeIcon icon={faBoxArchive} size="sm" />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         <div
           className={`${style.icon} ${style.confirm}`}
           onClick={handleConfirmBtn}>

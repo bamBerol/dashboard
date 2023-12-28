@@ -17,7 +17,10 @@
 .delete {
   color: rgb(201, 0, 0);
 }
-.edit {
+/* .edit {
+} */
+.archive {
+  color: #11384e;
 }
 .confirm {
   color: green;
@@ -25,6 +28,7 @@
 
 .delete:hover,
 .edit:hover,
+.archive:hover,
 .confirm:hover,
 .main:hover {
   opacity: 1;

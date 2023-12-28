@@ -7,6 +7,7 @@ import axios from "axios";
 
 import AddNewItem from "../../components/AddNewItem/AddNewItem";
 import AddFreeNowSettelment from "../../Pages/Settelments/freenow/AddFreeNowSettelments/AddFreeNowSettelments";
+import ArchivePage from "../../Pages/ArchivePage/ArchivePage";
 import Bolt from "../../Pages/Settelments/bolt/Bolt";
 import Cars from "../../Pages/Cars/Cars";
 import Drivers from "../../Pages/Drivers/Drivers";
@@ -23,6 +24,7 @@ import SettelmentDetails from "../../Pages/Settelments/freenow/SettelmentDetails
 import style from "./Main.module.css";
 
 const Main = () => {
+  const [archiveData, setArchiveData] = useState([]);
   const [carsData, setCarsData] = useState([]);
   const [driversData, setDriversData] = useState([]);
   const [freeNowData, setFreeNowData] = useState([]);
@@ -34,6 +36,9 @@ const Main = () => {
 
   const firebaseUrlDrivers =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/drivers.json";
+
+  const firebaseUrlArchive =
+    "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/archive.json";
 
   const firebaseUrlFreeNowFullNames =
     "https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app/settelments/freenow/listOfNames.json";
@@ -231,6 +236,27 @@ const Main = () => {
     }
   };
 
+  const handleArchive = async (id, url) => {
+    const token = await auth.currentUser.getIdToken();
+    console.log(id, url);
+    await axios
+      .get(
+        `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
+      )
+      .then((res) =>
+        axios
+          .post(`${firebaseUrlArchive}?auth=${token}`, res.data)
+          .then((res) => console.log(res))
+      );
+    await axios.delete(
+      `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
+    );
+    if (url === "/drivers") {
+      const newDriversData = driversData.filter((driver) => driver.id !== id);
+      setDriversData(newDriversData);
+    }
+  };
+
   return (
     <main className={style.main}>
       <Routes>
@@ -267,7 +293,13 @@ const Main = () => {
         />
         <Route
           path="drivers"
-          element={<Drivers tableData={driversData} delete={handleDelete} />}
+          element={
+            <Drivers
+              tableData={driversData}
+              delete={handleDelete}
+              archive={handleArchive}
+            />
+          }
         />
         <Route
           path="drivers/addDriver"
@@ -276,6 +308,7 @@ const Main = () => {
               submit={(formData, component) =>
                 handleAddItem(formData, component)
               }
+              cars={carsData}
             />
           }
         />
@@ -330,6 +363,7 @@ const Main = () => {
           </Route>
           <Route path="*" element={<Error />} />
         </Route>
+        <Route path="archive" element={<ArchivePage />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </main>

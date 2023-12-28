@@ -31,19 +31,20 @@ const Settelments = () => {
           }>
           SumUp
         </Link>
-        <Link
-          to="bolt"
-          className={
-            component === "/settelments/bolt" ? style.active : style.inactive
-          }>
-          Bolt
-        </Link>
+
         <Link
           to="freenow"
           className={
             component === "/settelments/freenow" ? style.active : style.inactive
           }>
           Free Now
+        </Link>
+        <Link
+          to="bolt"
+          className={
+            component === "/settelments/bolt" ? style.active : style.inactive
+          }>
+          Bolt
         </Link>
       </nav>
       <div className={style.container}>

@@ -28,8 +28,8 @@ const FreeNowSettelments = ({ settelments }) => {
           key={settelment.id}
           className={style.settelment}>
           <p>Rozliczenie za:</p>
-          <p>{settelment.dateFrom}</p>
-          <p>{settelment.dateTo}</p>
+          <h4>{settelment.dateFrom}</h4>
+          <h4>{settelment.dateTo}</h4>
         </Link>
       );
     });

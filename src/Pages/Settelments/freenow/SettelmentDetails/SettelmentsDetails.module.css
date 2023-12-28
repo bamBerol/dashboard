@@ -1,6 +1,7 @@
 .container,
 .settelmentInfo {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   justify-content: flex-start;
@@ -40,4 +41,17 @@
 }
 .amount {
   margin-left: 2rem;
+}
+.backBtn {
+  padding: 0.5rem 1rem;
+  margin-top: 2.5rem;
+  border: 1px solid #fada5e;
+  border-radius: 0.5rem;
+  background-color: #2a2a2a;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.backBtn:hover {
+  color: #2a2a2a;
+  background-color: #fada5e;
 }

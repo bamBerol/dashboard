@@ -22,7 +22,12 @@ const Drivers = (props) => {
         <td data-cell="carMake">{driver.carMake}</td>
         <td data-cell="plate">{driver.plate}</td>
         <td data-cell="buttons">
-          <EditButtons id={driver.id} url={url} delete={props.delete} />
+          <EditButtons
+            id={driver.id}
+            url={url}
+            delete={props.delete}
+            archive={props.archive}
+          />
         </td>
       </tr>
     );
