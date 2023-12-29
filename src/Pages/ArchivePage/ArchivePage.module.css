@@ -14,5 +14,64 @@
 .container {
   display: flex;
   width: 100%;
+  /* margin-top: 3rem; */
+  padding: 1rem;
   flex: 1;
+}
+.archiveDriversTable {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+.archiveDriversTable::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.archiveDriversTable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+.archiveDriversTable::-webkit-scrollbar-thumb {
+  border-radius: 0.3rem;
+  background-color: #fada5e;
+}
+.tableOfArchiveDrivers {
+  width: 100%;
+  color: #000000;
+  border-collapse: collapse;
+}
+.tableOfArchiveDrivers td[data-cell="plate"] {
+  text-transform: uppercase;
+}
+.tableOfArchiveDrivers td[data-cell="email"] {
+  text-transform: lowercase;
+}
+.tableOfArchiveDrivers td {
+  text-transform: capitalize;
+}
+.tableOfArchiveDrivers thead tr :first-child {
+  border-top-left-radius: 0.5rem;
+}
+.tableOfArchiveDrivers thead tr :last-child {
+  border-top-right-radius: 0.5rem;
+}
+.tableOfArchiveDrivers th,
+.tableOfArchiveDrivers td {
+  padding: 1rem;
+  text-align: left;
+}
+.tableOfArchiveDrivers th {
+  background-color: #dbdbdb;
+}
+.tableOfArchiveDrivers tbody tr:nth-of-type(odd) {
+  background-color: #a1a1a1;
+}
+.tableOfArchiveDrivers tbody tr:nth-of-type(even) {
+  background-color: #dbdbdb;
+}
+.tableOfArchiveDrivers tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+.tableOfArchiveDrivers tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+  border: 1px solid transparent;
 }

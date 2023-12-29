@@ -22,6 +22,8 @@ const EditFullNameList = ({ list, addFullNameData, deleteEmail }) => {
   const location = useLocation();
   const component = location.pathname;
 
+  console.log(component);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {

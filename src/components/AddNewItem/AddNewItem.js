@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { addYears, format } from "date-fns";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import Input from "../Input/Input";
 import DataPicker from "../DataPicker/DataPicker";
@@ -36,6 +34,7 @@ const AddCar = (props) => {
 
   const location = useLocation();
   const component = location.pathname.split("/")[1];
+  console.log(component);
 
   const title = component === "cars" ? "samochód" : "kierowcę";
   let options;
@@ -57,9 +56,9 @@ const AddCar = (props) => {
   };
 
   const handleChangeSelect = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     const car = carsList.filter((carDetail) => carDetail.id === e.target.value);
-    console.log(car[0]);
+    // console.log(car[0]);
 
     setDriverFormData({
       ...driverFormData,
@@ -100,7 +99,7 @@ const AddCar = (props) => {
   const handleSubmit = (component, e) => {
     e.preventDefault();
 
-    console.log(component, driverFormData);
+    // console.log(component, driverFormData);
 
     if (component === "cars") {
       setCarErrors(validateForm(carFormData, component));
@@ -113,7 +112,9 @@ const AddCar = (props) => {
   };
 
   useEffect(() => {
-    setCarsList([...props.cars]);
+    if (component === "drivers") {
+      setCarsList([...props.cars]);
+    }
   }, []);
 
   useEffect(() => {
@@ -130,7 +131,7 @@ const AddCar = (props) => {
           legalizationDate: "",
         });
         navigate(`/${component}`);
-        console.log(carFormData);
+        // console.log(carFormData);
       }
     }
     if (component === "drivers") {
@@ -149,17 +150,20 @@ const AddCar = (props) => {
     }
   }, [carErrors, driverErrors]);
 
-  console.log(props.cars.length);
+  // console.log(props.cars.length);
 
   if (carsList.length !== 0) {
     options = carsList.map((car) => {
+      const make = car.carMake;
+      const capitalize = make.charAt(0).toUpperCase() + make.slice(1);
+
       return (
         <option
           key={car.id}
           value={car.id}
           // value={`${car.carMake} ${car.plate}`}
         >
-          {car.carMake} {car.plate.toUpperCase()}
+          {capitalize} {car.plate.toUpperCase()}
         </option>
       );
     });
@@ -254,15 +258,15 @@ const AddCar = (props) => {
                   errorMsg={carErrors.carModel}
                 />
               </div>
-              <Input
-                component={component}
-                action="add"
-                id="plate"
-                carFormData={carFormData.plate}
-                change={handleChange}
-                errorMsg={carErrors.plate}
-              />
-              <div className={style.date}>
+              <div className={style.carPlate}>
+                <Input
+                  component={component}
+                  action="add"
+                  id="plate"
+                  carFormData={carFormData.plate}
+                  change={handleChange}
+                  errorMsg={carErrors.plate}
+                />
                 <DataPicker
                   component={component}
                   action="add"
@@ -271,6 +275,8 @@ const AddCar = (props) => {
                   change={handleDateCarInspectionChange}
                   errorMsg={carErrors.dateCarInspection}
                 />
+              </div>
+              <div className={style.date}>
                 <DataPicker
                   component={component}
                   action="add"
@@ -279,15 +285,15 @@ const AddCar = (props) => {
                   change={handleInsuranceDateChange}
                   errorMsg={carErrors.insuranceDate}
                 />
+                <DataPicker
+                  component={component}
+                  action="add"
+                  id="legalizationDate"
+                  carFormData={carFormData.legalizationDate}
+                  change={handleLegalizationDateChange}
+                  errorMsg={carErrors.legalizationDate}
+                />
               </div>
-              <DataPicker
-                component={component}
-                action="add"
-                id="legalizationDate"
-                carFormData={carFormData.legalizationDate}
-                change={handleLegalizationDateChange}
-                errorMsg={carErrors.legalizationDate}
-              />
             </>
           ) : (
             <>

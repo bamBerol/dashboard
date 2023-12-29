@@ -13,10 +13,13 @@ import style from "./EditButtons.module.css";
 
 const EditButtons = (props) => {
   const [editIsClicked, setEditIsClicked] = useState(false);
+  // const [width, setWidth] = useState();
 
   const path = props.url === "/cars" ? "editCar" : "editDriver";
 
-  const handleClickMainEditButton = () => {
+  const handleClickMainEditButton = (e) => {
+    // console.log(e.currentTarget.offsetWidth);
+    // setWidth(e.currentTarget.offsetWidth);
     setEditIsClicked(true);
   };
 
@@ -33,11 +36,15 @@ const EditButtons = (props) => {
           onClick={() => props.delete(props.id, props.url)}>
           <FontAwesomeIcon icon={faTrash} size="sm" />
         </div>
-        <Link
-          to={`${props.url}/${path}/${props.id}`}
-          className={`${style.icon} ${style.edit}`}>
-          <FontAwesomeIcon icon={faPencil} />
-        </Link>
+        {props.url === "/archive" ? (
+          ""
+        ) : (
+          <Link
+            to={`${props.url}/${path}/${props.id}`}
+            className={`${style.icon} ${style.edit}`}>
+            <FontAwesomeIcon icon={faPencil} />
+          </Link>
+        )}
 
         {props.url === "/drivers" ? (
           <>

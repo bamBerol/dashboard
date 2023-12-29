@@ -14,6 +14,9 @@ const EmptyInfo = (props) => {
       title = "kierowców";
       subtitle = "kierowcę";
       break;
+    case "/archive":
+      title = "historycznych pozycji";
+      break;
     case "freenow":
       title = "email";
       subtitle = "email";
@@ -34,7 +37,11 @@ const EmptyInfo = (props) => {
       ) : (
         <div className={style.empty}>
           <h3>Brak {title} do wyświetlenia.</h3>
-          <h3 className={style.subtitle}>Dodaj {subtitle}.</h3>
+          {props.url === "/archive" ? (
+            ""
+          ) : (
+            <h3 className={style.subtitle}>Dodaj {subtitle}.</h3>
+          )}
         </div>
       )}
     </>

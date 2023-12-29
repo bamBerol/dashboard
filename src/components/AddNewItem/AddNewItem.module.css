@@ -26,11 +26,17 @@
   justify-content: center;
 }
 .carName,
+.carPlate,
 .date,
 .driverFullName,
 .contactData {
   display: flex;
   width: 65%;
+}
+.carName,
+.carPlate,
+.date {
+  padding: 1rem 0;
 }
 .driverFullName,
 .contactData {

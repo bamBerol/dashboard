@@ -78,7 +78,7 @@ const EditItem = (props) => {
   };
 
   const handleInsuranceDateChange = (date) => {
-    console.log(date);
+    // console.log(date);
     const dateInsurance = format(date, "dd/MM/RRRR");
 
     setEditCarData({
@@ -87,7 +87,7 @@ const EditItem = (props) => {
     });
   };
   const handlelegalizationDateChange = (date) => {
-    console.log(date);
+    // console.log(date);
     const legalizationDate = format(date, "dd/MM/RRRR");
 
     setEditCarData({

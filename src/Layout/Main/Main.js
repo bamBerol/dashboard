@@ -96,7 +96,6 @@ const Main = () => {
       await axios
         .get(`${firebaseUrlFreeNowFullNames}?auth=${token}`)
         .then((res) => {
-          console.log(res.data);
           const freeNow = [];
           for (const key in res.data) {
             freeNow.push({ ...res.data[key], id: key });
@@ -114,7 +113,6 @@ const Main = () => {
       axios
         .get(`${firebaseUrlFreeNowSettelments}?auth=${token}`)
         .then((res) => {
-          console.log(res.data);
           const settelments = [];
           for (const key in res.data) {
             settelments.push({ ...res.data[key], id: key });
@@ -126,16 +124,32 @@ const Main = () => {
     }
   };
 
+  const getArchiveData = async () => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      axios.get(`${firebaseUrlArchive}?auth=${token}`).then((res) => {
+        const archive = [];
+        for (const key in res.data) {
+          archive.push({ ...res.data[key], id: key });
+          setArchiveData(archive);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCarsData();
     getDriversData();
     getFullNamesFreeNowData();
     getFreeNowSettelments();
+    getArchiveData();
   }, [isAuth]);
 
   const handleDelete = async (id, url) => {
     const token = await auth.currentUser.getIdToken();
-    console.log(id, url);
+    // console.log(id, url);
     await axios.delete(
       `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
     );
@@ -148,26 +162,29 @@ const Main = () => {
       setDriversData(newDriversData);
     }
     if (url === "/settelments/freenow/listOfNames") {
-      console.log("bedzie usuniete");
       const newFullNameData = freeNowData.filter(
         (fullName) => fullName.id !== id
       );
       setFreeNowData(newFullNameData);
+    }
+    if (url === "/archive") {
+      const newArchiveData = archiveData.filter((archive) => archive.id !== id);
+      setArchiveData(newArchiveData);
     }
   };
 
   const handleAddItem = async (formData, component) => {
     const user = auth.currentUser;
     const token = await auth.currentUser.getIdToken();
-    console.log(formData, component);
-    console.log(isAuth);
+    // console.log(formData, component);
+    // console.log(isAuth);
 
     if (isAuth) {
       if (component === "cars") {
         formData.userId = user.uid;
         try {
           console.log("samochód dodany");
-          console.log(formData);
+          // console.log(formData);
           await axios.post(`${firebaseUrlCars}?auth=${token}`, formData);
           getCarsData();
         } catch (error) {
@@ -187,7 +204,7 @@ const Main = () => {
       }
       if (component === "/settelments/freenow/listOfNames") {
         try {
-          console.log("komponent", component, formData);
+          console.log("dodano do listy");
           if (formData.fullName !== "") {
             await axios.post(
               `${firebaseUrlFreeNowFullNames}?auth=${token}`,
@@ -202,7 +219,7 @@ const Main = () => {
       }
       if (component === "addFreeNowSettelment") {
         try {
-          console.log(formData);
+          console.log("dodano rozliczenie");
           await axios.post(
             `${firebaseUrlFreeNowSettelments}?auth=${token}`,
             formData
@@ -238,15 +255,12 @@ const Main = () => {
 
   const handleArchive = async (id, url) => {
     const token = await auth.currentUser.getIdToken();
-    console.log(id, url);
     await axios
       .get(
         `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
       )
       .then((res) =>
-        axios
-          .post(`${firebaseUrlArchive}?auth=${token}`, res.data)
-          .then((res) => console.log(res))
+        axios.post(`${firebaseUrlArchive}?auth=${token}`, res.data)
       );
     await axios.delete(
       `https://dashboard-c9d80-default-rtdb.europe-west1.firebasedatabase.app${url}/${id}.json?auth=${token}`
@@ -254,6 +268,7 @@ const Main = () => {
     if (url === "/drivers") {
       const newDriversData = driversData.filter((driver) => driver.id !== id);
       setDriversData(newDriversData);
+      getArchiveData();
     }
   };
 
@@ -363,7 +378,12 @@ const Main = () => {
           </Route>
           <Route path="*" element={<Error />} />
         </Route>
-        <Route path="archive" element={<ArchivePage />} />
+        <Route
+          path="archive"
+          element={
+            <ArchivePage archive={archiveData} deleteArchive={handleDelete} />
+          }
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </main>
