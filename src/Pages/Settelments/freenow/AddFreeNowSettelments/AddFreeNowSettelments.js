@@ -66,7 +66,7 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
   };
 
   const handleNavigate = () => {
-    navigate("/settelments/freenow/editEmailList");
+    navigate("/settelments/freenow/listOfNames");
   };
 
   const validateData = (values) => {
