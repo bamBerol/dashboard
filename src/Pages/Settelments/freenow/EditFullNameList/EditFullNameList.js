@@ -108,9 +108,9 @@ const EditFullNameList = ({ list, addFullNameData, deleteEmail }) => {
             <div className={style.icon} onClick={handleDelete}>
               <FontAwesomeIcon icon={faTrash} size="sm" />
             </div>
-            <div className={style.icon} onClick={handleConfirm}>
+            {/* <div className={style.icon} onClick={handleConfirm}>
               <FontAwesomeIcon icon={faCheck} size="sm" />
-            </div>
+            </div> */}
           </div>
         ) : (
           <p className={style.name}>{name.fullName}</p>

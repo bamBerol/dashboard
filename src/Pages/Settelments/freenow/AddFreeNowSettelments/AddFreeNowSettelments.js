@@ -12,8 +12,11 @@ import style from "./AddFreeNowSettelment.module.css";
 const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
   const [isAuth, setIsAuth] = useState(false);
   const [settelmentList, setSettelmentList] = useState();
+  const [settelmentListError, setSettelmentListError] = useState({});
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [infoDetail, setInfoDetail] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const location = useLocation();
   const url = location.pathname.split("/")[2];
@@ -21,8 +24,6 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
   console.log(component);
 
   const navigate = useNavigate();
-
-  // console.log(emailList);
 
   useEffect(() => {
     setSettelmentList([...fullNamesList]);
@@ -68,6 +69,26 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
     navigate("/settelments/freenow/editEmailList");
   };
 
+  const validateData = (values) => {
+    const errors = {};
+
+    if (!values.dateFrom) {
+      // console.log("brak daty - from");
+      errors.dateFrom = "Data jest wymagana";
+    }
+    if (!values.dateTo) {
+      // console.log("brak daty - to");
+      errors.dateTo = "Data jest wymagana";
+    }
+    values.settelment.forEach((elmt) => {
+      if (elmt.value === undefined || elmt.value === "") {
+        return (errors[elmt.id] = "Pole musi być wypełnione");
+      }
+    });
+    // console.log(errors);
+    return errors;
+  };
+
   const handleAddSettelment = () => {
     if (Object.keys(fullNamesList).length === 0) return;
     console.log("klikniete dodaj rozliczenie");
@@ -80,13 +101,26 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
         settelment: [...settelmentList],
       };
       console.log(formData, component);
-      addSettelment(formData, component);
+      setInfoDetail(formData);
+      setSettelmentListError(validateData(formData));
+      setIsSubmit(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log(Object.keys(settelmentListError).length);
+    if (Object.keys(settelmentListError).length === 0 && isSubmit) {
+      console.log("wysylam", infoDetail);
+      addSettelment(infoDetail, component);
       setStartDate("");
       setEndDate("");
       setSettelmentList(fullNamesList);
       navigate("/settelments/freenow");
+    } else {
+      console.log("nie mogę wysłać");
+      setIsSubmit(false);
     }
-  };
+  }, [isSubmit]);
 
   const list = fullNamesList.map((name) => {
     return (
@@ -95,13 +129,23 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
           <div className={style.detailEmail}>
             <p>{name.fullName}</p>
           </div>
-          <div className={style.detailInput}>
+          <div
+            className={
+              settelmentListError[name.id]
+                ? style.detailInputError
+                : style.detailInput
+            }>
             <input
               id={name.id}
               type="number"
               placeholder="Wpisz kwotę"
               onChange={handleChange}
             />
+            <p>
+              {settelmentListError[name.id]
+                ? settelmentListError[name.id]
+                : "Error"}
+            </p>
           </div>
         </div>
       </div>
@@ -114,31 +158,59 @@ const AddFreeNowSettelment = ({ fullNamesList, addSettelment }) => {
         <p>Wybierz okres rozliczenia:</p>
         <div className={style.datePickerFrom}>
           <p>od:</p>
-          <ReactDatePicker
-            className={style.datePickerCalendar}
-            value={startDate}
-            onChange={handleDatePickFrom}
-            placeholderText="Kliknij aby wybrać datę"
-            withPortal
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            autoComplete="off"
-          />
+          <div className={style.withError}>
+            <ReactDatePicker
+              className={
+                settelmentListError.dateFrom
+                  ? style.datePickerCalendarError
+                  : style.datePickerCalendar
+              }
+              value={startDate}
+              onChange={handleDatePickFrom}
+              placeholderText="Kliknij aby wybrać datę"
+              withPortal
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              autoComplete="off"
+            />
+            <p
+              className={
+                settelmentListError.dateFrom ? style.errorMsg : style.okMsg
+              }>
+              {settelmentListError.dateFrom
+                ? settelmentListError.dateFrom
+                : "Error"}
+            </p>
+          </div>
         </div>
         <div className={style.datePickerTo}>
           <p>do:</p>
-          <ReactDatePicker
-            className={style.datePickerCalendar}
-            value={endDate}
-            onChange={handleDatePickTo}
-            placeholderText="Kliknij aby wybrać datę"
-            withPortal
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-            autoComplete="off"
-          />
+          <div className={style.withError}>
+            <ReactDatePicker
+              className={
+                settelmentListError.dateTo
+                  ? style.datePickerCalendarError
+                  : style.datePickerCalendar
+              }
+              value={endDate}
+              onChange={handleDatePickTo}
+              placeholderText="Kliknij aby wybrać datę"
+              withPortal
+              showMonthDropdown
+              showYearDropdown
+              dropdownMode="select"
+              autoComplete="off"
+            />
+            <p
+              className={
+                settelmentListError.dateTo ? style.errorMsg : style.okMsg
+              }>
+              {settelmentListError.dateTo
+                ? settelmentListError.dateTo
+                : "Error"}
+            </p>
+          </div>
         </div>
       </div>
       {Object.keys(fullNamesList).length === 0 ? (

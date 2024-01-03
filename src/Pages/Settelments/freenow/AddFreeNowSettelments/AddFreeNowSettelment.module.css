@@ -15,19 +15,42 @@
   color: #fada5e;
   gap: 2rem;
 }
-.datePickerCalendar {
+.datePickerCalendar,
+.datePickerCalendarError {
   padding: 0.5rem;
   color: #fada5e;
   background-color: #4f4f4f;
   border: none;
-  border-bottom: 1px solid #fada5e;
+
   cursor: pointer;
+}
+.datePickerCalendar {
+  border-bottom: 1px solid #fada5e;
+}
+.datePickerCalendarError {
+  border-bottom: 1px solid red;
 }
 .datePickerFrom,
 .datePickerTo {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+.withError {
+  display: flex;
+  flex-direction: column;
+}
+.withError p {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: red;
+  font-size: 0.85rem;
+}
+.errorMsg {
+  opacity: 1;
+}
+.okMsg {
+  opacity: 0;
 }
 .email {
   display: flex;
@@ -56,7 +79,8 @@
   width: 100%;
 }
 .detailEmail,
-.detailInput {
+.detailInput,
+.detailInputError {
   display: flex;
   align-items: center;
   color: #fada5e;
@@ -65,27 +89,51 @@
 .detailEmail {
   margin-left: 3rem;
 }
-.detailInput {
+.detailInput,
+.detailInputError {
+  flex-direction: column;
   margin-right: 3rem;
   justify-content: flex-end;
 }
-.detailInput input {
+.detailInput input,
+.detailInputError input {
+  width: 80%;
   padding: 0.5em;
   color: #fada5e;
   background-color: #4f4f4f;
   border: none;
+}
+.detailInput input {
   border-bottom: 1px solid #fada5e;
 }
+.detailInputError input {
+  border-bottom: 1px solid red;
+}
+.detailInput p {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0;
+}
+.detailInputError p {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: red;
+  font-size: 0.85rem;
+}
 .detailInput input::-webkit-input-placeholder,
+.detailInputError input::-webkit-input-placeholder,
 .datePicker input::-webkit-input-placeholder {
   opacity: 0.4;
   color: #dbdbdb;
 }
 .detailInput input:focus,
-.datePicker input:focus {
+.datePicker input:focus,
+.detailInputError input:focus {
   outline: none;
 }
-.detailInput input::-webkit-inner-spin-button {
+.detailInput input::-webkit-inner-spin-button,
+.detailInputError input::-webkit-inner-spin-button {
   display: none;
 }
 .info {

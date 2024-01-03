@@ -42,9 +42,16 @@
 .amount {
   margin-left: 2rem;
 }
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 2.5rem;
+}
 .backBtn {
+  width: fit-content;
   padding: 0.5rem 1rem;
-  margin-top: 2.5rem;
   border: 1px solid #fada5e;
   border-radius: 0.5rem;
   background-color: #2a2a2a;

@@ -32,8 +32,10 @@ const SettelmentDetails = ({ settelments }) => {
           Rozliczenie za okres: {dateFrom} - {dateTo}
         </h3>
         <div className={style.detail}>{details}</div>
-        <div className={style.backBtn} onClick={handleBack}>
-          <p>Powrót</p>
+        <div className={style.button}>
+          <div className={style.backBtn} onClick={handleBack}>
+            <p>Powrót</p>
+          </div>
         </div>
       </div>
     </div>
